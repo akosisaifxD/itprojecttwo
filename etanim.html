@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+
+<head>
+    <style type="text/css">
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        
+        #map {
+            height: 100%;
+            width: 100%;
+        }
+        
+        #slider_div {
+            position: absolute;
+            z-index: 99;
+            top: 80%;
+            left: 50px;
+            background-color: white;
+            width: 80%!important;
+        }
+        
+        #slider-range label {
+            position: absolute;
+            width: 20px;
+            margin-left: -10px;
+            text-align: center;
+            margin-top: 20px;
+        }
+        /* below is not necessary, just for style */
+        
+        #slider-range {
+            width: 80%!important;
+            margin: 2em auto;
+        }
+    </style>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+        // Load the Visualization API and the piechart package.
+    </script>
+    <link rel="stylesheet" href="\jquery-ui-1.11.4.custom\jquery-ui.css">
+    <script src="\jquery-ui-1.11.4.custom\external\jquery\jquery.js"></script>
+    <script src="\jquery-ui-1.11.4.custom\jquery-ui.js"></script>
+    <title>Prototype</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="flatfiles/jquerycsv.js"></script>
+</head>
+
+<body>
+    <div id="map"></div>
+    <div id="buttons"></div>
+    <div id="lots"></div>
+    <div id="chart_div"></div>
+    <div id="info_div"></div>
+    <div id="filter_div"></div>
+    <div id="slider_div">
+        <p>
+            <label for="amount">Showing years: </label>
+            <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
+        </p>
+        <div id="slider-range" style="width: 50%;"></div>
+        <button type="button" id="animatebtn">Play</button>
+        <button id="pausebtn">Pause</button>
+    </div>
+    <script type="text/javascript">
+        google.load('visualization', '1.0', {
+            'packages': ['corechart']
+        });
+
+        var dummark = {};
+        var markers = {};
+        var treestats = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        var polygons = {};
+        var polycoords = {};
+        var coords = {};
+        var currentid;
+        var intervals = [];
+        var polycount = parseFloat(0);
+        var counter = parseFloat(0);
+        var attributes = {};
+        var attribsPool = [];
+
+        var regions = []; //
+        var districts = []; //
+        var cenros = []; //
+        var penros = []; //
+        var barangays = [];
+        var muni_citys = []; //
+        var provinces = []; //
+        var name_orgs = [];
+        var cont_persArr = [];
+        var type_orgs = []; //
+        var components = []; //
+        var commodities = [];
+        var speciesArr = [];
+        var years = []; //
+        var zones = []; //
+        var tenures = [];
+        var no_loas = [];
+        var riv_basins = []; //
+        var watersheds = []; //
+        var remarksArr = [];
+        var yr_cds = [];
+        var site_ids = [];
+        var area_cds = [];
+        var uniq_ids = [];
+        var psgc_cds = [];
+        var areas = [];
+        var area_gens = [];
+        var opt;
+
+        var paused = false;
+        var stopped = true;
+        var oV2;
+        var cV2;
+        $("#slider-range").slider({
+            range: true,
+            min: 2011,
+            max: 2015,
+            values: [2011, 2015],
+            animate: "medium",
+            step: 1,
+            slide: function(event, ui) {
+                $("#amount").val(ui.values[0] + " - " + ui.values[1]);
+                paused = false;
+                stopped = true;
+                initMap(ui.values);
+            }
+        }).each(function() {
+            opt = $(this).data().uiSlider.options;
+            var vals = opt.max - opt.min;
+            for (var i = 0; i <= vals; i++) {
+                var el = $('<label>' + (opt.min + i) + '</label>').css('left', (i / vals * 100) + '%');
+                $("#slider-range").append(el);
+            }
+
+            $("#animatebtn").click(function() {
+                var value0 = opt.values[0];
+                var value1 = opt.values[1];
+                var diff = value1 - value0;
+                if (paused && !stopped) {
+                    var ct = (oV2 - cV2 - 4) * -1;
+                    diff = oV2 - value0;
+                    animate(diff, value0, ct);
+                    paused = false;
+                    stopped = false;
+                } else {
+                    oV2 = value1;
+                    animate(diff, value0, 0);
+                }
+
+            });
+
+            $("#pausebtn").click(function() {
+                paused = true;
+                stopped = false;
+                cV2 = opt.values[1];
+            });
+
+            function animate(diff, v0, counter) {
+                var interval = 10;
+                if (paused) {
+                    interval = 0;
+                }
+                setTimeout(function() {
+                    var v1 = v0 + (counter);
+                    counter++;
+                    if (counter <= diff + 1 && !paused) {
+                        $("#slider-range").slider('values', [v0, v1]);
+                        initMap($("#slider-range").data().uiSlider.options.values);
+                        animate(diff, v0, counter);
+                    }
+
+                    if (counter > diff + 1) {
+                        stopped = true;
+                        paused = false;
+                    }
+                }, interval);
+            }
+
+        });
+
+        $("#amount").val($("#slider-range").slider("values", 0) +
+            " - " + $("#slider-range").slider("values", 1));
+
+        function attribs(shapeID, region, district, cenro, penro,
+            barangay, muni_city, province, name_org, cont_pers, type_org,
+            component, commodity, species, year, zone, tenure, no_loa,
+            riv_basin, watershed, remarks, yr_cd, site_id, area_cd,
+            uniq_id, psgc_id, area, area_gen) {
+            this.shapeID = shapeID;
+            this.region = region;
+            this.district = district;
+            this.cenro = cenro;
+            this.penro = penro;
+            this.barangay = barangay;
+            this.muni_city = muni_city;
+            this.province = province;
+            this.name_org = name_org;
+            this.cont_pers = cont_pers;
+            this.type_org = type_org;
+            this.component = component;
+            this.species = species;
+            this.year = year;
+            this.zone = zone;
+            this.tenure = tenure;
+            this.no_loa = no_loa;
+            this.riv_basin = riv_basin;
+            this.watershed = watershed;
+            this.remarks = remarks;
+            this.yr_cd = yr_cd;
+            this.site_id = site_id;
+            this.area_cd = area_cd;
+            this.uniq_id = uniq_id;
+            this.psgc_id = psgc_id;
+            this.area = area;
+            this.area_gen = area_gen;
+            this.polyAttrib = {};
+            this.isSet = true;
+        }
+
+        function initMap(toggled, polygonsColor) {
+
+            if (toggled) {
+                var toBeRemoved = [];
+                var toBeAdded = [];
+
+                var yearsSelected = [];
+                var yearsNotSelected = [];
+
+                for (var i = toggled[0]; i <= toggled[1]; i++) {
+                    yearsSelected.push(i);
+                }
+
+                for (var i = (toggled[0] - 1); i >= 2011; i--) {
+                    yearsNotSelected.push(i);
+                }
+
+                for (var i = (toggled[1] + 1); i <= 2015; i++) {
+                    yearsNotSelected.push(i);
+                }
+
+                for (var i = 0; i < attribsPool.length; i++) {
+                    if (yearsSelected.indexOf(parseInt(attribsPool[i].year)) > -1 && attribsPool[i].isSet == false) {
+                        attribsPool[i].isSet = true;
+                        toBeAdded.push(attribsPool[i].polyAttrib);
+                    } else if (yearsNotSelected.indexOf(parseInt(attribsPool[i].year)) > -1 && attribsPool[i].isSet == true) {
+                        attribsPool[i].isSet = false;
+                        toBeRemoved.push(attribsPool[i].polyAttrib);
+                    }
+                }
+
+                if (toBeAdded.length > 0) {
+                    for (var i = 0; i < toBeAdded.length; i++) {
+                        toBeAdded[i].setMap(map);
+                    }
+                }
+
+                if (toBeRemoved.length > 0) {
+                    for (var i = 0; i < toBeRemoved.length; i++) {
+                        toBeRemoved[i].setMap(null);
+                    }
+                }
+
+                /*
+                if(toggled[0] == toggled[1]) {
+                	for(var i = 0; i < attribsPool.length; i++) {
+                		if(toggled[0] == attribsPool[i].year) {
+                			attribsPool[i].polyAttrib.setMap(map);
+                			if(i == 2011) {
+                				attribsPool[a].polyAttrib.setOptions({strokeWeight: 1, fillColor: 'green', strokeColor: 'green'});
+                			} else if(i == 2012) {
+                				attribsPool[a].polyAttrib.setOptions({strokeWeight: 1, fillColor: 'blue', strokeColor: 'blue'});
+                			} else if(i == 2013) {
+                				attribsPool[a].polyAttrib.setOptions({strokeWeight: 1, fillColor: 'red', strokeColor: 'red'});
+                			} else if(i == 2014) {
+                				attribsPool[a].polyAttrib.setOptions({strokeWeight: 1, fillColor: 'yellow', strokeColor: 'yellow'});
+                			} else if(i == 2015) {
+                				attribsPool[a].polyAttrib.setOptions({strokeWeight: 1, fillColor: 'white', strokeColor: 'white'});
+                			}
+                			attribsPool[i].isSet = true;
+                		} else {
+                			if(!attribsPool[i].isSet) {
+                				attribsPool[i].polyAttrib.setMap(null);
+                			}
+                		}
+                	}
+                } else {
+                	for(var i = toggled[0]; i <= toggled[1]; i++) {
+                		for(var a = 0; a < attribsPool.length; a++) {
+                			if(i == attribsPool[a].year) {
+                				attribsPool[a].polyAttrib.setMap(map);
+                				if(i == 2011) {
+                					attribsPool[a].polyAttrib.setOptions({strokeWeight: 1, fillColor: 'green', strokeColor: 'green'});
+                				} else if(i == 2012) {
+                					attribsPool[a].polyAttrib.setOptions({strokeWeight: 1, fillColor: 'blue', strokeColor: 'blue'});
+                				} else if(i == 2013) {
+                					attribsPool[a].polyAttrib.setOptions({strokeWeight: 1, fillColor: 'red', strokeColor: 'red'});
+                				} else if(i == 2014) {
+                					attribsPool[a].polyAttrib.setOptions({strokeWeight: 1, fillColor: 'yellow', strokeColor: 'yellow'});
+                				} else if(i == 2015) {
+                					attribsPool[a].polyAttrib.setOptions({strokeWeight: 1, fillColor: 'white', strokeColor: 'white'});
+                				}
+                				
+                				attribsPool[a].isSet = true;
+                			} else {
+                				if(!attribsPool[a].isSet) {
+                					attribsPool[a].polyAttrib.setMap(null);
+                				} else {
+                				
+                				}
+                			}
+                		}
+                	}
+                }
+                */
+            } else {
+                map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 9,
+                    center: {
+                        lat: 16.52023885,
+                        lng: 120.8456877
+                    },
+                    mapTypeId: google.maps.MapTypeId.SATELLITE
+                });
+
+
+                $.ajax({
+                    url: "flatfiles/nodes.csv",
+                    async: false,
+                    success: function(poly) {
+                        coords = $.csv.toArrays(poly);
+                    },
+                    dataType: "text",
+                    complete: function() {
+                        // call a function on complete 
+                    }
+                });
+
+                $.ajax({
+                    url: "flatfiles/temp-attributes.csv",
+                    async: false,
+                    success: function(attribs) {
+                        attributes = $.csv.toArrays(attribs);
+                    },
+                    dataType: "text",
+                    complete: function() {
+
+                    }
+                });
+
+                for (var i = 2; i < attributes.length; i += 2) {
+                    var information = attributes[i] + "";
+
+                    var checkinf = information.split(",");
+                    //console.log(checkinf);
+
+                    if (regions.indexOf(checkinf[1]) < 0) {
+                        regions.push(checkinf[1]);
+                    }
+
+                    if (districts.indexOf(checkinf[2]) < 0) {
+                        districts.push(checkinf[2]);
+                    }
+
+                    if (cenros.indexOf(checkinf[3]) < 0) {
+                        cenros.push(checkinf[3]);
+                    }
+
+                    if (penros.indexOf(checkinf[4]) < 0) {
+                        penros.push(checkinf[4]);
+                    }
+
+                    if (barangays.indexOf(checkinf[5]) < 0) {
+                        barangays.push(checkinf[5]);
+                    }
+
+                    if (muni_citys.indexOf(checkinf[6]) < 0) {
+                        muni_citys.push(checkinf[6]);
+                    }
+
+                    if (provinces.indexOf(checkinf[7]) < 0) {
+                        provinces.push(checkinf[7]);
+                    }
+
+                    if (name_orgs.indexOf(checkinf[8]) < 0) {
+                        name_orgs.push(checkinf[8]);
+                    }
+
+                    if (cont_persArr.indexOf(checkinf[9]) < 0) {
+                        cont_persArr.push(checkinf[9]);
+                    }
+
+                    if (type_orgs.indexOf(checkinf[10]) < 0) {
+                        type_orgs.push(checkinf[10]);
+                    }
+
+                    if (components.indexOf(checkinf[11]) < 0) {
+                        components.push(checkinf[11]);
+                    }
+
+                    if (commodities.indexOf(checkinf[12]) < 0) {
+                        commodities.push(checkinf[12]);
+                    }
+
+                    if (speciesArr.indexOf(checkinf[13]) < 0) {
+                        speciesArr.push(checkinf[13]);
+                    }
+
+                    if (years.indexOf(checkinf[14]) < 0) {
+                        years.push(checkinf[14]);
+                    }
+
+                    if (zones.indexOf(checkinf[15]) < 0) {
+                        zones.push(checkinf[15]);
+                    }
+
+                    if (tenures.indexOf(checkinf[16]) < 0) {
+                        tenures.push(checkinf[16]);
+                    }
+
+                    if (no_loas.indexOf(checkinf[17]) < 0) {
+                        no_loas.push(checkinf[17]);
+                    }
+
+                    if (riv_basins.indexOf(checkinf[18]) < 0) {
+                        riv_basins.push(checkinf[18]);
+                    }
+
+                    if (watersheds.indexOf(checkinf[19]) < 0) {
+                        watersheds.push(checkinf[19]);
+                    }
+
+                    if (remarksArr.indexOf(checkinf[20]) < 0) {
+                        remarksArr.push(checkinf[20]);
+                    }
+
+                    if (yr_cds.indexOf(checkinf[21]) < 0) {
+                        yr_cds.push(checkinf[21]);
+                    }
+
+                    if (site_ids.indexOf(checkinf[22]) < 0) {
+                        site_ids.push(checkinf[22]);
+                    }
+
+                    if (area_cds.indexOf(checkinf[23]) < 0) {
+                        area_cds.push(checkinf[23]);
+                    }
+
+                    if (uniq_ids.indexOf(checkinf[24]) < 0) {
+                        uniq_ids.push(checkinf[24]);
+                    }
+
+                    if (psgc_cds.indexOf(checkinf[25]) < 0) {
+                        psgc_cds.push(checkinf[25]);
+                    }
+
+                    if (areas.indexOf(checkinf[26]) < 0) {
+                        areas.push(checkinf[26]);
+                    }
+
+                    if (area_gens.indexOf(checkinf[27]) < 0) {
+                        area_gens.push(checkinf[27]);
+                    }
+
+                    var x = new attribs(checkinf[0], checkinf[1], checkinf[2], checkinf[3],
+                        checkinf[4], checkinf[5], checkinf[6], checkinf[7],
+                        checkinf[8], checkinf[9], checkinf[10], checkinf[11],
+                        checkinf[12], checkinf[13], checkinf[14], checkinf[15],
+                        checkinf[16], checkinf[17], checkinf[18], checkinf[19],
+                        checkinf[20], checkinf[21], checkinf[22], checkinf[23],
+                        checkinf[24], checkinf[25], checkinf[26], checkinf[27]);
+                    attribsPool.push(x);
+
+                }
+
+                console.log("attribs: " + attribsPool.length);
+
+                /*
+                        var carcoords = {};
+				
+                        $.ajax({
+                        	url: "flatfiles/car.csv",
+                        	async: false,
+                        	success: function (car) {
+                        		carcoords = $.csv.toArrays(car);
+                        	},
+                        	dataType: "text",
+                        	complete: function () {
+                        		// call a function on complete 
+                        	}
+                        });
+				
+                        var carpath = new google.maps.MVCArray();
+				
+                        for(var k = 1; k < carcoords.length; k++){
+                        	var information = carcoords[k] + "";
+                        	var checkinf = information.split(",");
+                        	var point = new google.maps.LatLng(parseFloat(checkinf[2]), parseFloat(checkinf[1]));
+                        	carpath.insertAt(k, point);
+                        }
+				
+                        var carpoly = new google.maps.Polygon({
+                        	paths: carpath,
+                        	strokeColor: 'green',
+                        	strokeOpacity: 0.8,
+                        	strokeWeight: 1,
+                        	fillColor: green,
+                        	fillOpacity: 0.35
+                        });
+
+                        carpoly.setMap(map);
+                        */
+
+                $.ajax({
+                    url: "flatfiles/nodes.csv",
+                    async: false,
+                    success: function(poly) {
+                        coords = $.csv.toArrays(poly);
+                    },
+                    dataType: "text",
+                    complete: function() {
+                        // call a function on complete 
+                    }
+                });
+
+                for (var i = 1; i < coords.length; i++) {
+                    var information = coords[i] + "";
+                    var checkinf = information.split(",");
+                    if (i === 1) {
+                        currentid = checkinf[0];
+                    } else if (i !== 1) {
+                        if (currentid !== checkinf[0]) {
+                            currentid = checkinf[0];
+                            intervals.push(i - 1);
+                        }
+                    }
+                }
+
+                console.log("intervals: " + intervals.length);
+
+                polycoords[counter] = new google.maps.MVCArray();
+
+                for (var i = 1; i < coords.length; i++) {
+                    var information = coords[i] + "";
+                    var checkinf = information.split(",");
+                    if (intervals.indexOf(i) > -1) {
+                        polygons[counter] = new google.maps.Polygon({
+                            paths: polycoords[counter],
+                            strokeColor: 'yellow',
+                            strokeOpacity: 0.8,
+                            strokeWeight: 1,
+                            fillColor: 'yellow',
+                            fillOpacity: 0.35
+                        });
+
+                        addListeners(polygons[counter], counter);
+
+                        polygons[counter].setMap(map);
+                        counter++;
+                        polycoords[counter] = new google.maps.MVCArray();
+
+                    } else {
+                        var point = new google.maps.LatLng(parseFloat(checkinf[2]), parseFloat(checkinf[1]));
+                        polycoords[counter].insertAt(polycoords[counter].length, point);
+                    }
+                }
+
+                function addListeners(polygon, id) {
+                    polygons[counter].addListener('click', function(e) {
+                        var location = e.latLng;
+                        var iWindow = new google.maps.InfoWindow();
+                        //<button id = "btn1" onclick="showID(id);">
+                        iWindow.setContent('<button id = "btn1" onclick="showAreaInfo(' + id + ');">Show Area Information </button>');
+                        iWindow.setPosition(location);
+                        iWindow.open(map);
+                    });
+
+                    if (attribsPool[id]) {
+                        if (attribsPool[id].year == 2011) {
+                            polygon.setOptions({
+                                strokeWeight: 1,
+                                fillColor: 'orange',
+                                strokeColor: 'orange'
+                            });
+                        } else if (attribsPool[id].year == 2012) {
+                            polygon.setOptions({
+                                strokeWeight: 1,
+                                fillColor: 'blue',
+                                strokeColor: 'blue'
+                            });
+                        } else if (attribsPool[id].year == 2013) {
+                            polygon.setOptions({
+                                strokeWeight: 1,
+                                fillColor: 'pink',
+                                strokeColor: 'pink'
+                            });
+                        } else if (attribsPool[id].year == 2014) {
+                            polygon.setOptions({
+                                strokeWeight: 1,
+                                fillColor: 'yellow',
+                                strokeColor: 'yellow'
+                            });
+                        } else if (attribsPool[id].year == 2015) {
+                            polygon.setOptions({
+                                strokeWeight: 1,
+                                fillColor: 'white',
+                                strokeColor: 'white'
+                            });
+                        }
+                        attribsPool[id].polyAttrib = polygon;
+                    }
+                }
+
+                /*
+                			for(var i = 1; i < data.length; i++){
+                				var information = data[i] + "";
+                				var splitinfo = information.split(",");
+                				var year = parseFloat(splitinfo[3]);
+                				treestats[parseFloat(year - 2006)]++ ;
+                				 markers[i] = new google.maps.Marker({
+                					position: {lat: parseFloat(splitinfo[1]), lng: parseFloat(splitinfo[0])},
+                					map: map,
+                					title: splitinfo[2],
+                					icon: "http://maps.google.com/intl/en_us/mapfiles/ms/micons/tree.png"
+                				 });
+                			}
+                */
+                /*
+			   document.getElementById('filter_div').innerHTML += "Year";
+			   document.getElementById('filter_div').innerHTML += '<form>';
+			   document.getElementById('filter_div').innerHTML += '<select onchange="toggleYear(' + this.value + ');">';
+			   document.getElementById('filter_div').innerHTML += '<option value=' + 2012 + '> 2012 </option>';
+			   document.getElementById('filter_div').innerHTML += '</select>';
+			   document.getElementById('filter_div').innerHTML += '</form>';
+			   */
+
+                var all = document.createElement("option");
+                all.value = "All";
+                all.text = "All";
+
+                var x = document.createElement("SELECT");
+                x.id = "ddlyear";
+                x.add(all);
+
+                for (i = 0; i < years.length; i++) {
+                    var o = document.createElement("option");
+                    o.value = years[i];
+                    o.text = years[i] + "";
+                    x.add(o);
+                }
+
+                document.getElementById('filter_div').innerHTML += "Year";
+                document.getElementById('filter_div').appendChild(x);
+
+
+                var all2 = document.createElement("option");
+                all2.value = "All";
+                all2.text = "All";
+
+                var y = document.createElement("SELECT");
+                y.id = "ddlprovinces";
+                y.add(all2);
+
+                for (i = 0; i < provinces.length; i++) {
+                    var o = document.createElement("option");
+                    o.value = provinces[i];
+                    o.text = provinces[i] + "";
+                    y.add(o);
+                }
+
+                document.getElementById('filter_div').innerHTML += "Provinces";
+                document.getElementById('filter_div').appendChild(y);
+
+                var all3 = document.createElement("option");
+                all3.value = "All";
+                all3.text = "All";
+
+                var c = document.createElement("SELECT");
+                c.id = "ddlcenros";
+                c.add(all3);
+
+                for (i = 0; i < cenros.length; i++) {
+                    var o = document.createElement("option");
+                    o.value = cenros[i];
+                    o.text = cenros[i] + "";
+                    c.add(o);
+                }
+
+                document.getElementById('filter_div').innerHTML += "Cenros";
+                document.getElementById('filter_div').appendChild(c);
+
+                document.getElementById('ddlyear').addEventListener("change", function(e) {
+                    toggle();
+                }, false);
+                document.getElementById('ddlprovinces').addEventListener("change", function(e) {
+                    toggle();
+                }, false);
+                document.getElementById('ddlcenros').addEventListener("change", function(e) {
+                    toggle();
+                }, false);
+
+            }
+
+        }
+
+        function toggle() {
+            var changeArray = [];
+            var removeArray = [];
+            var yearVal = document.getElementById('ddlyear').value;
+            var provinceVal = document.getElementById('ddlprovinces').value;
+            var districVal;
+            var cenroVal = document.getElementById('ddlcenros').value;
+            var penroVal;
+            var muni_cityVal;
+            var regionVal;
+
+            if (yearVal == "All") {
+
+            } else {
+                if (changeArray.length > 0) {
+                    for (i = 0; i < changeArray.length; i++) {
+                        if (yearVal == changeArray[i].year) {
+
+                        } else {
+                            removeArray.push(changeArray[i]);
+                        }
+                    }
+
+                    for (i = 0; i < removeArray.length; i++) {
+                        var index = changeArray.indexOf(removeArray[i]);
+                        changeArray.splice(index, 1);
+                    }
+                } else {
+                    for (i = 0; i < attribsPool.length; i++) {
+                        if (yearVal == attribsPool[i].year) {
+                            changeArray.push(attribsPool[i]);
+                        }
+                    }
+                }
+
+            }
+
+            removeArray = [];
+
+            if (provinceVal == "All") {
+
+            } else {
+                if (changeArray.length > 0) {
+                    for (i = 0; i < changeArray.length; i++) {
+                        if (provinceVal == changeArray[i].province) {
+
+                        } else {
+                            removeArray.push(changeArray[i]);
+                        }
+                    }
+
+                    for (i = 0; i < removeArray.length; i++) {
+                        var index = changeArray.indexOf(removeArray[i]);
+                        changeArray.splice(index, 1);
+                    }
+
+                } else {
+                    for (i = 0; i < attribsPool.length; i++) {
+                        if (provinceVal == attribsPool[i].province) {
+                            changeArray.push(attribsPool[i]);
+                        }
+                    }
+                }
+
+            }
+
+            removeArray = [];
+
+            if (cenroVal == "All") {
+
+            } else {
+                if (changeArray.length > 0) {
+                    for (i = 0; i < changeArray.length; i++) {
+                        if (cenroVal == changeArray[i].cenro) {
+
+                        } else {
+                            removeArray.push(changeArray[i]);
+                        }
+                    }
+
+                    for (i = 0; i < removeArray.length; i++) {
+                        var index = changeArray.indexOf(removeArray[i]);
+                        changeArray.splice(index, 1);
+                    }
+                } else {
+                    for (i = 0; i < attribsPool.length; i++) {
+                        if (cenroVal == attribsPool[i].cenro) {
+                            changeArray.push(attribsPool[i]);
+                        }
+                    }
+                }
+
+            }
+
+            initMap(changeArray, attribsPool);
+        }
+
+        function showAreaInfo(id) {
+            window.alert(id);
+        }
+
+        document.getElementById('filter_div').innerHTML += "<h2> Filter by: </h3>";
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAyGBTdSmKQ2wq_L0QhV6fZcOLWIO2IbXs&callback=initMap"></script>
+</body>
+
+</html>
