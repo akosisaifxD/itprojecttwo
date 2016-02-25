@@ -41,7 +41,7 @@ and open the template in the editor.
 		#search_div {
 			position: absolute;
 			z-index: 99;
-			top: 15%;
+			top: 0;
 			left: 85%;
 			width: 50px;
 			background-color: white;
@@ -67,11 +67,52 @@ and open the template in the editor.
 		}
 		
 		#chart_div {
+			width: 350px;
+		}
+		
+		ul.tabs{
+			margin: 0px;
+			padding: 0px;
+			list-style: none;
+		}
+		ul.tabs li{
+			background: blue;
+			color: #222;
+			display: inline-block;
+			padding: 10px 15px;
+			cursor: pointer;
+		}
+
+		ul.tabs li.current{
+			background: white;
+			color: #222;
+		}
+
+		.tab-content{
+			display: none;
+			background: white;
+			padding: 15px;
+		}
+
+		.tab-content.current{
+			display: inherit;
 			position: absolute;
 			z-index: 99;
-			top: 40%;
-			left: 80%;
-			width: 350px;
+			top:25%;
+			left: 70%;
+		}
+		
+		#tabs_div {
+			position: absolute;
+			z-index: 99;
+			top: 20%;
+			left:70%;
+		}
+		
+		#inventory_div {
+			overflow: scroll;
+			height: 200px;
+			width: 300px;
 		}
     </style>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
@@ -89,19 +130,28 @@ and open the template in the editor.
 </head>
 
 <body>
+	<ul class="tabs" id="tabs_div">
+		<li class="tab-link current" data-tab="tab-1">Trends</li>
+		<li class="tab-link" data-tab="tab-2">Tree Inventory</li>
+	</ul>
+	<div id="tab-1" class="tab-content current">
+		<div id="radio_div">
+			<form onchange="initMap('x');">
+			  <input type="radio" name="chart" value="SR" checked>Survival Rate<br>
+			  <input type="radio" name="chart" value="MR">Maturity Rate<br>
+			  <input type="radio" name="chart" value="GR">Growth Rate
+			</form> 
+			
+			<input type='checkbox' id='isHeat' onchange='initMap("heatmap", this.checked);'>HeatMap
+		</div>
+		<div id="chart_div"></div>
+	</div>
+	<div id="tab-2" class="tab-content">
+		 <div id="inventory_div"></div>
+	</div>
     <div id="map"></div>
     <div id="buttons"></div>
-	<div id="radio_div">
-		<form onchange="initMap('x');">
-		  <input type="radio" name="chart" value="SR" checked>Survival Rate<br>
-		  <input type="radio" name="chart" value="MR">Maturity Rate<br>
-		  <input type="radio" name="chart" value="GR">Growth Rate
-		</form> 
-		
-		<input type='checkbox' id='isHeat' onchange='initMap("heatmap", this.checked);'>HeatMap
-	</div>
     <div id="lots"></div>
-    <div id="chart_div"></div>
     <div id="info_div"></div>
 	<div id="legend_div">
 		<p> Map Legend </p>
@@ -155,7 +205,7 @@ and open the template in the editor.
         var counter = parseFloat(0);
         var attributes = {};
         var attribsPool = [];
-		var treesPool = [];
+		var treesArray = {};
 		
 		var total2011 = 0;
 		var total2012 = 0;
@@ -330,6 +380,16 @@ and open the template in the editor.
 		}
 
         function initMap(toggled, isHeat) {
+			$('ul.tabs li').click(function(){
+				var tab_id = $(this).attr('data-tab');
+
+				$('ul.tabs li').removeClass('current');
+				$('.tab-content').removeClass('current');
+
+				$(this).addClass('current');
+				$("#"+tab_id).addClass('current');
+			});
+			
 			function drawChart(data, titleCombo) {
 				var options = {
 				  title: titleCombo,
@@ -338,6 +398,24 @@ and open the template in the editor.
 
 				var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
 
+				chart.draw(data, options);
+			}
+			
+			function drawInventory(data, titleCombo) {
+				var options = {
+					title: titleCombo,
+					height: 8000,
+					width: 800,
+					hAxis: {
+					  title: 'Total Number'
+					},
+					vAxis: {
+					  title: 'Tree Specie'
+					},
+					legend: {position: 'top'}
+				};
+
+				var chart = new google.visualization.BarChart(document.getElementById('inventory_div'));
 				chart.draw(data, options);
 			}
 			
@@ -1765,20 +1843,19 @@ and open the template in the editor.
 					if(id < 7419) {
 						var treeSpecies = attribsPool[id].species.split('+');
 					
-						var treeStats = [];
 						var treeString = "";
 						
-						var x = new treeObj();
-						
 						for(var i = 0; i < treeSpecies.length; i++) {
-							treeStats.push(treeSpecies[i]);
-							treeStats.push(Math.floor((Math.random() * 100) + 1));
-							treeString += treeSpecies[i] + ": " + Math.floor((Math.random() * 100) + 1) + "</br>";
+							var numTrees = Math.floor((Math.random() * 100) + 1);
+							if(treesArray[treeSpecies[i].trim().toLowerCase()]) {
+								treesArray[treeSpecies[i].trim().toLowerCase()] += numTrees;
+							} else {
+								treesArray[treeSpecies[i].trim().toLowerCase()] = numTrees;
+							}
+							treeString += treeSpecies[i] + ": " + numTrees + "</br>";
 						}
-						
-						x.treeArray = treeStats;
-						treesPool.push(x);
 					}
+					
                     polygons[counter].addListener('click', function(e) {
                         var location = e.latLng;
                         var iWindow = new google.maps.InfoWindow();
@@ -1830,6 +1907,25 @@ and open the template in the editor.
 				  ['2015', stats2015]
 				]);
 				drawChart(data, "Survival Rate for years 2011 - 2015.");
+				
+				var arrayData = [];
+				arrayData[0] = [];
+				arrayData[0].push('Tree Specie');
+				arrayData[0].push('Quantity');
+				var i = 0;
+				for (var key in treesArray) {
+				  if (treesArray.hasOwnProperty(key)) {
+					i++;
+					arrayData[i] = [];
+					arrayData[i].push(key);
+					arrayData[i].push(treesArray[key]);
+				  }
+				}
+				titleString = "Tree Inventory for trees planted in 2011 - 2015";
+				
+				var data2 = google.visualization.arrayToDataTable(arrayData);
+				
+				drawInventory(data2, titleString);
             }
 			
 			$( "#search_val" ).autocomplete({
