@@ -111,8 +111,8 @@ and open the template in the editor.
 		
 		#inventory_div {
 			overflow: scroll;
-			height: 200px;
-			width: 300px;
+			height: 300px;
+			width: 350px;
 		}
     </style>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
@@ -404,18 +404,18 @@ and open the template in the editor.
 			function drawInventory(data, titleCombo) {
 				var options = {
 					title: titleCombo,
-					height: 8000,
-					width: 800,
 					hAxis: {
 					  title: 'Total Number'
 					},
 					vAxis: {
 					  title: 'Tree Specie'
 					},
+					width: 1600,
+					height: 300,
 					legend: {position: 'top'}
 				};
 
-				var chart = new google.visualization.BarChart(document.getElementById('inventory_div'));
+				var chart = new google.visualization.ColumnChart(document.getElementById('inventory_div'));
 				chart.draw(data, options);
 			}
 			
@@ -470,6 +470,7 @@ and open the template in the editor.
 								attribsPool[i].polyAttrib.setOptions({strokeWeight: 1, fillColor: 'red', strokeColor: 'red'});
 							}
 						}
+						updateLegend("SR");
 					} else if(chartcat == "MR") {
 						for(var i = 0; i < attribsPool.length; i++) {
 							if(attribsPool[i].maturity_rate > 50) {
@@ -478,6 +479,7 @@ and open the template in the editor.
 								attribsPool[i].polyAttrib.setOptions({strokeWeight: 1, fillColor: 'red', strokeColor: 'red'});
 							}
 						}
+						updateLegend("MR");
 					} else if(chartcat == "GR") {
 						for(var i = 0; i < attribsPool.length; i++) {
 							if(attribsPool[i].growth_rate > 30) {
@@ -486,6 +488,7 @@ and open the template in the editor.
 								attribsPool[i].polyAttrib.setOptions({strokeWeight: 1, fillColor: 'red', strokeColor: 'red'});
 							}
 						}
+						updateLegend("GR");
 					}
 				} else {
 					for(var i = 0; i < attribsPool.length; i++) {
@@ -501,6 +504,7 @@ and open the template in the editor.
 							attribsPool[i].polyAttrib.setOptions({strokeWeight: 1, fillColor: 'white', strokeColor: 'white'});
 						}
 					}
+					updateLegend("Normal");
 				}
 				
 				if(searchvalue == "") {
@@ -1926,6 +1930,15 @@ and open the template in the editor.
 				var data2 = google.visualization.arrayToDataTable(arrayData);
 				
 				drawInventory(data2, titleString);
+				
+				document.getElementById('inventory_div').innerHTML += "<hr/>";
+				var i = 0;
+				for (var key in treesArray) {
+				  if (treesArray.hasOwnProperty(key)) {
+					i++;
+					document.getElementById('inventory_div').innerHTML += "<p>" + key + ": " + treesArray[key] + "</p>";
+				  }
+				}
             }
 			
 			$( "#search_val" ).autocomplete({
@@ -1937,6 +1950,30 @@ and open the template in the editor.
 			
 			//drawChart();
         }
+		
+		function updateLegend(updateValue) {
+			if(updateValue == "Normal") {
+				document.getElementById('legend_div').innerHTML = "<p> Map Legend </p>";
+				document.getElementById('legend_div').innerHTML += "<img src = 'colors/orange.png/> 2011";
+				document.getElementById('legend_div').innerHTML += "<img src ='colors/blue.png'/> 2012";
+				document.getElementById('legend_div').innerHTML += "<img src ='colors/pink.png'/> 2013";
+				document.getElementById('legend_div').innerHTML += "<img src ='colors/yellow.png'/> 2014";
+				document.getElementById('legend_div').innerHTML += "<img src ='colors/white.png'/> 2015";
+			} else if(updateValue == "SR") {
+				document.getElementById('legend_div').innerHTML = "<p> Map Legend </p>";
+				document.getElementById('legend_div').innerHTML += "<img src = 'colors/yellow.png/> Greater than 85%";
+				document.getElementById('legend_div').innerHTML += "<img src ='colors/red.png'/> 85% below ";
+			} else if(updateValue == "MR") {
+				document.getElementById('legend_div').innerHTML = "<p> Map Legend </p>";
+				document.getElementById('legend_div').innerHTML += "<img src = 'colors/yellow.png/> Greater than 50%";
+				document.getElementById('legend_div').innerHTML += "<img src ='colors/red.png'/> 50% below ";
+			} else if(updateValue == "GR") {
+				document.getElementById('legend_div').innerHTML = "<p> Map Legend </p>";
+				document.getElementById('legend_div').innerHTML += "<img src = 'colors/yellow.png/> Greater than 30%";
+				document.getElementById('legend_div').innerHTML += "<img src ='colors/red.png'/> 30% below ";
+			}
+			
+		}
 		
 		function updateSearch(choice) {
 			if(choice == "Province") {
