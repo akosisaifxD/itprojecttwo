@@ -109,8 +109,7 @@ and open the template in the editor.
 			left:70%;
 		}
 		
-		#inventory_div {
-			overflow: scroll;
+		#table_div {
 			height: 300px;
 			width: 350px;
 		}
@@ -147,7 +146,9 @@ and open the template in the editor.
 		<div id="chart_div"></div>
 	</div>
 	<div id="tab-2" class="tab-content">
-		 <div id="inventory_div"></div>
+		<input type="checkbox" id='isHeat' onchange='checkRadio();'>Heat Map
+		<div id="filter_div"></div>
+		<div id="table_div"></div>
 	</div>
     <div id="map"></div>
     <div id="buttons"></div>
@@ -373,6 +374,7 @@ and open the template in the editor.
 			this.survival_rate = survival_rate;
 			this.maturity_rate = maturity_rate;
 			this.growth_rate = growth_rate;
+			this.treesInventory = {};
         }
 		
 		function treeObj(treeArray) {
@@ -402,21 +404,30 @@ and open the template in the editor.
 			}
 			
 			function drawInventory(data, titleCombo) {
-				var options = {
-					title: titleCombo,
-					hAxis: {
-					  title: 'Total Number'
-					},
-					vAxis: {
-					  title: 'Tree Specie'
-					},
-					width: 1600,
-					height: 300,
-					legend: {position: 'top'}
-				};
 
-				var chart = new google.visualization.ColumnChart(document.getElementById('inventory_div'));
-				chart.draw(data, options);
+			var dashboard = new google.visualization.Dashboard(document.getElementById('tab-2'));
+				
+				var filterForString = new google.visualization.ControlWrapper({
+				  'controlType': 'StringFilter',
+				  'containerId': 'filter_div',
+				  'options': {
+					'filterColumnLabel': 'Tree Specie'
+				  }
+				});
+
+				var table = new google.visualization.ChartWrapper({
+				  'chartType': 'Table',
+				  'containerId': 'table_div',
+				  'options': {
+					width: 350,
+					height: 300,
+					showRowNumber: true,
+					allowHtml: true
+				  }
+				});
+
+				dashboard.bind(filterForString, table);
+				dashboard.draw(data);
 			}
 			
             if (toggled) {
@@ -1846,17 +1857,23 @@ and open the template in the editor.
                 function addListeners(polygon, id) {
 					if(id < 7419) {
 						var treeSpecies = attribsPool[id].species.split('+');
-					
+						
 						var treeString = "";
 						
+						var treesArray2 = {};
 						for(var i = 0; i < treeSpecies.length; i++) {
 							var numTrees = Math.floor((Math.random() * 100) + 1);
+							
 							if(treesArray[treeSpecies[i].trim().toLowerCase()]) {
 								treesArray[treeSpecies[i].trim().toLowerCase()] += numTrees;
 							} else {
 								treesArray[treeSpecies[i].trim().toLowerCase()] = numTrees;
 							}
 							treeString += treeSpecies[i] + ": " + numTrees + "</br>";
+							
+							
+							treesArray2[treeSpecies[i].trim().toLowerCase()] = numTrees;
+							attribsPool[id].treesInventory = treesArray2;
 						}
 					}
 					
@@ -1916,6 +1933,7 @@ and open the template in the editor.
 				arrayData[0] = [];
 				arrayData[0].push('Tree Specie');
 				arrayData[0].push('Quantity');
+				arrayData[0].push('Heatmap Button');
 				var i = 0;
 				for (var key in treesArray) {
 				  if (treesArray.hasOwnProperty(key)) {
@@ -1923,6 +1941,12 @@ and open the template in the editor.
 					arrayData[i] = [];
 					arrayData[i].push(key);
 					arrayData[i].push(treesArray[key]);
+					//arrayData[i].push("<img src='colors/blue.png'/>");
+					if(i == 1) {
+						arrayData[i].push("<input type='radio' name='heatmap' value='"+ key + "' onchange='check(this.value);'/>");
+					} else {
+						arrayData[i].push("<input type='radio' name='heatmap' value='"+ key + "' onchange='check(this.value); checked'/>");
+					}
 				  }
 				}
 				titleString = "Tree Inventory for trees planted in 2011 - 2015";
@@ -1930,15 +1954,6 @@ and open the template in the editor.
 				var data2 = google.visualization.arrayToDataTable(arrayData);
 				
 				drawInventory(data2, titleString);
-				
-				document.getElementById('inventory_div').innerHTML += "<hr/>";
-				var i = 0;
-				for (var key in treesArray) {
-				  if (treesArray.hasOwnProperty(key)) {
-					i++;
-					document.getElementById('inventory_div').innerHTML += "<p>" + key + ": " + treesArray[key] + "</p>";
-				  }
-				}
             }
 			
 			$( "#search_val" ).autocomplete({
@@ -1973,6 +1988,20 @@ and open the template in the editor.
 				document.getElementById('legend_div').innerHTML += "<img src ='colors/red.png'/> 30% below ";
 			}
 			
+		}
+		
+		function check(value) {
+			for(var i = 0; i < attribsPool.length; i++) {
+				if(attribsPool[i].treesInventory[value]) {
+					if(attribsPool[i].treesInventory[value] > 50) {
+						attribsPool[i].polyAttrib.setOptions({strokeWeight: 1, fillColor: 'yellow', strokeColor: 'yellow'});
+					} else {
+						attribsPool[i].polyAttrib.setOptions({strokeWeight: 1, fillColor: 'red', strokeColor: 'red'});
+					}
+				} else {
+					attribsPool[i].polyAttrib.setOptions({strokeWeight: 1, fillColor: 'black', strokeColor: 'black'}); 
+				}
+			}
 		}
 		
 		function updateSearch(choice) {
@@ -2110,7 +2139,7 @@ and open the template in the editor.
             initMap(changeArray, attribsPool);
         }
 		*/
-		google.load('visualization', '1.0', {'packages':['corechart']});
+		google.load('visualization', '1.0', {'packages':['corechart', 'table', 'controls']});
     </script>
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAyGBTdSmKQ2wq_L0QhV6fZcOLWIO2IbXs&callback=initMap"></script>
 </body>
