@@ -113,6 +113,10 @@ and open the template in the editor.
 			height: 300px;
 			width: 350px;
 		}
+		
+		.heatmapbtn {
+			display: none;
+		}
     </style>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="text/javascript">
@@ -146,7 +150,7 @@ and open the template in the editor.
 		<div id="chart_div"></div>
 	</div>
 	<div id="tab-2" class="tab-content">
-		<input type="checkbox" id='isHeat' onchange='checkRadio();'>Heat Map
+		<input type="checkbox" id='isHeat' onchange='checkRadio(this.checked);'>Heat Map
 		<div id="filter_div"></div>
 		<div id="table_div"></div>
 	</div>
@@ -1942,11 +1946,8 @@ and open the template in the editor.
 					arrayData[i].push(key);
 					arrayData[i].push(treesArray[key]);
 					//arrayData[i].push("<img src='colors/blue.png'/>");
-					if(i == 1) {
-						arrayData[i].push("<input type='radio' name='heatmap' value='"+ key + "' onchange='check(this.value);'/>");
-					} else {
-						arrayData[i].push("<input type='radio' name='heatmap' value='"+ key + "' onchange='check(this.value); checked'/>");
-					}
+					
+					arrayData[i].push("<input type='radio' class ='heatmapbtn' name='heatmap' value='"+ key + "' onchange='check(this.value);'/>");
 				  }
 				}
 				titleString = "Tree Inventory for trees planted in 2011 - 2015";
@@ -2039,6 +2040,33 @@ and open the template in the editor.
 		
 		function search() {
 			initMap("searchtoggle");
+		}
+		
+		function checkRadio(checked) {
+			if(checked) {
+				var x = document.getElementsByClassName('heatmapbtn');
+				for(var i = 0; i < x.length; i++) {
+					x[i].setAttribute("style", "display: inline;");
+				}
+			} else {
+				var x = document.getElementsByClassName('heatmapbtn');
+				for(var i = 0; i < x.length; i++) {
+					x[i].setAttribute("style", "display: none;");
+				}
+				for(var i = 0; i < attribsPool.length; i++) {
+					if (attribsPool[i].year == 2011) {
+						attribsPool[i].polyAttrib.setOptions({strokeWeight: 1, fillColor: 'orange', strokeColor: 'orange'});
+					} else if(attribsPool[i].year == 2012) {
+						attribsPool[i].polyAttrib.setOptions({strokeWeight: 1, fillColor: 'blue', strokeColor: 'blue'});
+					} else if(attribsPool[i].year == 2013) {
+						attribsPool[i].polyAttrib.setOptions({strokeWeight: 1, fillColor: 'pink', strokeColor: 'pink'});
+					} else if(attribsPool[i].year == 2014) {
+						attribsPool[i].polyAttrib.setOptions({strokeWeight: 1, fillColor: 'yellow', strokeColor: 'yellow'});
+					} else if(attribsPool[i].year == 2015) {
+						attribsPool[i].polyAttrib.setOptions({strokeWeight: 1, fillColor: 'white', strokeColor: 'white'});
+					}
+				}
+			}
 		}
 		
 		/*
@@ -2143,5 +2171,4 @@ and open the template in the editor.
     </script>
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAyGBTdSmKQ2wq_L0QhV6fZcOLWIO2IbXs&callback=initMap"></script>
 </body>
-
 </html>
