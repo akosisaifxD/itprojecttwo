@@ -24,8 +24,8 @@ and open the template in the editor.
 		#slider_div {
 			position: absolute; 
 			z-index: 99; 
-			top: 78%;
-			left: 10%;
+			top: 80%;
+			left: 50px;
 			background-color: white;
 			width: 80%!important;
 		}
@@ -37,136 +37,33 @@ and open the template in the editor.
 			text-align: center;
 			margin-top: 20px;
 		}
-		
-		#search_div {
-			position: absolute;
-			z-index: 99;
-			top: 0;
-			left: 85%;
-			width: 50px;
-			background-color: white;
-		}
-		
-		#legend_div img {
-			width: 15px;
-			height: 15px;
-		}
-		
-		#legend_div {
-			position: absolute;
-			z-index: 99;
-			top: 10%;
-			left: 0;
-			width: 60px;
-		}
 
 		/* below is not necessary, just for style */
 		#slider-range {
 			width: 80%!important;
 			margin: 2em auto;
 		}
-		
-		#chart_div {
-			width: 350px;
-		}
-		
-		ul.tabs{
-			margin: 0px;
-			padding: 0px;
-			list-style: none;
-		}
-		ul.tabs li{
-			background: blue;
-			color: #222;
-			display: inline-block;
-			padding: 10px 15px;
-			cursor: pointer;
-		}
-
-		ul.tabs li.current{
-			background: white;
-			color: #222;
-		}
-
-		.tab-content{
-			display: none;
-			background: white;
-			padding: 15px;
-		}
-
-		.tab-content.current{
-			display: inherit;
-			position: absolute;
-			z-index: 99;
-			top:25%;
-			left: 70%;
-		}
-		
-		#tabs_div {
-			position: absolute;
-			z-index: 99;
-			top: 20%;
-			left:70%;
-		}
-		
-		#table_div {
-			height: 300px;
-			width: 350px;
-		}
-		
-		.heatmapbtn {
-			display: none;
-		}
     </style>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="text/javascript">
         // Load the Visualization API and the piechart package.
     </script>
-	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 	<link rel="stylesheet" href="\jquery-ui-1.11.4.custom\jquery-ui.css">
 	<script src="\jquery-ui-1.11.4.custom\external\jquery\jquery.js"></script>
 	<script src="\jquery-ui-1.11.4.custom\jquery-ui.js"></script>
-    <title>E-Tanim</title>
+    <title>Prototype</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="flatfiles/jquerycsv.js"></script>
 </head>
 
 <body>
-	<ul class="tabs" id="tabs_div">
-		<li class="tab-link current" data-tab="tab-1">Trends</li>
-		<li class="tab-link" data-tab="tab-2">Tree Inventory</li>
-	</ul>
-	<div id="tab-1" class="tab-content current">
-		<div id="radio_div">
-			<form onchange="initMap('x');">
-			  <input type="radio" name="chart" value="SR" checked>Survival Rate<br>
-			  <input type="radio" name="chart" value="MR">Maturity Rate<br>
-			  <input type="radio" name="chart" value="GR">Growth Rate
-			</form> 
-			
-			<input type='checkbox' id='isHeat' onchange='initMap("heatmap", this.checked);'>HeatMap
-		</div>
-		<div id="chart_div"></div>
-	</div>
-	<div id="tab-2" class="tab-content">
-		<input type="checkbox" id='isHeat' onchange='checkRadio(this.checked);'>Heat Map
-		<div id="filter_div"></div>
-		<div id="table_div"></div>
-	</div>
     <div id="map"></div>
     <div id="buttons"></div>
     <div id="lots"></div>
+    <div id="chart_div"></div>
     <div id="info_div"></div>
-	<div id="legend_div">
-		<p> Map Legend </p>
-		<img src ='colors/orange.png'/> 2011
-		<img src ='colors/blue.png'/> 2012
-		<img src ='colors/pink.png'/> 2013
-		<img src ='colors/yellow.png'/> 2014
-		<img src ='colors/white.png'/> 2015
-	</div>
-	
+    <div id="filter_div"></div>
     <div id="slider_div">
         <p>
             <label for="amount">Showing years: </label>
@@ -176,28 +73,11 @@ and open the template in the editor.
         <button type="button" id="animatebtn">Play</button>
         <button id="pausebtn">Pause</button>
     </div>
-	
-	<div id="search_div">
-		<p>Search: </p>
-		<select id = "search_choices" onchange='updateSearch(this.value);'>
-			<option value = "Province">Province</option>
-			<option value = "Barangay">Barangay</option>
-			<option value = "Cenro">Cenro</option>
-			<option value = "Components">Components</option>
-			<option value = "Commodities">Commodities</option>
-			<option value = "MunicipalityorCity">Municipality or City</option>
-			<option value = "Org Name">Org Name</option>
-			<option value = "Penro">Penro</option>
-			<option value = "Species">Species</option>
-			<option value = "TypeofOrganization">Type of Organization</option>
-			<option value = "Watershed">Watershed</option>			
-			<option value = "River Basin">River Basin</option>
-		</select>
-		
-		<input type="text" id ="search_val"></input>
-		<button id ="searchbtn" onclick="search();">Search</button>
-	</div>
     <script type="text/javascript">
+        google.load('visualization', '1.0', {
+            'packages': ['corechart']
+        });
+
         var dummark = {};
         var markers = {};
         var treestats = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -210,26 +90,7 @@ and open the template in the editor.
         var counter = parseFloat(0);
         var attributes = {};
         var attribsPool = [];
-		var treesArray = {};
-		
-		var total2011 = 0;
-		var total2012 = 0;
-		var total2013 = 0;
-		var total2014 = 0;
-		var total2015 = 0;
-		
-		var count2011 = 0;
-		var count2012 = 0;
-		var count2013 = 0;
-		var count2014 = 0;
-		var count2015 = 0;
-		
-		var stats2011 = 0;
-		var stats2012 = 0;
-		var stats2013 = 0;
-		var stats2014 = 0;
-		var stats2015 = 0;
-		
+
         var regions = []; //
         var districts = []; //
         var cenros = []; //
@@ -258,15 +119,11 @@ and open the template in the editor.
         var areas = [];
         var area_gens = [];
 		var opt;
-		var value0;
-		var value1;
 		
 		var paused = false;
 		var stopped = true;
 		var oV2;
 		var cV2;
-		var dynamicsearch = [];
-		
 		$("#slider-range").slider({
 			range: true,
 			min: 2011,
@@ -278,8 +135,6 @@ and open the template in the editor.
 				$("#amount").val(ui.values[0] + " - " + ui.values[1]);
 				paused = false;
 				stopped = true;
-				value0 = ui.values[0];
-				value1 = ui.values[1];
 				initMap(ui.values);
 			}
 		}).each(function() {
@@ -291,8 +146,8 @@ and open the template in the editor.
 			}
 
 			$("#animatebtn").click(function() {
-				value0 = opt.values[0];
-				value1 = opt.values[1];
+				var value0 = opt.values[0];
+				var value1 = opt.values[1];
 				var diff = value1 - value0;
 				if (paused && !stopped) {
 					var ct = (oV2 - cV2 - 4) * -1;
@@ -314,7 +169,7 @@ and open the template in the editor.
 			});
 
 			function animate(diff, v0, counter) {
-				var interval = 10;
+				var interval = 1000;
 				if (paused) {
 					interval = 0;
 				}
@@ -323,7 +178,6 @@ and open the template in the editor.
 					counter++;
 					if (counter <= diff + 1 && !paused) {
 						$("#slider-range").slider('values', [v0, v1]);
-						value1 = v1;
 						initMap($("#slider-range").data().uiSlider.options.values);
 						animate(diff, v0, counter);
 					}
@@ -344,8 +198,7 @@ and open the template in the editor.
             barangay, muni_city, province, name_org, cont_pers, type_org,
             component, commodity, species, year, zone, tenure, no_loa,
             riv_basin, watershed, remarks, yr_cd, site_id, area_cd,
-            uniq_id, psgc_id, area, area_gen, survival_rate, maturity_rate,
-			growth_rate) {
+            uniq_id, psgc_id, area, area_gen) {
             this.shapeID = shapeID;
             this.region = region;
             this.district = district;
@@ -374,1262 +227,42 @@ and open the template in the editor.
             this.area = area;
             this.area_gen = area_gen;
             this.polyAttrib = {};
-			this.isSet = true;
-			this.survival_rate = survival_rate;
-			this.maturity_rate = maturity_rate;
-			this.growth_rate = growth_rate;
-			this.treesInventory = {};
+			this.isSet = false;
         }
-		
-		function treeObj(treeArray) {
-			this.treeArray = treeArray;
-		}
 
-        function initMap(toggled, isHeat) {
-			$('ul.tabs li').click(function(){
-				var tab_id = $(this).attr('data-tab');
-
-				$('ul.tabs li').removeClass('current');
-				$('.tab-content').removeClass('current');
-
-				$(this).addClass('current');
-				$("#"+tab_id).addClass('current');
-			});
-			
-			function drawChart(data, titleCombo) {
-				var options = {
-				  title: titleCombo,
-				  legend: { position: 'bottom' }
-				};
-
-				var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
-
-				chart.draw(data, options);
-			}
-			
-			function drawInventory(data, titleCombo) {
-
-			var dashboard = new google.visualization.Dashboard(document.getElementById('tab-2'));
-				
-				var filterForString = new google.visualization.ControlWrapper({
-				  'controlType': 'StringFilter',
-				  'containerId': 'filter_div',
-				  'options': {
-					'filterColumnLabel': 'Tree Specie'
-				  }
-				});
-
-				var table = new google.visualization.ChartWrapper({
-				  'chartType': 'Table',
-				  'containerId': 'table_div',
-				  'options': {
-					width: 350,
-					height: 300,
-					showRowNumber: true,
-					allowHtml: true
-				  }
-				});
-
-				dashboard.bind(filterForString, table);
-				dashboard.draw(data);
-			}
+        function initMap(toggled, polygonsColor) {
 			
             if (toggled) {
-				searchvalue = document.getElementById('search_val').value;
-				var searchchoice = document.getElementById('search_choices').value;
-				chartcat = $('input[name=chart]:radio:checked').val();
-				
-				stats2011 = 0;
-				stats2012 = 0;
-				stats2013 = 0;
-				stats2014 = 0;
-				stats2015 = 0;
-				
-				total2011 = 0;
-				total2012 = 0;
-				total2013 = 0;
-				total2014 = 0;
-				total2015 = 0;
-				
-				count2011 = 0;
-				count2012 = 0;
-				count2013 = 0;
-				count2014 = 0;
-				count2015 = 0;
-				
 				var toBeRemoved = [];
 				var toBeAdded = [];
 				
 				var yearsSelected = [];
 				var yearsNotSelected = [];
 				
-				for(var i = value0; i <= value1; i++) {
+				for(var i = toggled[0]; i <= toggled[1]; i++) {
 					yearsSelected.push(i);
 				}
 				
-				for(var i = (value0 - 1); i >= 2011; i--) {
+				for(var i = (toggled[0] - 1); i >= 2011; i--) {
 					yearsNotSelected.push(i);
 				}
 				
-				for(var i = (value1 + 1); i <= 2015; i++) {
+				for(var i = (toggled[1] + 1); i <= 2015; i++) {
 					yearsNotSelected.push(i);
 				}
 				
-				chartcat = $('input[name=chart]:radio:checked').val();
-				if(document.getElementById('isHeat').checked) {
-					if(chartcat == "SR") {
-						for(var i = 0; i < attribsPool.length; i++) {
-							if(attribsPool[i].survival_rate > 85) {
-								attribsPool[i].polyAttrib.setOptions({strokeWeight: 1, fillColor: 'yellow', strokeColor: 'yellow'});
-							} else {
-								attribsPool[i].polyAttrib.setOptions({strokeWeight: 1, fillColor: 'red', strokeColor: 'red'});
-							}
-						}
-						updateLegend("SR");
-					} else if(chartcat == "MR") {
-						for(var i = 0; i < attribsPool.length; i++) {
-							if(attribsPool[i].maturity_rate > 50) {
-								attribsPool[i].polyAttrib.setOptions({strokeWeight: 1, fillColor: 'yellow', strokeColor: 'yellow'});
-							} else {
-								attribsPool[i].polyAttrib.setOptions({strokeWeight: 1, fillColor: 'red', strokeColor: 'red'});
-							}
-						}
-						updateLegend("MR");
-					} else if(chartcat == "GR") {
-						for(var i = 0; i < attribsPool.length; i++) {
-							if(attribsPool[i].growth_rate > 30) {
-								attribsPool[i].polyAttrib.setOptions({strokeWeight: 1, fillColor: 'yellow', strokeColor: 'yellow'});
-							} else {
-								attribsPool[i].polyAttrib.setOptions({strokeWeight: 1, fillColor: 'red', strokeColor: 'red'});
-							}
-						}
-						updateLegend("GR");
-					}
-				} else {
-					for(var i = 0; i < attribsPool.length; i++) {
-						if (attribsPool[i].year == 2011) {
-							attribsPool[i].polyAttrib.setOptions({strokeWeight: 1, fillColor: 'orange', strokeColor: 'orange'});
-						} else if(attribsPool[i].year == 2012) {
-							attribsPool[i].polyAttrib.setOptions({strokeWeight: 1, fillColor: 'blue', strokeColor: 'blue'});
-						} else if(attribsPool[i].year == 2013) {
-							attribsPool[i].polyAttrib.setOptions({strokeWeight: 1, fillColor: 'pink', strokeColor: 'pink'});
-						} else if(attribsPool[i].year == 2014) {
-							attribsPool[i].polyAttrib.setOptions({strokeWeight: 1, fillColor: 'yellow', strokeColor: 'yellow'});
-						} else if(attribsPool[i].year == 2015) {
-							attribsPool[i].polyAttrib.setOptions({strokeWeight: 1, fillColor: 'white', strokeColor: 'white'});
-						}
-					}
-					updateLegend("Normal");
-				}
+				console.log(yearsSelected);
+				console.log(yearsNotSelected);
 				
-				if(searchvalue == "") {
-					for(var i = 0; i < attribsPool.length; i++) {
-						if (yearsSelected.indexOf(parseInt(attribsPool[i].year)) > -1 && attribsPool[i].isSet == true) {
-							if(attribsPool[i].year == 2011) {
-								count2011 += 1;
-								if(chartcat == "SR") {
-									total2011 +=  attribsPool[i].survival_rate;
-								} else if(chartcat == "MR") {
-									total2011 +=  attribsPool[i].maturity_rate;
-								} else if(chartcat == "GR") {
-									total2011 +=  attribsPool[i].growth_rate;
-								}
-							} else if(attribsPool[i].year == 2012) {
-								count2012 += 1;
-								if(chartcat == "SR") {
-									total2012 +=  attribsPool[i].survival_rate;
-								} else if(chartcat == "MR") {
-									total2012 +=  attribsPool[i].maturity_rate;
-								} else if(chartcat == "GR") {
-									total2012 +=  attribsPool[i].growth_rate;
-								}
-							} else if(attribsPool[i].year == 2013) {
-								count2013 += 1;
-								if(chartcat == "SR") {
-									total2013 +=  attribsPool[i].survival_rate;
-								} else if(chartcat == "MR") {
-									total2013 +=  attribsPool[i].maturity_rate;
-								} else if(chartcat == "GR") {
-									total2013 +=  attribsPool[i].growth_rate;
-								}
-							} else if(attribsPool[i].year == 2014) {
-								count2014 += 1;
-								if(chartcat == "SR") {
-									total2014 +=  attribsPool[i].survival_rate;
-								} else if(chartcat == "MR") {
-									total2014 +=  attribsPool[i].maturity_rate;
-								} else if(chartcat == "GR") {
-									total2014 +=  attribsPool[i].growth_rate;
-								}
-							} else if(attribsPool[i].year == 2015) {
-								count2015 += 1;
-								if(chartcat == "SR") {
-									total2015 +=  attribsPool[i].survival_rate;
-								} else if(chartcat == "MR") {
-									total2015 +=  attribsPool[i].maturity_rate;
-								} else if(chartcat == "GR") {
-									total2015 +=  attribsPool[i].growth_rate;
-								}
-							}
-						} else if(yearsSelected.indexOf(parseInt(attribsPool[i].year)) > -1 && attribsPool[i].isSet == false) {
-							attribsPool[i].isSet = true;
-							toBeAdded.push(attribsPool[i].polyAttrib);
-							if(attribsPool[i].year == 2011) {
-								count2011 += 1;
-								if(chartcat == "SR") {
-									total2011 +=  attribsPool[i].survival_rate;
-								} else if(chartcat == "MR") {
-									total2011 +=  attribsPool[i].maturity_rate;
-								} else if(chartcat == "GR") {
-									total2011 +=  attribsPool[i].growth_rate;
-								}
-							} else if(attribsPool[i].year == 2012) {
-								count2012 += 1;
-								if(chartcat == "SR") {
-									total2012 +=  attribsPool[i].survival_rate;
-								} else if(chartcat == "MR") {
-									total2012 +=  attribsPool[i].maturity_rate;
-								} else if(chartcat == "GR") {
-									total2012 +=  attribsPool[i].growth_rate;
-								}
-							} else if(attribsPool[i].year == 2013) {
-								count2013 += 1;
-								if(chartcat == "SR") {
-									total2013 +=  attribsPool[i].survival_rate;
-								} else if(chartcat == "MR") {
-									total2013 +=  attribsPool[i].maturity_rate;
-								} else if(chartcat == "GR") {
-									total2013 +=  attribsPool[i].growth_rate;
-								}
-							} else if(attribsPool[i].year == 2014) {
-								count2014 += 1;
-								if(chartcat == "SR") {
-									total2014 +=  attribsPool[i].survival_rate;
-								} else if(chartcat == "MR") {
-									total2014 +=  attribsPool[i].maturity_rate;
-								} else if(chartcat == "GR") {
-									total2014 +=  attribsPool[i].growth_rate;
-								}
-							} else if(attribsPool[i].year == 2015) {
-								count2015 += 1;
-								if(chartcat == "SR") {
-									total2015 +=  attribsPool[i].survival_rate;
-								} else if(chartcat == "MR") {
-									total2015 +=  attribsPool[i].maturity_rate;
-								} else if(chartcat == "GR") {
-									total2015 +=  attribsPool[i].growth_rate;
-								}
-							}
-						} else if(yearsNotSelected.indexOf(parseInt(attribsPool[i].year)) > -1 && attribsPool[i].isSet == true) {
-							attribsPool[i].isSet = false;
-							toBeRemoved.push(attribsPool[i].polyAttrib);
-						}
-					}
-				} else {
-					console.log(searchchoice + " - " + searchvalue);
-					if(searchchoice == "Org Name") {
-						for(var i = 0; i < attribsPool.length; i++) {
-							if(yearsSelected.indexOf(parseInt(attribsPool[i].year)) > -1 && attribsPool[i].name_org == searchvalue && attribsPool[i].isSet == true) {
-								if(attribsPool[i].year == 2011) {
-								count2011 += 1;
-									if(chartcat == "SR") {
-										total2011 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2011 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2011 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2012) {
-									count2012 += 1;
-									if(chartcat == "SR") {
-										total2012 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2012 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2012 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2013) {
-									count2013 += 1;
-									if(chartcat == "SR") {
-										total2013 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2013 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2013 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2014) {
-									count2014 += 1;
-									if(chartcat == "SR") {
-										total2014 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2014 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2014 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2015) {
-									count2015 += 1;
-									if(chartcat == "SR") {
-										total2015 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2015 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2015 +=  attribsPool[i].growth_rate;
-									}
-								}
-							}else if(yearsSelected.indexOf(parseInt(attribsPool[i].year)) > -1 && attribsPool[i].name_org == searchvalue && attribsPool[i].isSet == false) {
-								attribsPool[i].isSet = true;
-								toBeAdded.push(attribsPool[i].polyAttrib);
-								if(attribsPool[i].year == 2011) {
-								count2011 += 1;
-									if(chartcat == "SR") {
-										total2011 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2011 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2011 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2012) {
-									count2012 += 1;
-									if(chartcat == "SR") {
-										total2012 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2012 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2012 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2013) {
-									count2013 += 1;
-									if(chartcat == "SR") {
-										total2013 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2013 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2013 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2014) {
-									count2014 += 1;
-									if(chartcat == "SR") {
-										total2014 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2014 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2014 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2015) {
-									count2015 += 1;
-									if(chartcat == "SR") {
-										total2015 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2015 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2015 +=  attribsPool[i].growth_rate;
-									}
-								}
-							} else if(yearsSelected.indexOf(parseInt(attribsPool[i].year)) > -1 && attribsPool[i].name_org != searchvalue && attribsPool[i].isSet == true) {
-								attribsPool[i].isSet = false;
-								toBeRemoved.push(attribsPool[i].polyAttrib);
-							}else if(yearsNotSelected.indexOf(parseInt(attribsPool[i].year)) > -1 && attribsPool[i].isSet == true) {
-								attribsPool[i].isSet = false;
-								toBeRemoved.push(attribsPool[i].polyAttrib);
-							}
-						}
-					} else if(searchchoice == "Watershed") {
-						for(var i = 0; i < attribsPool.length; i++) {
-							if(yearsSelected.indexOf(parseInt(attribsPool[i].year)) > -1 && attribsPool[i].watershed == searchvalue && attribsPool[i].isSet == true) {
-								if(attribsPool[i].year == 2011) {
-									count2011 += 1;
-									if(chartcat == "SR") {
-										total2011 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2011 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2011 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2012) {
-									count2012 += 1;
-									if(chartcat == "SR") {
-										total2012 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2012 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2012 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2013) {
-									count2013 += 1;
-									if(chartcat == "SR") {
-										total2013 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2013 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2013 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2014) {
-									count2014 += 1;
-									if(chartcat == "SR") {
-										total2014 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2014 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2014 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2015) {
-									count2015 += 1;
-									if(chartcat == "SR") {
-										total2015 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2015 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2015 +=  attribsPool[i].growth_rate;
-									}
-								}
-							} else if(yearsSelected.indexOf(parseInt(attribsPool[i].year)) > -1 && attribsPool[i].watershed == searchvalue && attribsPool[i].isSet == false) {
-								attribsPool[i].isSet = true;
-								toBeAdded.push(attribsPool[i].polyAttrib);
-								if(attribsPool[i].year == 2011) {
-									count2011 += 1;
-									if(chartcat == "SR") {
-										total2011 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2011 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2011 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2012) {
-									count2012 += 1;
-									if(chartcat == "SR") {
-										total2012 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2012 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2012 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2013) {
-									count2013 += 1;
-									if(chartcat == "SR") {
-										total2013 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2013 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2013 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2014) {
-									count2014 += 1;
-									if(chartcat == "SR") {
-										total2014 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2014 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2014 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2015) {
-									count2015 += 1;
-									if(chartcat == "SR") {
-										total2015 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2015 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2015 +=  attribsPool[i].growth_rate;
-									}
-								}
-							} else if(yearsSelected.indexOf(parseInt(attribsPool[i].year)) > -1 && attribsPool[i].watershed != searchvalue && attribsPool[i].isSet == true) {
-								attribsPool[i].isSet = false;
-								toBeRemoved.push(attribsPool[i].polyAttrib);
-							}else if(yearsNotSelected.indexOf(parseInt(attribsPool[i].year)) > -1 && attribsPool[i].isSet == true) {
-								attribsPool[i].isSet = false;
-								toBeRemoved.push(attribsPool[i].polyAttrib);
-							}
-						}
-					} else if(searchchoice == "River Basin") {
-						for(var i = 0; i < attribsPool.length; i++) {
-							if(yearsSelected.indexOf(parseInt(attribsPool[i].year)) > -1 && attribsPool[i].riv_basin == searchvalue && attribsPool[i].isSet == true) {
-								if(attribsPool[i].year == 2011) {
-									count2011 += 1;
-									if(chartcat == "SR") {
-										total2011 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2011 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2011 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2012) {
-									count2012 += 1;
-									if(chartcat == "SR") {
-										total2012 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2012 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2012 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2013) {
-									count2013 += 1;
-									if(chartcat == "SR") {
-										total2013 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2013 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2013 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2014) {
-									count2014 += 1;
-									if(chartcat == "SR") {
-										total2014 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2014 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2014 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2015) {
-									count2015 += 1;
-									if(chartcat == "SR") {
-										total2015 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2015 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2015 +=  attribsPool[i].growth_rate;
-									}
-								}
-							} else if(yearsSelected.indexOf(parseInt(attribsPool[i].year)) > -1 && attribsPool[i].riv_basin == searchvalue && attribsPool[i].isSet == false) {
-								attribsPool[i].isSet = true;
-								toBeAdded.push(attribsPool[i].polyAttrib);
-								if(attribsPool[i].year == 2011) {
-									count2011 += 1;
-									if(chartcat == "SR") {
-										total2011 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2011 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2011 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2012) {
-									count2012 += 1;
-									if(chartcat == "SR") {
-										total2012 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2012 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2012 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2013) {
-									count2013 += 1;
-									if(chartcat == "SR") {
-										total2013 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2013 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2013 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2014) {
-									count2014 += 1;
-									if(chartcat == "SR") {
-										total2014 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2014 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2014 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2015) {
-									count2015 += 1;
-									if(chartcat == "SR") {
-										total2015 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2015 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2015 +=  attribsPool[i].growth_rate;
-									}
-								}
-							} else if(yearsSelected.indexOf(parseInt(attribsPool[i].year)) > -1 && attribsPool[i].riv_basin != searchvalue && attribsPool[i].isSet == true) {
-								attribsPool[i].isSet = false;
-								toBeRemoved.push(attribsPool[i].polyAttrib);
-							}else if(yearsNotSelected.indexOf(parseInt(attribsPool[i].year)) > -1 && attribsPool[i].isSet == true) {
-								attribsPool[i].isSet = false;
-								toBeRemoved.push(attribsPool[i].polyAttrib);
-							}
-						}
-					}  else if(searchchoice == "Barangay") {
-						for(var i = 0; i < attribsPool.length; i++) {
-							if(yearsSelected.indexOf(parseInt(attribsPool[i].year)) > -1 && attribsPool[i].barangay == searchvalue && attribsPool[i].isSet == true) {
-								if(attribsPool[i].year == 2011) {
-									count2011 += 1;
-									if(chartcat == "SR") {
-										total2011 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2011 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2011 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2012) {
-									count2012 += 1;
-									if(chartcat == "SR") {
-										total2012 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2012 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2012 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2013) {
-									count2013 += 1;
-									if(chartcat == "SR") {
-										total2013 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2013 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2013 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2014) {
-									count2014 += 1;
-									if(chartcat == "SR") {
-										total2014 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2014 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2014 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2015) {
-									count2015 += 1;
-									if(chartcat == "SR") {
-										total2015 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2015 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2015 +=  attribsPool[i].growth_rate;
-									}
-								}
-							
-							} else if(yearsSelected.indexOf(parseInt(attribsPool[i].year)) > -1 && attribsPool[i].barangay == searchvalue && attribsPool[i].isSet == false) {
-								if(attribsPool[i].year == 2011) {
-								count2011 += 1;
-									if(chartcat == "SR") {
-										total2011 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2011 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2011 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2012) {
-									count2012 += 1;
-									if(chartcat == "SR") {
-										total2012 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2012 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2012 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2013) {
-									count2013 += 1;
-									if(chartcat == "SR") {
-										total2013 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2013 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2013 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2014) {
-									count2014 += 1;
-									if(chartcat == "SR") {
-										total2014 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2014 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2014 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2015) {
-									count2015 += 1;
-									if(chartcat == "SR") {
-										total2015 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2015 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2015 +=  attribsPool[i].growth_rate;
-									}
-								}
-								
-								
-								attribsPool[i].isSet = true;
-								toBeAdded.push(attribsPool[i].polyAttrib);
-							} else if(yearsSelected.indexOf(parseInt(attribsPool[i].year)) > -1 && attribsPool[i].barangay != searchvalue && attribsPool[i].isSet == true) {
-								attribsPool[i].isSet = false;
-								toBeRemoved.push(attribsPool[i].polyAttrib);
-							}else if(yearsNotSelected.indexOf(parseInt(attribsPool[i].year)) > -1 && attribsPool[i].isSet == true) {
-								attribsPool[i].isSet = false;
-								toBeRemoved.push(attribsPool[i].polyAttrib);
-							}
-						}
-					} else if(searchchoice == "Province") {
-						for(var i = 0; i < attribsPool.length; i++) {
-							if(yearsSelected.indexOf(parseInt(attribsPool[i].year)) > -1 && attribsPool[i].province == searchvalue && attribsPool[i].isSet == true) {
-								if(attribsPool[i].year == 2011) {
-									count2011 += 1;
-									if(chartcat == "SR") {
-										total2011 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2011 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2011 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2012) {
-									count2012 += 1;
-									if(chartcat == "SR") {
-										total2012 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2012 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2012 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2013) {
-									count2013 += 1;
-									if(chartcat == "SR") {
-										total2013 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2013 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2013 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2014) {
-									count2014 += 1;
-									if(chartcat == "SR") {
-										total2014 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2014 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2014 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2015) {
-									count2015 += 1;
-									if(chartcat == "SR") {
-										total2015 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2015 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2015 +=  attribsPool[i].growth_rate;
-									}
-								}
-							} else if(yearsSelected.indexOf(parseInt(attribsPool[i].year)) > -1 && attribsPool[i].province == searchvalue && attribsPool[i].isSet == false) {
-								if(attribsPool[i].year == 2011) {
-									count2011 += 1;
-									if(chartcat == "SR") {
-										total2011 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2011 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2011 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2012) {
-									count2012 += 1;
-									if(chartcat == "SR") {
-										total2012 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2012 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2012 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2013) {
-									count2013 += 1;
-									if(chartcat == "SR") {
-										total2013 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2013 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2013 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2014) {
-									count2014 += 1;
-									if(chartcat == "SR") {
-										total2014 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2014 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2014 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2015) {
-									count2015 += 1;
-									if(chartcat == "SR") {
-										total2015 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2015 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2015 +=  attribsPool[i].growth_rate;
-									}
-								}
-								attribsPool[i].isSet = true;
-								toBeAdded.push(attribsPool[i].polyAttrib);
-							} else if(yearsSelected.indexOf(parseInt(attribsPool[i].year)) > -1 && attribsPool[i].province != searchvalue && attribsPool[i].isSet == true) {
-								attribsPool[i].isSet = false;
-								toBeRemoved.push(attribsPool[i].polyAttrib);
-							}else if(yearsNotSelected.indexOf(parseInt(attribsPool[i].year)) > -1 && attribsPool[i].isSet == true) {
-								attribsPool[i].isSet = false;
-								toBeRemoved.push(attribsPool[i].polyAttrib);
-							}
-						}
-					} else if(searchchoice == "Cenro") {
-						for(var i = 0; i < attribsPool.length; i++) {
-							if(yearsSelected.indexOf(parseInt(attribsPool[i].year)) > -1 && attribsPool[i].cenro == searchvalue && attribsPool[i].isSet == true) {
-								if(attribsPool[i].year == 2011) {
-									count2011 += 1;
-									if(chartcat == "SR") {
-										total2011 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2011 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2011 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2012) {
-									count2012 += 1;
-									if(chartcat == "SR") {
-										total2012 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2012 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2012 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2013) {
-									count2013 += 1;
-									if(chartcat == "SR") {
-										total2013 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2013 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2013 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2014) {
-									count2014 += 1;
-									if(chartcat == "SR") {
-										total2014 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2014 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2014 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2015) {
-									count2015 += 1;
-									if(chartcat == "SR") {
-										total2015 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2015 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2015 +=  attribsPool[i].growth_rate;
-									}
-								}
-							} else if(yearsSelected.indexOf(parseInt(attribsPool[i].year)) > -1 && attribsPool[i].cenro == searchvalue && attribsPool[i].isSet == false) {
-								if(attribsPool[i].year == 2011) {
-									count2011 += 1;
-									if(chartcat == "SR") {
-										total2011 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2011 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2011 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2012) {
-									count2012 += 1;
-									if(chartcat == "SR") {
-										total2012 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2012 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2012 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2013) {
-									count2013 += 1;
-									if(chartcat == "SR") {
-										total2013 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2013 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2013 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2014) {
-									count2014 += 1;
-									if(chartcat == "SR") {
-										total2014 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2014 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2014 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2015) {
-									count2015 += 1;
-									if(chartcat == "SR") {
-										total2015 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2015 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2015 +=  attribsPool[i].growth_rate;
-									}
-								}
-								attribsPool[i].isSet = true;
-								toBeAdded.push(attribsPool[i].polyAttrib);
-							} else if(yearsSelected.indexOf(parseInt(attribsPool[i].year)) > -1 && attribsPool[i].cenro != searchvalue && attribsPool[i].isSet == true) {
-								attribsPool[i].isSet = false;
-								toBeRemoved.push(attribsPool[i].polyAttrib);
-							}else if(yearsNotSelected.indexOf(parseInt(attribsPool[i].year)) > -1 && attribsPool[i].isSet == true) {
-								attribsPool[i].isSet = false;
-								toBeRemoved.push(attribsPool[i].polyAttrib);
-							}
-						}
-					} else if(searchchoice == "Penro") {
-						for(var i = 0; i < attribsPool.length; i++) {
-							if(yearsSelected.indexOf(parseInt(attribsPool[i].year)) > -1 && attribsPool[i].penro == searchvalue && attribsPool[i].isSet == true) {
-								if(attribsPool[i].year == 2011) {
-									count2011 += 1;
-									if(chartcat == "SR") {
-										total2011 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2011 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2011 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2012) {
-									count2012 += 1;
-									if(chartcat == "SR") {
-										total2012 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2012 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2012 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2013) {
-									count2013 += 1;
-									if(chartcat == "SR") {
-										total2013 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2013 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2013 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2014) {
-									count2014 += 1;
-									if(chartcat == "SR") {
-										total2014 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2014 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2014 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2015) {
-									count2015 += 1;
-									if(chartcat == "SR") {
-										total2015 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2015 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2015 +=  attribsPool[i].growth_rate;
-									}
-								}
-							} else if(yearsSelected.indexOf(parseInt(attribsPool[i].year)) > -1 && attribsPool[i].penro == searchvalue && attribsPool[i].isSet == false) {
-								attribsPool[i].isSet = true;
-								toBeAdded.push(attribsPool[i].polyAttrib);
-								if(attribsPool[i].year == 2011) {
-									count2011 += 1;
-									if(chartcat == "SR") {
-										total2011 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2011 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2011 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2012) {
-									count2012 += 1;
-									if(chartcat == "SR") {
-										total2012 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2012 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2012 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2013) {
-									count2013 += 1;
-									if(chartcat == "SR") {
-										total2013 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2013 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2013 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2014) {
-									count2014 += 1;
-									if(chartcat == "SR") {
-										total2014 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2014 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2014 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2015) {
-									count2015 += 1;
-									if(chartcat == "SR") {
-										total2015 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2015 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2015 +=  attribsPool[i].growth_rate;
-									}
-								}
-							} else if(yearsSelected.indexOf(parseInt(attribsPool[i].year)) > -1 && attribsPool[i].penro != searchvalue && attribsPool[i].isSet == true) {
-								attribsPool[i].isSet = false;
-								toBeRemoved.push(attribsPool[i].polyAttrib);
-							}else if(yearsNotSelected.indexOf(parseInt(attribsPool[i].year)) > -1 && attribsPool[i].isSet == true) {
-								attribsPool[i].isSet = false;
-								toBeRemoved.push(attribsPool[i].polyAttrib);
-							}
-						}
-					} else if(searchchoice == "Components") {
-						for(var i = 0; i < attribsPool.length; i++) {
-							if(yearsSelected.indexOf(parseInt(attribsPool[i].year)) > -1 && attribsPool[i].component == searchvalue && attribsPool[i].isSet == true) {
-								if(attribsPool[i].year == 2011) {
-									count2011 += 1;
-									if(chartcat == "SR") {
-										total2011 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2011 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2011 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2012) {
-									count2012 += 1;
-									if(chartcat == "SR") {
-										total2012 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2012 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2012 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2013) {
-									count2013 += 1;
-									if(chartcat == "SR") {
-										total2013 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2013 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2013 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2014) {
-									count2014 += 1;
-									if(chartcat == "SR") {
-										total2014 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2014 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2014 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2015) {
-									count2015 += 1;
-									if(chartcat == "SR") {
-										total2015 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2015 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2015 +=  attribsPool[i].growth_rate;
-									}
-								}
-							} else if(yearsSelected.indexOf(parseInt(attribsPool[i].year)) > -1 && attribsPool[i].component == searchvalue && attribsPool[i].isSet == false) {
-								if(attribsPool[i].year == 2011) {
-									count2011 += 1;
-									if(chartcat == "SR") {
-										total2011 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2011 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2011 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2012) {
-									count2012 += 1;
-									if(chartcat == "SR") {
-										total2012 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2012 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2012 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2013) {
-									count2013 += 1;
-									if(chartcat == "SR") {
-										total2013 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2013 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2013 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2014) {
-									count2014 += 1;
-									if(chartcat == "SR") {
-										total2014 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2014 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2014 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2015) {
-									count2015 += 1;
-									if(chartcat == "SR") {
-										total2015 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2015 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2015 +=  attribsPool[i].growth_rate;
-									}
-								}
-								attribsPool[i].isSet = true;
-								toBeAdded.push(attribsPool[i].polyAttrib);
-							} else if(yearsSelected.indexOf(parseInt(attribsPool[i].year)) > -1 && attribsPool[i].component != searchvalue && attribsPool[i].isSet == true) {
-								attribsPool[i].isSet = false;
-								toBeRemoved.push(attribsPool[i].polyAttrib);
-							}else if(yearsNotSelected.indexOf(parseInt(attribsPool[i].year)) > -1 && attribsPool[i].isSet == true) {
-								attribsPool[i].isSet = false;
-								toBeRemoved.push(attribsPool[i].polyAttrib);
-							}
-						}
-					} else if(searchchoice == "Commodities") {
-						for(var i = 0; i < attribsPool.length; i++) {
-							if(yearsSelected.indexOf(parseInt(attribsPool[i].year)) > -1 && attribsPool[i].commodity == searchvalue && attribsPool[i].isSet == true) {
-								if(attribsPool[i].year == 2011) {
-									count2011 += 1;
-									if(chartcat == "SR") {
-										total2011 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2011 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2011 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2012) {
-									count2012 += 1;
-									if(chartcat == "SR") {
-										total2012 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2012 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2012 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2013) {
-									count2013 += 1;
-									if(chartcat == "SR") {
-										total2013 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2013 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2013 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2014) {
-									count2014 += 1;
-									if(chartcat == "SR") {
-										total2014 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2014 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2014 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2015) {
-									count2015 += 1;
-									if(chartcat == "SR") {
-										total2015 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2015 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2015 +=  attribsPool[i].growth_rate;
-									}
-								}
-							} else if(yearsSelected.indexOf(parseInt(attribsPool[i].year)) > -1 && attribsPool[i].commodity == searchvalue && attribsPool[i].isSet == false) {
-								if(attribsPool[i].year == 2011) {
-									count2011 += 1;
-									if(chartcat == "SR") {
-										total2011 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2011 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2011 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2012) {
-									count2012 += 1;
-									if(chartcat == "SR") {
-										total2012 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2012 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2012 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2013) {
-									count2013 += 1;
-									if(chartcat == "SR") {
-										total2013 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2013 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2013 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2014) {
-									count2014 += 1;
-									if(chartcat == "SR") {
-										total2014 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2014 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2014 +=  attribsPool[i].growth_rate;
-									}
-								} else if(attribsPool[i].year == 2015) {
-									count2015 += 1;
-									if(chartcat == "SR") {
-										total2015 +=  attribsPool[i].survival_rate;
-									} else if(chartcat == "MR") {
-										total2015 +=  attribsPool[i].maturity_rate;
-									} else if(chartcat == "GR") {
-										total2015 +=  attribsPool[i].growth_rate;
-									}
-								}
-								attribsPool[i].isSet = true;
-								toBeAdded.push(attribsPool[i].polyAttrib);
-							} else if(yearsSelected.indexOf(parseInt(attribsPool[i].year)) > -1 && attribsPool[i].commodity != searchvalue && attribsPool[i].isSet == true) {
-								attribsPool[i].isSet = false;
-								toBeRemoved.push(attribsPool[i].polyAttrib);
-							}else if(yearsNotSelected.indexOf(parseInt(attribsPool[i].year)) > -1 && attribsPool[i].isSet == true) {
-								attribsPool[i].isSet = false;
-								toBeRemoved.push(attribsPool[i].polyAttrib);
-							}
-						}
+				for(var i = 0; i < attribsPool.length; i++) {
+					if(yearsSelected.indexOf(parseInt(attribsPool[i].year)) > -1 && attribsPool[i].isSet == false) {
+						attribsPool[i].isSet = true;
+						toBeAdded.push(attribsPool[i].polyAttrib);
+					} else if(yearsNotSelected.indexOf(parseInt(attribsPool[i].year)) > -1 && attribsPool[i].isSet == true) {
+						attribsPool[i].isSet = false;
+						toBeRemoved.push(attribsPool[i].polyAttrib);
 					}
 				}
-				
-				if(chartcat == "SR") {
-					legend = "Survival Rate";
-				} else if(chartcat == "MR") {
-					legend = "Maturity Rate";
-				} else if(chartcat == "GR") {
-					legend = "Growth Rate";
-				}
-				
-				var arrayData = [];
-				arrayData[0] = [];
-				arrayData[0].push('Year');
-				arrayData[0].push(legend);
-				
-				stats2011 = total2011/count2011;
-				stats2012 = total2012/count2012;
-				stats2013 = total2013/count2013;
-				stats2014 = total2014/count2014;
-				stats2015 = total2015/count2015;
-				
-				for(var i = 0; i < yearsSelected.length; i++) {
-					arrayData[i+1] = [];
-					arrayData[i+1].push(yearsSelected[i] + "");
-					if(yearsSelected[i] == 2011) {
-						arrayData[i+1].push(stats2011);
-					} else if(yearsSelected[i] == 2012) {
-						arrayData[i+1].push(stats2012);
-					} else if(yearsSelected[i] == 2013) {
-						arrayData[i+1].push(stats2013);
-					} else if(yearsSelected[i] == 2014) {
-						arrayData[i+1].push(stats2014);
-					} else if(yearsSelected[i] == 2015) {
-						arrayData[i+1].push(stats2015);
-					}
-				}
-				
-				var titleString = "";
-				if(searchvalue == "") {
-					titleString = legend + " for years " + yearsSelected[0] + " - " + yearsSelected[yearsSelected.length-1]; 
-				} else {
-					titleString = legend + " for years " + yearsSelected[0] + " - " + yearsSelected[yearsSelected.length-1] + "\n" + searchchoice + " : " + searchvalue;;
-				}
-				var data = google.visualization.arrayToDataTable(arrayData);
-				drawChart(data, titleString);
 				
 				if(toBeAdded.length > 0) {
 					for(var i = 0; i < toBeAdded.length; i++) {
@@ -1642,6 +275,59 @@ and open the template in the editor.
 						toBeRemoved[i].setMap(null);
 					}
 				}
+				
+				/*
+				if(toggled[0] == toggled[1]) {
+					for(var i = 0; i < attribsPool.length; i++) {
+						if(toggled[0] == attribsPool[i].year) {
+							attribsPool[i].polyAttrib.setMap(map);
+							if(i == 2011) {
+								attribsPool[a].polyAttrib.setOptions({strokeWeight: 1, fillColor: 'green', strokeColor: 'green'});
+							} else if(i == 2012) {
+								attribsPool[a].polyAttrib.setOptions({strokeWeight: 1, fillColor: 'blue', strokeColor: 'blue'});
+							} else if(i == 2013) {
+								attribsPool[a].polyAttrib.setOptions({strokeWeight: 1, fillColor: 'red', strokeColor: 'red'});
+							} else if(i == 2014) {
+								attribsPool[a].polyAttrib.setOptions({strokeWeight: 1, fillColor: 'yellow', strokeColor: 'yellow'});
+							} else if(i == 2015) {
+								attribsPool[a].polyAttrib.setOptions({strokeWeight: 1, fillColor: 'white', strokeColor: 'white'});
+							}
+							attribsPool[i].isSet = true;
+						} else {
+							if(!attribsPool[i].isSet) {
+								attribsPool[i].polyAttrib.setMap(null);
+							}
+						}
+					}
+				} else {
+					for(var i = toggled[0]; i <= toggled[1]; i++) {
+						for(var a = 0; a < attribsPool.length; a++) {
+							if(i == attribsPool[a].year) {
+								attribsPool[a].polyAttrib.setMap(map);
+								if(i == 2011) {
+									attribsPool[a].polyAttrib.setOptions({strokeWeight: 1, fillColor: 'green', strokeColor: 'green'});
+								} else if(i == 2012) {
+									attribsPool[a].polyAttrib.setOptions({strokeWeight: 1, fillColor: 'blue', strokeColor: 'blue'});
+								} else if(i == 2013) {
+									attribsPool[a].polyAttrib.setOptions({strokeWeight: 1, fillColor: 'red', strokeColor: 'red'});
+								} else if(i == 2014) {
+									attribsPool[a].polyAttrib.setOptions({strokeWeight: 1, fillColor: 'yellow', strokeColor: 'yellow'});
+								} else if(i == 2015) {
+									attribsPool[a].polyAttrib.setOptions({strokeWeight: 1, fillColor: 'white', strokeColor: 'white'});
+								}
+								
+								attribsPool[a].isSet = true;
+							} else {
+								if(!attribsPool[a].isSet) {
+									attribsPool[a].polyAttrib.setMap(null);
+								} else {
+								
+								}
+							}
+						}
+					}
+				}
+				*/
             } else {
                 map = new google.maps.Map(document.getElementById('map'), {
                     zoom: 9,
@@ -1651,6 +337,7 @@ and open the template in the editor.
                     },
                     mapTypeId: google.maps.MapTypeId.SATELLITE
                 });
+
 
                 $.ajax({
                     url: "flatfiles/nodes.csv",
@@ -1680,6 +367,7 @@ and open the template in the editor.
                     var information = attributes[i] + "";
 
                     var checkinf = information.split(",");
+                    //console.log(checkinf);
 
                     if (regions.indexOf(checkinf[1]) < 0) {
                         regions.push(checkinf[1]);
@@ -1795,15 +483,49 @@ and open the template in the editor.
                         checkinf[12], checkinf[13], checkinf[14], checkinf[15],
                         checkinf[16], checkinf[17], checkinf[18], checkinf[19],
                         checkinf[20], checkinf[21], checkinf[22], checkinf[23],
-                        checkinf[24], checkinf[25], checkinf[26], checkinf[27],
-						Math.floor((Math.random() * 100) + 1), Math.floor((Math.random() * 100) + 1),
-						Math.floor((Math.random() * 100) + 1));
+                        checkinf[24], checkinf[25], checkinf[26], checkinf[27]);
                     attribsPool.push(x);
 
                 }
+
+                console.log("attribs: " + attribsPool.length);
+
+                /*
+                        var carcoords = {};
 				
-				dynamicsearch = provinces;
+                        $.ajax({
+                        	url: "flatfiles/car.csv",
+                        	async: false,
+                        	success: function (car) {
+                        		carcoords = $.csv.toArrays(car);
+                        	},
+                        	dataType: "text",
+                        	complete: function () {
+                        		// call a function on complete 
+                        	}
+                        });
 				
+                        var carpath = new google.maps.MVCArray();
+				
+                        for(var k = 1; k < carcoords.length; k++){
+                        	var information = carcoords[k] + "";
+                        	var checkinf = information.split(",");
+                        	var point = new google.maps.LatLng(parseFloat(checkinf[2]), parseFloat(checkinf[1]));
+                        	carpath.insertAt(k, point);
+                        }
+				
+                        var carpoly = new google.maps.Polygon({
+                        	paths: carpath,
+                        	strokeColor: 'green',
+                        	strokeOpacity: 0.8,
+                        	strokeWeight: 1,
+                        	fillColor: green,
+                        	fillOpacity: 0.35
+                        });
+
+                        carpoly.setMap(map);
+                        */
+
                 $.ajax({
                     url: "flatfiles/nodes.csv",
                     async: false,
@@ -1859,217 +581,123 @@ and open the template in the editor.
                 }
 
                 function addListeners(polygon, id) {
-					if(id < 7419) {
-						var treeSpecies = attribsPool[id].species.split('+');
-						
-						var treeString = "";
-						
-						var treesArray2 = {};
-						for(var i = 0; i < treeSpecies.length; i++) {
-							var numTrees = Math.floor((Math.random() * 100) + 1);
-							
-							if(treesArray[treeSpecies[i].trim().toLowerCase()]) {
-								treesArray[treeSpecies[i].trim().toLowerCase()] += numTrees;
-							} else {
-								treesArray[treeSpecies[i].trim().toLowerCase()] = numTrees;
-							}
-							treeString += treeSpecies[i] + ": " + numTrees + "</br>";
-							
-							
-							treesArray2[treeSpecies[i].trim().toLowerCase()] = numTrees;
-							attribsPool[id].treesInventory = treesArray2;
-						}
-					}
-					
                     polygons[counter].addListener('click', function(e) {
                         var location = e.latLng;
                         var iWindow = new google.maps.InfoWindow();
-                        iWindow.setContent
-						('Area Informaton<br/> Area: ' + attribsPool[id].area + '<br/> Barangay: ' + attribsPool[id].barangay + '<br/> Component: ' + attribsPool[id].component + '<br/> Contact Person: ' + attribsPool[id].cont_pers + '<br/> District: ' + attribsPool[id].district + '<br/> Municipality/City: ' + attribsPool[id].muni_city + '<br/> PO: ' + attribsPool[id].name_org + ' <br/> ShapeID: ' + attribsPool[id].shapeID + '<br/> Tenure: ' + attribsPool[id].tenure + '<hr/> Tree Statistics <br/>' + treeString);
+                        //<button id = "btn1" onclick="showID(id);">
+                        iWindow.setContent('<button id = "btn1" onclick="showAreaInfo(' + id + ');">Show Area Information </button>');
                         iWindow.setPosition(location);
                         iWindow.open(map);
                     });
 					
 					if(attribsPool[id]) {
 						if (attribsPool[id].year == 2011) {
-							polygon.setOptions({strokeWeight: 1, fillColor: 'orange', strokeColor: 'orange'});
-							total2011 += attribsPool[id].survival_rate;
-							count2011 += 1;
+							polygon.setOptions({strokeWeight: 1, fillColor: 'green', strokeColor: 'green'});
 						} else if(attribsPool[id].year == 2012) {
 							polygon.setOptions({strokeWeight: 1, fillColor: 'blue', strokeColor: 'blue'});
-							total2012 += attribsPool[id].survival_rate;
-							count2012 += 1;
 						} else if(attribsPool[id].year == 2013) {
-							polygon.setOptions({strokeWeight: 1, fillColor: 'pink', strokeColor: 'pink'});
-							total2013 += attribsPool[id].survival_rate;
-							count2013 += 1;
+							polygon.setOptions({strokeWeight: 1, fillColor: 'red', strokeColor: 'red'});
 						} else if(attribsPool[id].year == 2014) {
 							polygon.setOptions({strokeWeight: 1, fillColor: 'yellow', strokeColor: 'yellow'});
-							total2014 += attribsPool[id].survival_rate;
-							count2014 += 1;
 						} else if(attribsPool[id].year == 2015) {
 							polygon.setOptions({strokeWeight: 1, fillColor: 'white', strokeColor: 'white'});
-							total2015 += attribsPool[id].survival_rate;
-							count2015 += 1;
 						}
 						attribsPool[id].polyAttrib = polygon;
 					}
                 }
-				
-				value0 = parseInt(years[0]);
-				value1 = years[years.length - 1];
-				stats2011 = total2011/count2011;
-				stats2012 = total2012/count2012;
-				stats2013 = total2013/count2013;
-				stats2014 = total2014/count2014;
-				stats2015 = total2015/count2015;
-				var data = google.visualization.arrayToDataTable([
-				  ['Year', 'Survival Rate'],
-				  ['2011',  stats2011],
-				  ['2012',  stats2012],
-				  ['2013',  stats2013],
-				  ['2014',  stats2014],
-				  ['2015', stats2015]
-				]);
-				drawChart(data, "Survival Rate for years 2011 - 2015.");
-				
-				var arrayData = [];
-				arrayData[0] = [];
-				arrayData[0].push('Tree Specie');
-				arrayData[0].push('Quantity');
-				arrayData[0].push('Heatmap Button');
-				var i = 0;
-				for (var key in treesArray) {
-				  if (treesArray.hasOwnProperty(key)) {
-					i++;
-					arrayData[i] = [];
-					arrayData[i].push(key);
-					arrayData[i].push(treesArray[key]);
-					//arrayData[i].push("<img src='colors/blue.png'/>");
-					
-					arrayData[i].push("<input type='radio' class ='heatmapbtn' name='heatmap' value='"+ key + "' onchange='check(this.value);'/>");
-				  }
-				}
-				titleString = "Tree Inventory for trees planted in 2011 - 2015";
-				
-				var data2 = google.visualization.arrayToDataTable(arrayData);
-				
-				drawInventory(data2, titleString);
+
+                /*
+                			for(var i = 1; i < data.length; i++){
+                				var information = data[i] + "";
+                				var splitinfo = information.split(",");
+                				var year = parseFloat(splitinfo[3]);
+                				treestats[parseFloat(year - 2006)]++ ;
+                				 markers[i] = new google.maps.Marker({
+                					position: {lat: parseFloat(splitinfo[1]), lng: parseFloat(splitinfo[0])},
+                					map: map,
+                					title: splitinfo[2],
+                					icon: "http://maps.google.com/intl/en_us/mapfiles/ms/micons/tree.png"
+                				 });
+                			}
+                */
+                /*
+			   document.getElementById('filter_div').innerHTML += "Year";
+			   document.getElementById('filter_div').innerHTML += '<form>';
+			   document.getElementById('filter_div').innerHTML += '<select onchange="toggleYear(' + this.value + ');">';
+			   document.getElementById('filter_div').innerHTML += '<option value=' + 2012 + '> 2012 </option>';
+			   document.getElementById('filter_div').innerHTML += '</select>';
+			   document.getElementById('filter_div').innerHTML += '</form>';
+			   */
+
+                var all = document.createElement("option");
+                all.value = "All";
+                all.text = "All";
+
+                var x = document.createElement("SELECT");
+                x.id = "ddlyear";
+                x.add(all);
+
+                for (i = 0; i < years.length; i++) {
+                    var o = document.createElement("option");
+                    o.value = years[i];
+                    o.text = years[i] + "";
+                    x.add(o);
+                }
+
+                document.getElementById('filter_div').innerHTML += "Year";
+                document.getElementById('filter_div').appendChild(x);
+
+
+                var all2 = document.createElement("option");
+                all2.value = "All";
+                all2.text = "All";
+
+                var y = document.createElement("SELECT");
+                y.id = "ddlprovinces";
+                y.add(all2);
+
+                for (i = 0; i < provinces.length; i++) {
+                    var o = document.createElement("option");
+                    o.value = provinces[i];
+                    o.text = provinces[i] + "";
+                    y.add(o);
+                }
+
+                document.getElementById('filter_div').innerHTML += "Provinces";
+                document.getElementById('filter_div').appendChild(y);
+
+                var all3 = document.createElement("option");
+                all3.value = "All";
+                all3.text = "All";
+
+                var c = document.createElement("SELECT");
+                c.id = "ddlcenros";
+                c.add(all3);
+
+                for (i = 0; i < cenros.length; i++) {
+                    var o = document.createElement("option");
+                    o.value = cenros[i];
+                    o.text = cenros[i] + "";
+                    c.add(o);
+                }
+
+                document.getElementById('filter_div').innerHTML += "Cenros";
+                document.getElementById('filter_div').appendChild(c);
+
+                document.getElementById('ddlyear').addEventListener("change", function(e) {
+                    toggle();
+                }, false);
+                document.getElementById('ddlprovinces').addEventListener("change", function(e) {
+                    toggle();
+                }, false);
+                document.getElementById('ddlcenros').addEventListener("change", function(e) {
+                    toggle();
+                }, false);
+
             }
-			
-			$( "#search_val" ).autocomplete({
-			  source: function(request, response) {
-				var results = $.ui.autocomplete.filter(dynamicsearch, request.term);
-				response(results.slice(0, 5));
-			  }
-			});
-			
-			//drawChart();
+
         }
-		
-		function updateLegend(updateValue) {
-			if(updateValue == "Normal") {
-				document.getElementById('legend_div').innerHTML = "<p> Map Legend </p>";
-				document.getElementById('legend_div').innerHTML += "<img src = 'colors/orange.png/> 2011";
-				document.getElementById('legend_div').innerHTML += "<img src ='colors/blue.png'/> 2012";
-				document.getElementById('legend_div').innerHTML += "<img src ='colors/pink.png'/> 2013";
-				document.getElementById('legend_div').innerHTML += "<img src ='colors/yellow.png'/> 2014";
-				document.getElementById('legend_div').innerHTML += "<img src ='colors/white.png'/> 2015";
-			} else if(updateValue == "SR") {
-				document.getElementById('legend_div').innerHTML = "<p> Map Legend </p>";
-				document.getElementById('legend_div').innerHTML += "<img src = 'colors/yellow.png/> Greater than 85%";
-				document.getElementById('legend_div').innerHTML += "<img src ='colors/red.png'/> 85% below ";
-			} else if(updateValue == "MR") {
-				document.getElementById('legend_div').innerHTML = "<p> Map Legend </p>";
-				document.getElementById('legend_div').innerHTML += "<img src = 'colors/yellow.png/> Greater than 50%";
-				document.getElementById('legend_div').innerHTML += "<img src ='colors/red.png'/> 50% below ";
-			} else if(updateValue == "GR") {
-				document.getElementById('legend_div').innerHTML = "<p> Map Legend </p>";
-				document.getElementById('legend_div').innerHTML += "<img src = 'colors/yellow.png/> Greater than 30%";
-				document.getElementById('legend_div').innerHTML += "<img src ='colors/red.png'/> 30% below ";
-			}
-			
-		}
-		
-		function check(value) {
-			for(var i = 0; i < attribsPool.length; i++) {
-				if(attribsPool[i].treesInventory[value]) {
-					if(attribsPool[i].treesInventory[value] > 50) {
-						attribsPool[i].polyAttrib.setOptions({strokeWeight: 1, fillColor: 'yellow', strokeColor: 'yellow'});
-					} else {
-						attribsPool[i].polyAttrib.setOptions({strokeWeight: 1, fillColor: 'red', strokeColor: 'red'});
-					}
-				} else {
-					attribsPool[i].polyAttrib.setOptions({strokeWeight: 1, fillColor: 'black', strokeColor: 'black'}); 
-				}
-			}
-		}
-		
-		function updateSearch(choice) {
-			if(choice == "Province") {
-				dynamicsearch = provinces;
-			} else if(choice == "Barangay") {
-				dynamicsearch = barangays;
-			} else if(choice == "Cenro") {
-				dynamicsearch = cenros;
-			} else if(choice == "Components") {
-				dynamicsearch = components;
-			} else if(choice == "MunicipalityorCity") {
-				dynamicsearch = muni_citys;
-			} else if(choice == "Org Name") {
-				dynamicsearch = name_orgs;
-			} else if(choice == "Penro") {
-				dynamicsearch = penros;
-			} else if(choice == "Species") {
-				dynamicsearch = speciesArr;
-			} else if(choice == "TypeofOrganization") {
-				dynamicsearch = type_orgs;
-			} else if(choice == "Watershed") {
-				dynamicsearch = watersheds;
-			} else if(choice == "River Basin") {
-				dynamicsearch = riv_basins;
-			}
-			
-			$( "#search_val" ).autocomplete({
-			  source: function(request, response) {
-				var results = $.ui.autocomplete.filter(dynamicsearch, request.term);
-				response(results.slice(0, 5));
-			  }
-			});
-		}
-		
-		function search() {
-			initMap("searchtoggle");
-		}
-		
-		function checkRadio(checked) {
-			if(checked) {
-				var x = document.getElementsByClassName('heatmapbtn');
-				for(var i = 0; i < x.length; i++) {
-					x[i].setAttribute("style", "display: inline;");
-				}
-			} else {
-				var x = document.getElementsByClassName('heatmapbtn');
-				for(var i = 0; i < x.length; i++) {
-					x[i].setAttribute("style", "display: none;");
-				}
-				for(var i = 0; i < attribsPool.length; i++) {
-					if (attribsPool[i].year == 2011) {
-						attribsPool[i].polyAttrib.setOptions({strokeWeight: 1, fillColor: 'orange', strokeColor: 'orange'});
-					} else if(attribsPool[i].year == 2012) {
-						attribsPool[i].polyAttrib.setOptions({strokeWeight: 1, fillColor: 'blue', strokeColor: 'blue'});
-					} else if(attribsPool[i].year == 2013) {
-						attribsPool[i].polyAttrib.setOptions({strokeWeight: 1, fillColor: 'pink', strokeColor: 'pink'});
-					} else if(attribsPool[i].year == 2014) {
-						attribsPool[i].polyAttrib.setOptions({strokeWeight: 1, fillColor: 'yellow', strokeColor: 'yellow'});
-					} else if(attribsPool[i].year == 2015) {
-						attribsPool[i].polyAttrib.setOptions({strokeWeight: 1, fillColor: 'white', strokeColor: 'white'});
-					}
-				}
-			}
-		}
-		
-		/*
+
         function toggle() {
             var changeArray = [];
             var removeArray = [];
@@ -2163,12 +791,14 @@ and open the template in the editor.
                 }
 
             }
-			
+
             initMap(changeArray, attribsPool);
         }
-		*/
-		google.load('visualization', '1.0', {'packages':['corechart', 'table', 'controls']});
+
+        function showAreaInfo(id) {
+            window.alert(id);
+        }
+
+        document.getElementById('filter_div').innerHTML += "<h2> Filter by: </h3>";
     </script>
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAyGBTdSmKQ2wq_L0QhV6fZcOLWIO2IbXs&callback=initMap"></script>
-</body>
-</html>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAyGBTd
