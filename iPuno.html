@@ -24,7 +24,7 @@ and open the template in the editor.
 		#slider_div {
 			position: absolute; 
 			z-index: 99; 
-			top: 78%;
+			top: 85%;
 			left: 10%;
 			background-color: white;
 			width: 80%!important;
@@ -58,6 +58,7 @@ and open the template in the editor.
 			top: 10%;
 			left: 0;
 			width: 60px;
+			background-color: white;
 		}
 
 		/* below is not necessary, just for style */
@@ -114,6 +115,11 @@ and open the template in the editor.
 			width: 350px;
 		}
 		
+		#mergebtn {
+			height: 50px;
+			width: 50px;
+		}
+		
     </style>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="text/javascript">
@@ -123,7 +129,7 @@ and open the template in the editor.
 	<link rel="stylesheet" href="\jquery-ui-1.11.4.custom\jquery-ui.css">
 	<script src="\jquery-ui-1.11.4.custom\external\jquery\jquery.js"></script>
 	<script src="\jquery-ui-1.11.4.custom\jquery-ui.js"></script>
-    <title>E-Tanim</title>
+    <title>iPuno</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="flatfiles/jquerycsv.js"></script>
@@ -154,14 +160,13 @@ and open the template in the editor.
 	</div>
 	
 	<div id="tab-3" class="tab-content">
-		<select id = "category_choices">
-			<option value = "Surival Rate">Surival Rate</option>
-			<option value = "Maturity Rate">Maturity Rate</option>
-			<option value = "Growth Rate">Growth Rate</option>
-		</select>
+		<form onchange='changeCompare();'>
+		  <input type="radio" name="comparecat" value="SR" checked>Survival Rate<br>
+		  <input type="radio" name="comparecat" value="MR">Maturity Rate<br>
+		  <input type="radio" name="comparecat" value="GR">Growth Rate
+		</form> 
 		
-		<div id = "area1">
-			<select id = "search_area1">
+		<select id = "search_area" onchange = "changeCategory(this.value);">
 				<option value = "Province">Province</option>
 				<option value = "Barangay">Barangay</option>
 				<option value = "Cenro">Cenro</option>
@@ -174,29 +179,17 @@ and open the template in the editor.
 				<option value = "TypeofOrganization">Type of Organization</option>
 				<option value = "Watershed">Watershed</option>			
 				<option value = "River Basin">River Basin</option>
-			</select>
-			
+		</select>	
+		
+		<div id = "area1">
 			<input type="text" id ="val_area1"></input>
 			<button id ="searchbtn1" onclick="search1();">Search</button>
 			<div id="chart1"></div>
 		</div>
 		
+		<img id = 'mergebtn' src='flatfiles/merge.png'/>
+		
 		<div id = "area2">
-			<select id = "search_area2">
-				<option value = "Province">Province</option>
-				<option value = "Barangay">Barangay</option>
-				<option value = "Cenro">Cenro</option>
-				<option value = "Components">Components</option>
-				<option value = "Commodities">Commodities</option>
-				<option value = "MunicipalityorCity">Municipality or City</option>
-				<option value = "Org Name">Org Name</option>
-				<option value = "Penro">Penro</option>
-				<option value = "Species">Species</option>
-				<option value = "TypeofOrganization">Type of Organization</option>
-				<option value = "Watershed">Watershed</option>			
-				<option value = "River Basin">River Basin</option>
-			</select>
-			
 			<input type="text" id ="val_area2"></input>
 			<button id ="searchbtn2" onclick="search2();">Search</button>
 			<div id="chart2"></div>
@@ -216,10 +209,6 @@ and open the template in the editor.
 	</div>
 	
     <div id="slider_div">
-        <p>
-            <label for="amount">Showing years: </label>
-            <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
-        </p>
         <div id="slider-range" style="width: 50%;"></div>
         <button type="button" id="animatebtn">Play</button>
     </div>
@@ -258,6 +247,11 @@ and open the template in the editor.
         var attributes = {};
         var attribsPool = [];
 		var treesArray = {};
+		
+		var comparecategory = "Province";
+		var searchvalue1 = "";
+		var searchvalue2 = "";
+		var searchvalue = "";
 		
 		var total2011 = 0;
 		var total2012 = 0;
@@ -397,7 +391,7 @@ and open the template in the editor.
 			});
 
 			function animate(diff, v0, counter) {
-				var interval = 10;
+				var interval = 1000;
 				if (paused) {
 					interval = 0;
 				}
@@ -479,6 +473,42 @@ and open the template in the editor.
 				$("#"+tab_id).addClass('current');
 			});
 			
+			function drawArea1() {
+				var data = google.visualization.arrayToDataTable([
+					['Year', 'Rate'],
+					['2011', 0],
+					['2012', 0],
+					['2013', 0],
+					['2014', 0],
+					['2015', 0]
+				]);
+			
+				var options = {
+				  title: 'No search yet.'
+				};
+				
+				var chart = new google.visualization.LineChart(document.getElementById('chart1'));
+				chart.draw(data, options);
+			}
+			
+			function drawArea2() {
+				var data = google.visualization.arrayToDataTable([
+					['Year', 'Rate'],
+					['2011', 0],
+					['2012', 0],
+					['2013', 0],
+					['2014', 0],
+					['2015', 0]
+				]);
+			
+				var options = {
+				  title: 'No search yet.'
+				};
+				
+				var chart = new google.visualization.LineChart(document.getElementById('chart2'));
+				chart.draw(data, options);
+			}
+			
 			function drawChart(data, titleCombo) {
 				var options = {
 				  title: titleCombo,
@@ -518,7 +548,6 @@ and open the template in the editor.
 			}
 			
             if (toggled) {
-				searchvalue = document.getElementById('search_val').value;
 				var searchchoice = document.getElementById('search_choices').value;
 				chartcat = $('input[name=chart]:radio:checked').val();
 				
@@ -2243,6 +2272,23 @@ and open the template in the editor.
 				var data2 = google.visualization.arrayToDataTable(arrayData);
 				
 				drawInventory(data2, titleString);
+				
+				drawArea1();
+				drawArea2();
+				autocompleteSearch = provinces;
+				$( "#val_area1" ).autocomplete({
+				  source: function(request, response) {
+					var results = $.ui.autocomplete.filter(autocompleteSearch, request.term);
+					response(results.slice(0, 5));
+				  }
+				});
+				
+				$("#val_area2" ).autocomplete({
+				  source: function(request, response) {
+					var results = $.ui.autocomplete.filter(autocompleteSearch, request.term);
+					response(results.slice(0, 5));
+				  }
+				});
             }
 			
 			$( "#search_val" ).autocomplete({
@@ -2253,9 +2299,120 @@ and open the template in the editor.
 			});
         }
 		
-		function search1() {
-			var searchhoice = document.getElementById('search_area2').value;
-			var searchvalue = document.getElementById('val_area1').value;
+		function changeCategory(value) {
+			searchvalue1 = "";
+			searchvalue2 = "";
+			//autocompleteSearch = [];
+			if(value == "Province") {
+				autocompleteSearch = provinces;
+			} else if(value == "Barangay") {
+				autocompleteSearch = barangays;
+			} else if(value == "Cenro") {
+				autocompleteSearch = cenros;
+			} else if(value == "Components") {
+				autocompleteSearch = components;
+			} else if(value == "MunicipalityorCity") {
+				autocompleteSearch = muni_citys;
+			} else if(value == "Org Name") {
+				autocompleteSearch = name_orgs;
+			} else if(value == "Penro") {
+				autocompleteSearch = penros;
+			} else if(value == "Species") {
+				autocompleteSearch = speciesArr;
+			} else if(value == "TypeofOrganization") {
+				autocompleteSearch = type_orgs;
+			} else if(value == "Watershed") {
+				autocompleteSearch = watersheds;
+			} else if(value == "River Basin") {
+				autocompleteSearch = riv_basins;
+			}
+			comparecategory = value;
+			$( "#val_area1" ).autocomplete({
+			  source: function(request, response) {
+				var results = $.ui.autocomplete.filter(autocompleteSearch, request.term);
+				response(results.slice(0, 5));
+			  }
+			});
+			
+			$("#val_area2" ).autocomplete({
+			  source: function(request, response) {
+				var results = $.ui.autocomplete.filter(autocompleteSearch, request.term);
+				response(results.slice(0, 5));
+			  }
+			});
+			drawArea1();
+			drawArea2();
+		}
+		
+		function drawArea1(convertArray, title) {
+			if(convertArray, title) {
+				var data = google.visualization.arrayToDataTable(convertArray);
+				
+				var options = {
+					title: title,
+					legend: { position: 'bottom' }
+				}
+				
+				var chart = new google.visualization.LineChart(document.getElementById('chart1'));
+				chart.draw(data, options);
+			} else {
+				var data = google.visualization.arrayToDataTable([
+					['Year', 'Rate'],
+					['2011', 0],
+					['2012', 0],
+					['2013', 0],
+					['2014', 0],
+					['2015', 0]
+				]);
+				
+				var options = {
+				  title: 'No search yet.'
+				};
+				
+				var chart = new google.visualization.LineChart(document.getElementById('chart1'));
+				chart.draw(data, options);
+			}
+		}
+			
+		function drawArea2(convertArray, title) {
+			if(convertArray, title) {
+				var data = google.visualization.arrayToDataTable(convertArray);
+				
+				var options = {
+					title: title,
+					legend: { position: 'bottom' }
+				}
+				
+				var chart = new google.visualization.LineChart(document.getElementById('chart2'));
+				chart.draw(data, options);
+			} else {
+				var data = google.visualization.arrayToDataTable([
+					['Year', 'Rate'],
+					['2011', 0],
+					['2012', 0],
+					['2013', 0],
+					['2014', 0],
+					['2015', 0]
+				]);
+				
+				var options = {
+				  title: 'No search yet.'
+				};
+				
+				var chart = new google.visualization.LineChart(document.getElementById('chart2'));
+				chart.draw(data, options);
+			}
+		}
+		
+		function search1(changeChart) {
+			chartcat = $('input[name=comparecat]:radio:checked').val();
+			if(changeChart) {
+			
+			} else {
+				searchvalue1 = document.getElementById('val_area1').value;
+			}
+			var searchchoice = document.getElementById('search_area').value;
+			
 			total2011a = 0;
 			total2012a = 0;
 			total2013a = 0;
@@ -2274,25 +2431,207 @@ and open the template in the editor.
 			stats2014a = 0;
 			stats2015a = 0;
 			
-			//var category = document.getElementById
-			
 			if(searchchoice == "Province") {
 				for(var i = 0; i < attribsPool.length; i++) {
-					if(attribsPool[i].province.trim().toLowerCase() == searchvalue.trim().toLowerCase()) {
+					if(attribsPool[i].province == searchvalue1) {
 						if(attribsPool[i].year == 2011) {
 							count2011a += 1;
+							if(chartcat == "SR") {
+								total2011a +=  attribsPool[i].survival_rate;
+							} else if(chartcat == "MR") {
+								total2011a +=  attribsPool[i].maturity_rate;
+							} else if(chartcat == "GR") {
+								total2011a +=  attribsPool[i].growth_rate;
+							}
 						} else if(attribsPool[i].year == 2012) {
 							count2012a += 1;
+							if(chartcat == "SR") {
+								total2012a +=  attribsPool[i].survival_rate;
+							} else if(chartcat == "MR") {
+								total2012a +=  attribsPool[i].maturity_rate;
+							} else if(chartcat == "GR") {
+								total2012a +=  attribsPool[i].growth_rate;
+							}
 						} else if(attribsPool[i].year == 2013) {
 							count2013a += 1;
+							if(chartcat == "SR") {
+								total2013a +=  attribsPool[i].survival_rate;
+							} else if(chartcat == "MR") {
+								total2013a +=  attribsPool[i].maturity_rate;
+							} else if(chartcat == "GR") {
+								total2013a +=  attribsPool[i].growth_rate;
+							}
 						} else if(attribsPool[i].year == 2014) {
 							count2014a += 1;
+							if(chartcat == "SR") {
+								total2014a +=  attribsPool[i].survival_rate;
+							} else if(chartcat == "MR") {
+								total2014a +=  attribsPool[i].maturity_rate;
+							} else if(chartcat == "GR") {
+								total2014a +=  attribsPool[i].growth_rate;
+							}
 						} else if(attribsPool[i].year == 2015) {
 							count2015a += 1;
+							if(chartcat == "SR") {
+								total2015a +=  attribsPool[i].survival_rate;
+							} else if(chartcat == "MR") {
+								total2015a +=  attribsPool[i].maturity_rate;
+							} else if(chartcat == "GR") {
+								total2015a +=  attribsPool[i].growth_rate;
+							}
 						}
 					}
 				}
 			}
+			
+			if(chartcat == "SR") {
+				legend = "Survival Rate";
+			} else if(chartcat == "MR") {
+				legend = "Maturity Rate";
+			} else if(chartcat == "GR") {
+				legend = "Growth Rate";
+			}
+			
+			var arrayData = [[],[],[],[],[],[]];
+			arrayData[0] = [];
+			arrayData[0].push('Year');
+			arrayData[0].push(legend);
+			
+			stats2011a = total2011a/count2011a;
+			stats2012a = total2012a/count2012a;
+			stats2013a = total2013a/count2013a;
+			stats2014a = total2014a/count2014a;
+			stats2015a = total2015a/count2015a;
+			
+			
+			arrayData[1].push('2011');
+			arrayData[1].push(stats2011a);
+			arrayData[2].push('2012');
+			arrayData[2].push(stats2012a);
+			arrayData[3].push('2013');
+			arrayData[3].push(stats2013a);
+			arrayData[4].push('2014');
+			arrayData[4].push(stats2014a);
+			arrayData[5].push('2015');
+			arrayData[5].push(stats2015a);
+			
+			var titleString = legend + " for years 2011 - 2015 " + "\n" + searchchoice + ": " + searchvalue1;
+			drawArea1(arrayData, titleString);
+		}
+		
+		function search2(changeChart) {
+			chartcat = $('input[name=comparecat]:radio:checked').val();
+			if(changeChart) {
+			
+			} else {
+				searchvalue2 = document.getElementById('val_area2').value;
+			}
+			var searchchoice = document.getElementById('search_area').value;
+			
+			total2011b = 0;
+			total2012b = 0;
+			total2013b = 0;
+			total2014b = 0;
+			total2015b = 0;
+			
+			count2011b = 0;
+			count2012b = 0;
+			count2013b = 0;
+			count2014b = 0;
+			count2015b = 0;
+			
+			stats2011b = 0;
+			stats2012b = 0;
+			stats2013b = 0;
+			stats2014b = 0;
+			stats2015b = 0;
+			
+			if(searchchoice == "Province") {
+				for(var i = 0; i < attribsPool.length; i++) {
+					if(attribsPool[i].province == searchvalue2) {
+						if(attribsPool[i].year == 2011) {
+							count2011b += 1;
+							if(chartcat == "SR") {
+								total2011b +=  attribsPool[i].survival_rate;
+							} else if(chartcat == "MR") {
+								total2011b +=  attribsPool[i].maturity_rate;
+							} else if(chartcat == "GR") {
+								total2011b +=  attribsPool[i].growth_rate;
+							}
+						} else if(attribsPool[i].year == 2012) {
+							count2012b += 1;
+							if(chartcat == "SR") {
+								total2012b +=  attribsPool[i].survival_rate;
+							} else if(chartcat == "MR") {
+								total2012b +=  attribsPool[i].maturity_rate;
+							} else if(chartcat == "GR") {
+								total2012b +=  attribsPool[i].growth_rate;
+							}
+						} else if(attribsPool[i].year == 2013) {
+							count2013b += 1;
+							if(chartcat == "SR") {
+								total2013b +=  attribsPool[i].survival_rate;
+							} else if(chartcat == "MR") {
+								total2013b +=  attribsPool[i].maturity_rate;
+							} else if(chartcat == "GR") {
+								total2013b +=  attribsPool[i].growth_rate;
+							}
+						} else if(attribsPool[i].year == 2014) {
+							count2014b += 1;
+							if(chartcat == "SR") {
+								total2014b +=  attribsPool[i].survival_rate;
+							} else if(chartcat == "MR") {
+								total2014b +=  attribsPool[i].maturity_rate;
+							} else if(chartcat == "GR") {
+								total2014b +=  attribsPool[i].growth_rate;
+							}
+						} else if(attribsPool[i].year == 2015) {
+							count2015b += 1;
+							if(chartcat == "SR") {
+								total2015b +=  attribsPool[i].survival_rate;
+							} else if(chartcat == "MR") {
+								total2015b +=  attribsPool[i].maturity_rate;
+							} else if(chartcat == "GR") {
+								total2015b +=  attribsPool[i].growth_rate;
+							}
+						}
+					}
+				}
+			}
+			
+			if(chartcat == "SR") {
+				legend = "Survival Rate";
+			} else if(chartcat == "MR") {
+				legend = "Maturity Rate";
+			} else if(chartcat == "GR") {
+				legend = "Growth Rate";
+			}
+			
+			var arrayData = [[],[],[],[],[],[]];
+			arrayData[0] = [];
+			arrayData[0].push('Year');
+			arrayData[0].push(legend);
+			
+			stats2011b = total2011b/count2011b;
+			stats2012b = total2012b/count2012b;
+			stats2013b = total2013b/count2013b;
+			stats2014b = total2014b/count2014b;
+			stats2015b = total2015b/count2015b;
+			
+			
+			arrayData[1].push('2011');
+			arrayData[1].push(stats2011b);
+			arrayData[2].push('2012');
+			arrayData[2].push(stats2012b);
+			arrayData[3].push('2013');
+			arrayData[3].push(stats2013b);
+			arrayData[4].push('2014');
+			arrayData[4].push(stats2014b);
+			arrayData[5].push('2015');
+			arrayData[5].push(stats2015b);
+			
+			var titleString = legend + " for years 2011 - 2015 " + "\n" + searchchoice + ": " + searchvalue2;
+			drawArea2(arrayData, titleString);
 		}
 		
 		function updateLegend(updateValue) {
@@ -2305,15 +2644,15 @@ and open the template in the editor.
 				document.getElementById('legend_div').innerHTML += "<img src ='colors/white.png'/> 2015";
 			} else if(updateValue == "SR") {
 				document.getElementById('legend_div').innerHTML = "<p> Map Legend </p>";
-				document.getElementById('legend_div').innerHTML += "<img src = 'colors/yellow.png/> Greater than 85%";
+				document.getElementById('legend_div').innerHTML += "<img src ='colors/yellow.png'/> Greater than 85%<hr/>";
 				document.getElementById('legend_div').innerHTML += "<img src ='colors/red.png'/> 85% below ";
 			} else if(updateValue == "MR") {
 				document.getElementById('legend_div').innerHTML = "<p> Map Legend </p>";
-				document.getElementById('legend_div').innerHTML += "<img src = 'colors/yellow.png/> Greater than 50%";
+				document.getElementById('legend_div').innerHTML += "<img src = 'colors/yellow.png'/> Greater than 50%<hr/>";
 				document.getElementById('legend_div').innerHTML += "<img src ='colors/red.png'/> 50% below ";
 			} else if(updateValue == "GR") {
 				document.getElementById('legend_div').innerHTML = "<p> Map Legend </p>";
-				document.getElementById('legend_div').innerHTML += "<img src = 'colors/yellow.png/> Greater than 30%";
+				document.getElementById('legend_div').innerHTML += "<img src = 'colors/yellow.png'/> Greater than 30%<hr/>";
 				document.getElementById('legend_div').innerHTML += "<img src ='colors/red.png'/> 30% below ";
 			}
 			
@@ -2333,6 +2672,11 @@ and open the template in the editor.
 					}
 				}
 			}
+		}
+		
+		function changeCompare() {
+			search1('x');
+			search2('x');
 		}
 		
 		function updateSearch(choice) {
@@ -2369,6 +2713,7 @@ and open the template in the editor.
 		}
 		
 		function search() {
+			searchvalue = document.getElementById('search_val').value;
 			initMap("searchtoggle");
 		}
 		
@@ -2388,19 +2733,7 @@ and open the template in the editor.
 						}
 					}
 				}
-				/*
-				var x = document.getElementsByClassName('heatmapbtn');
-				for(var i = 0; i < x.length; i++) {
-					x[i].setAttribute("style", "display: inline;");
-				}
-				*/
 			} else {
-				/*
-				var x = document.getElementsByClassName('heatmapbtn');
-				for(var i = 0; i < x.length; i++) {
-					x[i].setAttribute("style", "display: none;");
-				}
-				*/
 				for(var i = 0; i < attribsPool.length; i++) {
 					if (attribsPool[i].year == 2011) {
 						attribsPool[i].polyAttrib.setOptions({strokeWeight: 1, fillColor: 'orange', strokeColor: 'orange'});
