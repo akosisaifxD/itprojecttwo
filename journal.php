@@ -1,12 +1,21 @@
 <!-- EXTERNAL SCRIPT CALLS -->
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+	<!-- JQUERY -->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 
 <!-- END OF EXTERNAL SCRIPT CALLS -->
 
-<link href='https://fonts.googleapis.com/css?family=PT+Sans' rel='stylesheet' type='text/css'>
+<!-- EXTERNAL CSS -->
+
+	<!-- CUSTOM FONT - PT Sans -->
+	<link href='https://fonts.googleapis.com/css?family=PT+Sans' rel='stylesheet' type='text/css'>
+
+<!-- END OF EXTERNAL CSS -->
+
+<!-- INTERNAL CSS -->
 
 <style>
+
 	body{
 		font-family: 'PT Sans', sans-serif;
 	}
@@ -72,9 +81,17 @@
 	
 	#submitbox{
 		background-color: #d5d7de;
-		width: 55%;
+		width: 54.95%;
 		padding-bottom: 1%;
 		text-align: center;
+	}
+	
+	#previousbox{
+		background-color: #d5d7de;
+		width: 52.95%;
+		padding-bottom: 1%;
+		text-align: right;
+		padding-right: 2%;
 	}
 	
 	#report{
@@ -85,118 +102,127 @@
 		width: 20%;
 		height: 5%;
 	}
-</style>
 
+	</style>
+
+<!-- END OF INTERNAL CSS -->
+
+<!-- PHP Script which captures contact person ID and contact person name -->
 <?php
 	session_start();
-
+	
+	//connect to database using external PHP file
+	include 'connect.php';
+	
+	//Check if 'siteid' is present in POST data
 	if(isset($_POST['siteid'])) {
 		$_SESSION['siteid'] = $_POST['siteid'];
 		$_SESSION['senderType'] = $_POST['sendertype'];
 	}
-
+	
+	//use POST data and set to local PHP Variables
 	$siteid = $_SESSION['siteid'];
 	$sendertype = $_SESSION['senderType'];
 	
-	$servername = "localhost";
-	$username = "root";
-	$password = "";
-	$dbname = "newschema";
-
-	$conn = mysqli_connect($servername, $username, $password, $dbname);
-	if (!$conn) {
-		die("Connection failed: " . mysqli_connect_error());
-	}
-	
+	//local variable to store contact person ID
 	$contactpersonid;
 	
+	//SQL Query which captures ID of contact person using 'siteid' from POST data
 	$sql = "SELECT contactPersonID FROM site WHERE siteID = " . $siteid;
 	$result = mysqli_query($conn, $sql);
-
 	if (mysqli_num_rows($result) > 0) {
-		// output data of each row
 		while($row = mysqli_fetch_assoc($result)) {
+			//stores captured ID from query onto local variable
 			$contactpersonid = $row["contactPersonID"];
 		}
 	} else {
-		echo "0 results";
+		//do nothing
 	}
 	
+	//local variable to store contact person name
 	$contactperson;
 	
+	//SQL Query which captures name of contact person using local variable which has the value of the ID of contact person
 	$sql = "SELECT contactPersonName FROM contactperson WHERE contactPersonID = " . $contactpersonid;
 	$result = mysqli_query($conn, $sql);
-
 	if (mysqli_num_rows($result) > 0) {
 		// output data of each row
 		while($row = mysqli_fetch_assoc($result)) {
+			//stores captured name from query onto local variable
 			$contactperson = $row["contactPersonName"];
 		}
 	} else {
-		echo "0 results";
+		//do nothing
 	}
 ?>
+
+<!-- HTML Content -->
 
 <div class = "journals">
 	<div id = "jnum1">
 		<div id = "header">
+			<!-- Header which uses PHP code to display siteID and contact person -->
 			<header> Journal - Site <?php echo $siteid; ?></header><a id = "subhead"><?php echo "Handled by " . $contactperson; ?></a>
 		</div>
 		<div id = "body">
 			<div id = "rephead"> <a>REPORTS</a> </div>
 			<?php
+				//local PHP variables which will store SQL data
 				$sendertypes = array();
 				$senderids = array();
 				$firstcounter = 0;
 				
+				//SQL Query which captures senderIDs and senderType using 'siteid'
 				$sql = "SELECT senderId, senderType FROM journal WHERE siteID = " . $siteid;
 				$result = mysqli_query($conn, $sql);
-
 				if (mysqli_num_rows($result) > 0) {
-					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
+						//store sender types and sender IDs into local PHP array
 						$sendertypes[$firstcounter] = $row["senderType"];
 						$senderids[$firstcounter] = $row["senderId"];
 						$firstcounter++;
 					}
 				} else {
-					echo "0 results";
+					// do nothing
 				}				
 				
+				//local PHP variable which will store SQL data
 				$sendernames = array();
 				$secondcounter = 0;
 				
+				//REPEAT PHP Code sizeof($sendertypes) times
 				for($i = 0; $i < sizeof($sendertypes); $i++){
 					if($sendertypes[$secondcounter] == 0){
+							//SQL Query which captures first name and last name of specific ids which was retrieved from previous queries
 							$sql = "SELECT firstName, lastName FROM denr WHERE denrID = " . $senderids[$secondcounter];
 							$result = mysqli_query($conn, $sql);
 							
 							if (mysqli_num_rows($result) > 0) {
-								// output data of each row
 								while($row = mysqli_fetch_assoc($result)) {
+									//store first names and last names into local PHP array
 									$sendernames[$secondcounter] = $row['firstName'] . " " . $row['lastName'];
 									$secondcounter++;
 								}
 							} else {
-								echo "0 results";
+								//do nothing
 							}
 					}
 				}
 				
 				
-				
+				//SQL query which retrieves journal information using 'siteid'
 				$sql = "SELECT journalDate, comments, senderID, senderType FROM journal WHERE siteID = " . $siteid;
 				$result = mysqli_query($conn, $sql);
-
 				if (mysqli_num_rows($result) > 0) {
-					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
 						$thirdcounter = 0;
 						
+						//parse journalDate to a specific format
 						$date = explode(" ", $row["journalDate"]);
 						$datepartition = explode("-", $date[0]);
 						$month;
 						
+						//convert number formatted months into words
 						if($datepartition[1] == 1){
 							$month = "January";
 						}
@@ -234,24 +260,31 @@
 							$month = "December";
 						}
 						
+						//Complete date format (mm, dd, yyyy)
 						$finaldate = $month . " " . $datepartition[2] . ", " . $datepartition[0];
 						
+						//display formatted date together with contact person
 						echo "<div id = \"repnum\"> <a>" . $finaldate . " by " . $sendernames[$thirdcounter] . "</a></div>";
+						//display journal content
 						echo "<div id = \"repcont\"> <a>" . $row["comments"] . "</a></div>";
-
 					}
 				} else {
-					echo "0 results";
 				}
 			?>
 		</div>
 	</div>
 	<div id = "commentbox"><textarea rows = "8" cols = "80" name = "report" id = "report"></textarea></div>
 	<div id = "submitbox"><button id = "submit" class = "submit">Submit</button></div>
+	<div id = "previousbox"> <button id="previousbutton" onclick="previous()">Search Again</button></div>
 </div>
+
+<!-- END OF HTML Content -->
+
+<!-- INTERNAL JAVASCRIPT CODES -->
 
 <script type="text/javascript">
 
+	//submit journal entry and update database through external php file
 	$('.submit').on('click',function(){
 		
 		var textarea = document.getElementById("report").value;
@@ -267,6 +300,13 @@
 				alert('Error!')
 			}
 		});
-});
-
+	});
+	
+	//function used by previous button
+	function previous(){
+		window.location="journalsearch.php";
+	}
+	
 </script>
+
+<!-- INTERNAL JAVASCRIPT CODES -->
