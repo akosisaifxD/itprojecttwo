@@ -19,7 +19,7 @@
 		text-align: center;
 	}	
 	
-	#header{
+	#munheader{
 		border-radius: 25px 0px 0px 0px;
 		background-color: #487d65;
 		color: white;
@@ -54,7 +54,7 @@
 		background-color: #d5d7de;
 	}
 	
-	#results{
+	#munresults{
 		padding-top: 2%;
 	}
 	
@@ -128,15 +128,16 @@
 ?>
 
 <div id="resultsbody">
-	<div id="header">Search results for <?php echo $muniname;?></div>
-	<div id="results"></div>
+	<div id="munheader">Search results for <?php echo $muniname;?></div>
+	<div id="munresults"></div>
+	<div id="pages"></div>
 	<button id="previousbutton" onclick="previous()">Search Again</button>
 </div>
 	
 <script>
 	var numofrows = <?php echo $numofrows; ?>;
 	
-	var tableholder = document.getElementById("results");
+	var tableholder = document.getElementById("munresults");
 	var table = document.createElement("TABLE");
 	table.id = "tableid";
 	var header = table.createTHead();
@@ -154,18 +155,32 @@
 	var cellsvalue = [<?php echo $stringvalue; ?>];
 	var cellstwo = [];
 
-
-	for(var i = 0; i < numofrows; i++){
+	for(var i = 0; i < 10; i++){
 		rows[i] = document.createElement("TR");
 		cells[i] = rows[i].insertCell(0);
+		cells[i].id = "cell" + (i+1);
 		cellstwo[i] = rows[i].insertCell(0);
+		cellstwo[i].id = "celltwo" + (i+1);
 		
 		cellstwo[i].innerHTML = "" + cellsvalue[i] + "";
 		cells[i].innerHTML = "<button onclick=\"followlink(this)\" id = \"" + cellsvalue[i] +"\">GO</button>";
 		
 		table.appendChild(rows[i]);
 	}
-
+	
+	if(numofrows > 10){
+		var pagecounter = 0;
+		var pages = [];
+		var pagestab = document.getElementById("pages");
+		
+		for(var j = numofrows; j > 0; j = j - 10){
+			pages[pagecounter] = document.createTextNode((pagecounter + 1) + " ");
+			pagestab.appendChild(pages[pagecounter]);
+			
+			pagecounter++;
+		}
+	}
+	
 	
 	tableholder.appendChild(table);
 	
@@ -185,5 +200,20 @@
 	
 	function previous(){
 		window.location="journalsearch.php";
+	}
+	
+	function changepage(pagenum){
+		var nor = <?php echo $numofrows; ?>;
+		
+		var limsub = 10 * pagenum;
+		var limholder = 0;
+		
+		if(numofrows - limsub >= 10){
+			limholder = 10;
+		}else{
+			limholder = numofrows - limsub;
+		}
+		
+		var table = document.getElementById("tableid");
 	}
 </script>
