@@ -115,20 +115,19 @@
 	include 'connect.php';
 	
 	//Check if 'siteid' is present in POST data
-	if(isset($_POST['siteid'])) {
-		$_SESSION['siteid'] = $_POST['siteid'];
-		$_SESSION['senderType'] = $_POST['sendertype'];
+	if(isset($_POST['sitecode'])) {
+		$_SESSION['sitecode'] = $_POST['sitecode'];
 	}
 	
 	//use POST data and set to local PHP Variables
-	$siteid = $_SESSION['siteid'];
+	$sitecode = $_SESSION['sitecode'];
 	$sendertype = $_SESSION['senderType'];
 	
 	//local variable to store contact person ID
-	$contactpersonid;
+	$contactpersonid = "";
 	
-	//SQL Query which captures ID of contact person using 'siteid' from POST data
-	$sql = "SELECT contactPersonID FROM site WHERE siteID = " . $siteid;
+	//SQL Query which captures ID of contact person using 'siteCode' from POST data
+	$sql = "SELECT contactPersonID FROM site WHERE siteCode = \"" . $sitecode . "\"";
 	$result = mysqli_query($conn, $sql);
 	if (mysqli_num_rows($result) > 0) {
 		while($row = mysqli_fetch_assoc($result)) {
@@ -162,7 +161,7 @@
 	<div id = "jnum1">
 		<div id = "header">
 			<!-- Header which uses PHP code to display siteID and contact person -->
-			<header> Journal - Site <?php echo $siteid; ?></header><a id = "subhead"><?php echo "Handled by " . $contactperson; ?></a>
+			<header> Journal - Site <?php echo $sitecode; ?></header><a id = "subhead"><?php echo "Handled by " . $contactperson; ?></a>
 		</div>
 		<div id = "body">
 			<div id = "rephead"> <a>REPORTS</a> </div>
@@ -172,14 +171,14 @@
 				$senderids = array();
 				$firstcounter = 0;
 				
-				//SQL Query which captures senderIDs and senderType using 'siteid'
-				$sql = "SELECT senderId, senderType FROM journal WHERE siteID = " . $siteid;
+				//SQL Query which captures senderIDs and senderType using 'sitecode'
+				$sql = "SELECT senderID, senderType FROM journal WHERE siteCode = \"" . $sitecode . "\"";
 				$result = mysqli_query($conn, $sql);
 				if (mysqli_num_rows($result) > 0) {
 					while($row = mysqli_fetch_assoc($result)) {
 						//store sender types and sender IDs into local PHP array
 						$sendertypes[$firstcounter] = $row["senderType"];
-						$senderids[$firstcounter] = $row["senderId"];
+						$senderids[$firstcounter] = $row["senderID"];
 						$firstcounter++;
 					}
 				} else {
@@ -211,7 +210,7 @@
 				
 				
 				//SQL query which retrieves journal information using 'siteid'
-				$sql = "SELECT journalDate, comments, senderID, senderType FROM journal WHERE siteID = " . $siteid;
+				$sql = "SELECT journalDate, comments, senderID, senderType FROM journal WHERE siteCode = \"" . $sitecode . "\"";
 				$result = mysqli_query($conn, $sql);
 				if (mysqli_num_rows($result) > 0) {
 					while($row = mysqli_fetch_assoc($result)) {
@@ -282,6 +281,10 @@
 
 <!-- INTERNAL JAVASCRIPT CODES -->
 
+<?php
+	$senderid = $_SESSION['username'];
+?>
+
 <script type="text/javascript">
 
 	//submit journal entry and update database through external php file
@@ -292,7 +295,7 @@
 		$.ajax({
 			url: "journalentry.php",
 			type: "POST",
-			data: {siteid: "<?php echo $siteid; ?>" , comments: textarea}, // add a flag
+			data: {sitecode: "<?php echo $sitecode;?>" , senderid: "<?php echo $senderid;?>",comments: textarea}, // add a flag
 			success: function(data, textStatus, jqXHR){
 				window.location="journal.php";
 			},
