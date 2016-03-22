@@ -93,12 +93,12 @@
 						die("Connection failed: " . mysqli_connect_error());
 					}
 					
-					$sql = "SELECT municipalityName FROM municipality WHERE provinceID BETWEEN 2 AND 7 ORDER BY municipalityName ASC";
+					$sql = "SELECT municipality.municipalityName, province.provinceName FROM municipality INNER JOIN province ON municipality.provinceID = province.provinceID WHERE municipality.provinceID BETWEEN 2 AND 7 ORDER BY provinceName, municipalityName";
 					$result = mysqli_query($conn, $sql);
 					if (mysqli_num_rows($result) > 0) {
 						// output data of each row
 						while($row = mysqli_fetch_assoc($result)) {
-							echo "<option value = \"" . $row["municipalityName"] ."\">" . $row["municipalityName"] . "</option>";
+							echo "<option value = \"" . $row["municipalityName"] ."\">" . $row["municipalityName"] . " (" . $row["provinceName"] . ")" . "</option>";
 						}
 					} else {
 						echo "0 results";
@@ -110,6 +110,8 @@
 	</div>
 	<div id = "results"></div>
 </div>
+
+<div id = "resultcontainer"></div>
 
 <!-- END OF HTML CONTENT -->
 
@@ -144,14 +146,14 @@
 			$.ajax({
 				url: "journal.php",
 				type: "POST",
-				data: {siteid:value, sendertype: 0}, // add a flag
+				data: {sitecode:value}, // add a flag
 				success: function(data, textStatus, jqXHR){
 					window.location="journal.php";
 				},
 				error: function (jqXHR, textStatus, errorThrown){
 					alert('Error!')
 				}
-			});	
+			});
 		}
 		
 		if(searchoption === "Organization"){
@@ -163,12 +165,22 @@
 				type: "POST",
 				data: {orgname:value}, // add a flag
 				success: function(data, textStatus, jqXHR){
-					window.location="journalresults.php";
 				},
 				error: function (jqXHR, textStatus, errorThrown){
 					alert('Error!')
 				}
 			});	
+			
+			$("#resultcontainer").html("");
+			
+			$.ajax({
+				type:'GET',
+				url:'journalresults.php',
+				data:'',
+				success: function(data){
+						$('#resultcontainer').html(data);
+				}
+			});
 		}
 		
 		if(searchoption === "Municipality"){
@@ -180,12 +192,22 @@
 				type: "POST",
 				data: {muniname:value}, // add a flag
 				success: function(data, textStatus, jqXHR){
-					window.location="journalmresults.php";
 				},
 				error: function (jqXHR, textStatus, errorThrown){
 					alert('Error!')
 				}
-			});	
+			});
+			
+			$("#resultcontainer").html("");
+			
+			$.ajax({
+				type:'GET',
+				url:'journalmresults.php',
+				data:'',
+				success: function(data){
+						$('#resultcontainer').html(data);
+				}
+			});
 		}
 });
 </script>
