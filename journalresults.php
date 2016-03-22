@@ -19,8 +19,8 @@
 		text-align: center;
 	}	
 	
-	#munheader{
-		border-radius: 25px 0px 0px 0px;
+	#resheader{
+		border-radius: 0px 0px 0px 0px;
 		background-color: #487d65;
 		color: white;
 		font-size: 170%;
@@ -54,7 +54,7 @@
 		background-color: #d5d7de;
 	}
 	
-	#munresults{
+	#resresults{
 		padding-top: 2%;
 	}
 	
@@ -65,12 +65,12 @@
 
 <?php
 	session_start();
-
-	if(isset($_POST['muniname'])) {
-		$_SESSION['muniname'] = $_POST['muniname'];
+	
+	if(isset($_POST['orgname'])) {
+		$_SESSION['orgname'] = $_POST['orgname'];
 	}
 	
-	$muniname = $_SESSION['muniname'];
+	$orgname = $_SESSION['orgname'];
 	
 	$servername = "localhost";
 	$username = "root";
@@ -83,15 +83,15 @@
 		die("Connection failed: " . $conn->connect_error);
 	}
 	
-	$muniid = "";
+	$orgid = "";
 	
-	$sql = "SELECT municipalityID FROM municipality WHERE municipalityName = \"" . $muniname . "\"";
+	$sql = "SELECT organizationID FROM organization WHERE organizationName = \"" . $orgname . "\"";
 	$result = mysqli_query($conn, $sql);
 	
 	if (mysqli_num_rows($result) > 0) {
 		// output data of each row
 		while($row = mysqli_fetch_assoc($result)) {
-			$muniid = $row["municipalityID"];
+			$orgid = $row["organizationID"];
 		}
 	} else {
 	}
@@ -100,7 +100,7 @@
 	
 	$siteids = array();
 	
-	$sql = "SELECT siteID FROM site WHERE municipalityID = " . $muniid;
+	$sql = "SELECT siteID FROM siteorganization WHERE organizationID = " . $orgid;
 	$result = mysqli_query($conn, $sql);
 	
 	if (mysqli_num_rows($result) > 0) {
@@ -128,16 +128,14 @@
 ?>
 
 <div id="resultsbody">
-	<div id="munheader">Search results for <?php echo $muniname;?></div>
-	<div id="munresults"></div>
-	<div id="pages"></div>
-	<button id="previousbutton" onclick="previous()">Search Again</button>
+	<div id="resheader">Search results for <?php echo $orgname;?></div>
+	<div id="resresults"></div>
 </div>
-	
+
 <script>
 	var numofrows = <?php echo $numofrows; ?>;
 	
-	var tableholder = document.getElementById("munresults");
+	var tableholder = document.getElementById("resresults");
 	var table = document.createElement("TABLE");
 	table.id = "tableid";
 	var header = table.createTHead();
@@ -155,32 +153,18 @@
 	var cellsvalue = [<?php echo $stringvalue; ?>];
 	var cellstwo = [];
 
-	for(var i = 0; i < 10; i++){
+
+	for(var i = 0; i < numofrows; i++){
 		rows[i] = document.createElement("TR");
 		cells[i] = rows[i].insertCell(0);
-		cells[i].id = "cell" + (i+1);
 		cellstwo[i] = rows[i].insertCell(0);
-		cellstwo[i].id = "celltwo" + (i+1);
 		
 		cellstwo[i].innerHTML = "" + cellsvalue[i] + "";
 		cells[i].innerHTML = "<button onclick=\"followlink(this)\" id = \"" + cellsvalue[i] +"\">GO</button>";
 		
 		table.appendChild(rows[i]);
 	}
-	
-	if(numofrows > 10){
-		var pagecounter = 0;
-		var pages = [];
-		var pagestab = document.getElementById("pages");
-		
-		for(var j = numofrows; j > 0; j = j - 10){
-			pages[pagecounter] = document.createTextNode((pagecounter + 1) + " ");
-			pagestab.appendChild(pages[pagecounter]);
-			
-			pagecounter++;
-		}
-	}
-	
+
 	
 	tableholder.appendChild(table);
 	
@@ -200,20 +184,5 @@
 	
 	function previous(){
 		window.location="journalsearch.php";
-	}
-	
-	function changepage(pagenum){
-		var nor = <?php echo $numofrows; ?>;
-		
-		var limsub = 10 * pagenum;
-		var limholder = 0;
-		
-		if(numofrows - limsub >= 10){
-			limholder = 10;
-		}else{
-			limholder = numofrows - limsub;
-		}
-		
-		var table = document.getElementById("tableid");
 	}
 </script>
