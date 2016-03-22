@@ -174,7 +174,8 @@
 		var pagestab = document.getElementById("pages");
 		
 		for(var j = numofrows; j > 0; j = j - 10){
-			pages[pagecounter] = document.createTextNode((pagecounter + 1) + " ");
+			pages[pagecounter] = document.createElement("span");
+			pages[pagecounter].innerHTML = "<button onclick = \"changepage(" + (pagecounter) +")\">" + (pagecounter + 1) + "</button>";
 			pagestab.appendChild(pages[pagecounter]);
 			
 			pagecounter++;
@@ -215,5 +216,25 @@
 		}
 		
 		var table = document.getElementById("tableid");
+		var cellsvalue = [<?php echo $stringvalue; ?>];
+		
+		for(var i = 0; i < limholder; i++){
+			var dummycelltwo = document.getElementById("celltwo" + (i+1));
+			var dummycell = document.getElementById("cell" + (i+1));
+			
+			dummycelltwo.innerHTML = "" + cellsvalue[i + limsub] + "";
+			dummycell.innerHTML = "<button onclick=\"followlink(this)\" id = \"" + cellsvalue[i + limsub] +"\">GO</button>";
+		}
+		
+		if(limholder < 10){
+			var limitcheck = limholder;
+			for(var i = 10; i > limitcheck; i--){
+				document.getElementById("tableid").deleteRow(i);
+			}
+		}
+	}
+	
+	function alertsample(){
+		alert("HELLO");
 	}
 </script>
