@@ -41,6 +41,12 @@
 	}
 </style>
 
+<?php
+	session_start();
+	
+	$sendertypefs = $_SESSION['sendertype'];
+?>
+
 <!-- HTML CONTENT -->
 
 <div id="searchbody">
@@ -146,7 +152,7 @@
 			$.ajax({
 				url: "journal.php",
 				type: "POST",
-				data: {sitecode:value}, // add a flag
+				data: {sitecode:value, sendertype: <?php echo $sendertypefs;?>}, // add a flag
 				success: function(data, textStatus, jqXHR){
 					window.location="journal.php";
 				},
@@ -209,7 +215,7 @@
 				}
 			});
 		}
-});
+	});
 </script>
 
 <!-- END OF JAVASCRIPT CODES -->
