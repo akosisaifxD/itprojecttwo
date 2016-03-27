@@ -9,17 +9,15 @@
 	$sitecode = $_SESSION['sitecode'];
 	$comments = $_SESSION['comments'];
 	$senderid = $_SESSION['senderid'];
-	$sendertype = $_SESSION['sendertype'];
 	
 	include 'connect.php';
 	
 	// prepare and bind
-	$stmt = $conn->prepare("INSERT INTO journal (comments, senderID, siteCode, senderType) VALUES (?, ?, ?, ?)");
-	$stmt->bind_param("ssss", $commentsparam, $senderidparam, $sitecodeparam, $typeparam);
+	$stmt = $conn->prepare("INSERT INTO journal (comments, sender, siteCode) VALUES (?, ?, ?)");
+	$stmt->bind_param("sss", $commentsparam, $senderidparam, $sitecodeparam);
 	$commentsparam = $comments;
 	$senderidparam = $senderid;
 	$sitecodeparam = $sitecode;
-	$typeparam = $sendertype;
 	$stmt->execute();
 	
 	header ("location: journal.php");
