@@ -70,6 +70,7 @@
 		$_SESSION['muniname'] = $_POST['muniname'];
 	}
 	
+	$sendertypefs = $_SESSION['sendertype'];
 	$muniname = $_SESSION['muniname'];
 	
 	$servername = "localhost";
@@ -100,13 +101,13 @@
 	
 	$siteids = array();
 	
-	$sql = "SELECT siteID FROM site WHERE municipalityID = " . $muniid;
+	$sql = "SELECT siteCode FROM site WHERE municipalityID = " . $muniid;
 	$result = mysqli_query($conn, $sql);
 	
 	if (mysqli_num_rows($result) > 0) {
 		// output data of each row
 		while($row = mysqli_fetch_assoc($result)) {
-			$siteids[$numofrows] = $row["siteID"];
+			$siteids[$numofrows] = $row["siteCode"];
 			$numofrows++;
 		}
 	} else {
@@ -131,7 +132,6 @@
 	<div id="munheader">Search results for <?php echo $muniname;?></div>
 	<div id="munresults"></div>
 	<div id="pages"></div>
-	<button id="previousbutton" onclick="previous()">Search Again</button>
 </div>
 	
 <script>
@@ -147,7 +147,7 @@
 	var cellTwo = row.insertCell(1);
 	cellTwo.id = "head2";
 	
-	cellOne.innerHTML = "Site ID";
+	cellOne.innerHTML = "Site Code";
 	cellTwo.innerHTML = "Link";
 	
 	var rows = [];
@@ -155,17 +155,32 @@
 	var cellsvalue = [<?php echo $stringvalue; ?>];
 	var cellstwo = [];
 
-	for(var i = 0; i < 10; i++){
-		rows[i] = document.createElement("TR");
-		cells[i] = rows[i].insertCell(0);
-		cells[i].id = "cell" + (i+1);
-		cellstwo[i] = rows[i].insertCell(0);
-		cellstwo[i].id = "celltwo" + (i+1);
-		
-		cellstwo[i].innerHTML = "" + cellsvalue[i] + "";
-		cells[i].innerHTML = "<button onclick=\"followlink(this)\" id = \"" + cellsvalue[i] +"\">GO</button>";
-		
-		table.appendChild(rows[i]);
+	if(numofrows < 10){
+		for(var i = 0; i < numofrows; i++){
+			rows[i] = document.createElement("TR");
+			cells[i] = rows[i].insertCell(0);
+			cells[i].id = "cell" + (i+1);
+			cellstwo[i] = rows[i].insertCell(0);
+			cellstwo[i].id = "celltwo" + (i+1);
+			
+			cellstwo[i].innerHTML = "" + cellsvalue[i] + "";
+			cells[i].innerHTML = "<button onclick=\"followlink(this)\" id = \"" + cellsvalue[i] +"\">GO</button>";
+			
+			table.appendChild(rows[i]);
+		}
+	}else{
+		for(var i = 0; i < 10; i++){
+			rows[i] = document.createElement("TR");
+			cells[i] = rows[i].insertCell(0);
+			cells[i].id = "cell" + (i+1);
+			cellstwo[i] = rows[i].insertCell(0);
+			cellstwo[i].id = "celltwo" + (i+1);
+			
+			cellstwo[i].innerHTML = "" + cellsvalue[i] + "";
+			cells[i].innerHTML = "<button onclick=\"followlink(this)\" id = \"" + cellsvalue[i] +"\">GO</button>";
+			
+			table.appendChild(rows[i]);
+		}
 	}
 	
 	if(numofrows > 10){
@@ -189,7 +204,7 @@
 		$.ajax({
 			url: "journal.php",
 			type: "POST",
-			data: {siteid:siteidnum.id, sendertype: 0}, // add a flag
+			data: {siteid:siteidnum.id, sendertype: <?php echo $sendertypefs;?>}, // add a flag
 			success: function(data, textStatus, jqXHR){
 				window.location="journal.php";
 			},
@@ -218,12 +233,16 @@
 		var table = document.getElementById("tableid");
 		var cellsvalue = [<?php echo $stringvalue; ?>];
 		
-		for(var i = 0; i < limholder; i++){
-			var dummycelltwo = document.getElementById("celltwo" + (i+1));
-			var dummycell = document.getElementById("cell" + (i+1));
-			
-			dummycelltwo.innerHTML = "" + cellsvalue[i + limsub] + "";
-			dummycell.innerHTML = "<button onclick=\"followlink(this)\" id = \"" + cellsvalue[i + limsub] +"\">GO</button>";
+		var rowscnum = document.getElementById("tableid").rows.length;
+		
+		if(rowscnum < 11){
+			for(var num = rowscnum; num < 11; num++){
+				var row = document.getElementById("tableid").insertRow(num);
+				var cell = row.insertCell(0);
+				cell.id = "cell" + num;
+				var celltwo = row.insertCell(0);
+				celltwo.id = "celltwo" + num;
+			}
 		}
 		
 		if(limholder < 10){
@@ -231,6 +250,14 @@
 			for(var i = 10; i > limitcheck; i--){
 				document.getElementById("tableid").deleteRow(i);
 			}
+		}
+		
+		for(var i = 0; i < limholder; i++){
+			var dummycelltwo = document.getElementById("celltwo" + (i+1));
+			var dummycell = document.getElementById("cell" + (i+1));
+			
+			dummycelltwo.innerHTML = "" + cellsvalue[i + limsub] + "";
+			dummycell.innerHTML = "<button onclick=\"followlink(this)\" id = \"" + cellsvalue[i + limsub] +"\">GO</button>";
 		}
 	}
 	
