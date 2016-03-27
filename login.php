@@ -12,7 +12,7 @@
 <div id = "loginbody">
 	<div id = "header"> Login </div>
 	<div id = "untextbox"> Username: <input type = "text" id = "untb"></input>
-	<div id = "pwtextbox"> Password: <input type = "text" id = "pwtb"></input>
+	<div id = "pwtextbox"> Password: <input type = "password" id = "pwtb"></input>
 	<button onclick = "loginfunc()"> Log In </button>
 </div>
 
