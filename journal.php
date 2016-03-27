@@ -103,6 +103,12 @@
 		height: 5%;
 	}
 
+	#bodyrep{
+		width: 100%;
+		height: 70%;
+		overflow: scroll;
+	}
+	
 	</style>
 
 <!-- END OF INTERNAL CSS -->
@@ -121,7 +127,7 @@
 	
 	//use POST data and set to local PHP Variables
 	$sitecode = $_SESSION['sitecode'];
-	$sendertype = $_SESSION['senderType'];
+	$sendertype = $_SESSION['sendertype'];
 	
 	//local variable to store contact person ID
 	$contactpersonid = "";
@@ -142,7 +148,7 @@
 	$contactperson;
 	
 	//SQL Query which captures name of contact person using local variable which has the value of the ID of contact person
-	$sql = "SELECT contactPersonName FROM contactperson WHERE contactPersonID = " . $contactpersonid;
+	$sql = "SELECT contactPersonName FROM contactperson WHERE contactPersonID = \"" . $contactpersonid . "\"";
 	$result = mysqli_query($conn, $sql);
 	if (mysqli_num_rows($result) > 0) {
 		// output data of each row
@@ -165,53 +171,12 @@
 		</div>
 		<div id = "body">
 			<div id = "rephead"> <a>REPORTS</a> </div>
+			<div id ="bodyrep">
 			<?php
-				//local PHP variables which will store SQL data
-				$sendertypes = array();
-				$senderids = array();
-				$firstcounter = 0;
-				
-				//SQL Query which captures senderIDs and senderType using 'sitecode'
-				$sql = "SELECT senderID, senderType FROM journal WHERE siteCode = \"" . $sitecode . "\"";
-				$result = mysqli_query($conn, $sql);
-				if (mysqli_num_rows($result) > 0) {
-					while($row = mysqli_fetch_assoc($result)) {
-						//store sender types and sender IDs into local PHP array
-						$sendertypes[$firstcounter] = $row["senderType"];
-						$senderids[$firstcounter] = $row["senderID"];
-						$firstcounter++;
-					}
-				} else {
-					// do nothing
-				}				
-				
-				//local PHP variable which will store SQL data
-				$sendernames = array();
-				$secondcounter = 0;
-				
-				//REPEAT PHP Code sizeof($sendertypes) times
-				for($i = 0; $i < sizeof($sendertypes); $i++){
-					if($sendertypes[$secondcounter] == 0){
-							//SQL Query which captures first name and last name of specific ids which was retrieved from previous queries
-							$sql = "SELECT firstName, lastName FROM denr WHERE denrID = " . $senderids[$secondcounter];
-							$result = mysqli_query($conn, $sql);
-							
-							if (mysqli_num_rows($result) > 0) {
-								while($row = mysqli_fetch_assoc($result)) {
-									//store first names and last names into local PHP array
-									$sendernames[$secondcounter] = $row['firstName'] . " " . $row['lastName'];
-									$secondcounter++;
-								}
-							} else {
-								//do nothing
-							}
-					}
-				}
-				
-				
 				//SQL query which retrieves journal information using 'siteid'
-				$sql = "SELECT journalDate, comments, senderID, senderType FROM journal WHERE siteCode = \"" . $sitecode . "\"";
+				$sql = "SELECT journalDate, comments, sender FROM journal WHERE siteCode = \"" . $sitecode . "\"";
 				$result = mysqli_query($conn, $sql);
+				
 				if (mysqli_num_rows($result) > 0) {
 					while($row = mysqli_fetch_assoc($result)) {
 						$thirdcounter = 0;
@@ -262,14 +227,36 @@
 						//Complete date format (mm, dd, yyyy)
 						$finaldate = $month . " " . $datepartition[2] . ", " . $datepartition[0];
 						
+						$sendername = "";
+						
+						if (strpos($row['sender'], 'P') !== false) {
+							
+						}else{
+							$sqltwo = "SELECT firstName, lastName FROM denr WHERE denrID = \"" . $row['sender'] . "\"";
+							$resulttwo = mysqli_query($conn, $sqltwo);
+							
+							if (mysqli_num_rows($resulttwo) > 0) {
+								// output data of each row
+								while($rowtwo = mysqli_fetch_assoc($resulttwo)) {
+									//stores captured name from query onto local variable
+									$sendername = $rowtwo['firstName'] . " " . $rowtwo['lastName'];
+								}
+							} else {
+								//do nothing
+							}
+						}
+						
+
+						
 						//display formatted date together with contact person
-						echo "<div id = \"repnum\"> <a>" . $finaldate . " by " . $sendernames[$thirdcounter] . "</a></div>";
+						echo "<div id = \"repnum\"> <a>" . $finaldate . " by " . $sendername . "</a></div>";
 						//display journal content
 						echo "<div id = \"repcont\"> <a>" . $row["comments"] . "</a></div>";
 					}
 				} else {
 				}
 			?>
+			</div>
 		</div>
 	</div>
 	<div id = "commentbox"><textarea rows = "8" cols = "80" name = "report" id = "report"></textarea></div>
@@ -286,7 +273,9 @@
 ?>
 
 <script type="text/javascript">
-
+	var elem = document.getElementById('bodyrep');
+	elem.scrollTop = elem.scrollHeight;
+	
 	//submit journal entry and update database through external php file
 	$('.submit').on('click',function(){
 		
