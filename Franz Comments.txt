@@ -1,0 +1,15 @@
+newsite.php
+- add delete row button
+- "Add Rows" - "Add Row"
+
+neworg.php
+- add "Cancel" button
+
+newcperson.php
+- add "Cancel" button
+
+journalsearch.php
+- add validation for site code characters and HTML tags + PHP
+
+journal.php
+- pwede sana magdelete ng entries
