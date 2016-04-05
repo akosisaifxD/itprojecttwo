@@ -1,0 +1,120 @@
+@font-face{
+	font-family: 'Raleway S';
+	src:url('fonts/Raleway/Raleway-SemiBold.ttf');
+}
+
+@font-face{
+	font-family: 'Raleway B';
+	src:url('fonts/Raleway/Raleway-Bold.ttf');
+}
+
+body{
+	background-color: #edeef1;
+	padding-bottom: 0%;
+	height: 80%;
+}
+
+.journals{
+	margin-top: 1%;
+	margin-left: 1%;
+	background-color: white;
+	width: 75%;
+	padding-bottom: 2%;
+}
+
+#jrnhead{
+	font-family: 'Raleway B';
+	padding: 2%;
+	padding-bottom: 0%;
+	font-size: 180%;
+	color: #156234;
+}
+
+#hrule{
+	border: 0;
+    height: 1px;
+    background: #333;
+    background-image: linear-gradient(to right, #ccc, #333, #ccc);
+	margin-bottom: 2%;
+}
+
+#jnum1{
+	width: 100%;
+}
+
+#subhead{
+	color: white;
+	background-color: #208f4d;
+	width: 90%;
+	margin-left: 2.5%;
+	padding: 2%;
+}
+
+#sh1{
+	font-family: 'Raleway B';
+}
+
+#sh2{
+	font-family: 'Raleway S';
+}
+
+#addm{
+	margin-bottom: 1%;
+}
+
+#bodyrep{
+	width: 94%;
+	height: 50%;
+	background-color: #edeef1;
+	margin-left: 2.5%;
+	overflow: scroll;
+}
+
+#repwhole{
+	margin-top: 2%;
+	margin-bottom: 0.3%;
+	margin-left: 2%;
+	padding: 2%;
+	border-radius: 10px 10px 10px 10px;
+	background-color: white;
+	display:inline-block;
+	font-family: 'Raleway S';
+}
+
+#repnum{
+	padding-bottom: 2%;
+}
+
+
+#commentbox{
+	width: 90%;
+	margin-left: 2.5%;
+	background-color: #39bc6e;
+	padding-top: 1%;
+	padding-left: 2%;
+	padding-right: 2%;
+	padding-bottom: 1%;
+}
+
+#jrnreport {
+	resize: none;
+	width: calc(88%);
+}
+
+#jrnreport{
+	font-family: 'Raleway S';
+	background-color: white;
+}
+
+#jrnsubmit{
+	float: right;
+	margin-left: 1%;
+	margin-top: 1%;
+	font-family: 'Raleway S';
+	background-color: #edeef1;
+	padding: 1.8%;
+	border-radius: 10px 10px 10px 10px;
+	color: black;
+	width: calc(10%);
+	font-size: calc(90%);
+}
