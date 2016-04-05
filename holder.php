@@ -1,3 +1,14 @@
+<!-- EXTERNAL SCRIPT CALLS -->
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+<!-- END OF EXTERNAL SCRIPT CALLS -->
+
+<?php
+	session_start();
+	$_SESSION['cpage'] = 'trends'; 
+?>
+
 <style>
 	html, body {
 		height: 100%;
@@ -9,23 +20,24 @@
 	#holdheader{
 		width: 80%;
 		height: 15%;
-		position: absolute;
+		position: fixed;
 		top: 0%;
 		left: 10%;
+		z-index:1;
 	}
 	
 	#holdnav{
 		width: 12%;
 		height:85%;
-		position: absolute;
+		position: fixed;
 		top: 15%;
 		left:10%;
 	}
 	
 	#holdcontent{
 		width: 68%;
-		height: 85%;
-		position: absolute;
+		height: 100%;
+		position: relative;
 		top: 15%;
 		left: 22%;
 	}
