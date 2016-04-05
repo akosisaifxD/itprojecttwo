@@ -16,7 +16,7 @@
 	
 	$checker = 0;
 	
-	$sql = "SELECT password FROM denr WHERE denrID = " . $un;
+	$sql = "SELECT password FROM denr WHERE denrID = \"" . $un . "\"";
 	$result = mysqli_query($conn, $sql);
 	if (mysqli_num_rows($result) > 0) {
 		while($row = mysqli_fetch_assoc($result)) {
@@ -25,13 +25,13 @@
 			}
 		}
 	} else {
-		header('Location: login.php?error=true');
+		header('Location: denrhome.php?error=true');
 	}
 	
 	if($checker == 1){
 		$_SESSION['sendertype'] = 0;
-		header('Location: denrhome.php');
+		header('Location: holder.php');
 	}else{
-		header('Location: login.php?error=true');
+		header('Location: denrhome.php?error=true');
 	}
 ?>
