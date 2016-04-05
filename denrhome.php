@@ -1,22 +1,145 @@
-<?php
-	session_start();
-	
-	//connect to database using external PHP file
-	include 'connect.php';
-	
-	$name;
-	
-	$sql = "SELECT firstName, lastName FROM denr WHERE denrID = " . $_SESSION['username'];
-	$result = mysqli_query($conn, $sql);
-	if (mysqli_num_rows($result) > 0) {
-		while($row = mysqli_fetch_assoc($result)) {
-			//stores captured name from query onto local variable
-			$name = $row['firstName'] . " " . $row['lastName'];
-		}
-	} else {
-		//do nothing
-	}
-	echo "<div id = \"welcome\"> Welcome, " . $name . "!</div>";
-?>
+<!-- EXTERNAL SCRIPT CALLS -->
 
-<div id = "journallink"> <a href = "journalsearch.php">Journals</a> </div>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+<!-- END OF EXTERNAL SCRIPT CALLS -->
+
+<style>
+	@font-face {
+		font-family: raleway;
+		src: url(fonts/raleway/Raleway-SemiBold.ttf);
+	}
+
+	html, body {
+		height: 100%;
+    	margin: 0;
+		background-color: #d5d4d0;
+		width: 100%;
+	}
+
+	#logincontainer{
+		position: absolute;
+		top: 20%;
+		left: 30%;
+		height: 60%;
+		width: 40%;
+		background-color: white;
+		border-radius: 15px 15px 15px 15px;
+	}
+	
+	#loginheader{
+		height: 30%;
+		border-radius: 15px 15px 0px 0px;
+		background-color: #156234;
+		text-align: center;
+	}
+	
+	#logo{
+		height: 80%;
+		position: relative;
+		top: 10%;
+	}
+	
+	#loginform{
+		font-family: raleway;
+		position: relative;
+		top: 5%;
+		text-align: center;
+	}
+	
+	#unenter{
+		margin-bottom: 1%;
+	}
+	
+	#pwenter{
+		margin-top: 3%;
+		margin-bottom: 1%;
+	}
+	
+	#loginbutton{
+		margin-top: 4%;	
+	}
+	
+	#login{
+		font-family: raleway;
+		background-color: white;
+		padding: 2%;
+		border-radius: 10px 10px 10px 10px;
+		border-color: #156234;
+		border-style: solid;
+		border-width: medium;
+	}
+	
+	#lfooter{
+		font-family: raleway;
+		background-color: #156234;
+		position: absolute;
+		top: 85%;
+		width: 100%;
+		height: 15%;
+		border-radius: 0px 0px 15px 15px;
+		color: white;
+		text-align: center;
+		font-size: 80%;
+	}
+	
+	#footertext{
+	  position: absolute;
+	  top: 50%;
+	  left: 50%;
+	  transform: translate(-50%, -50%);
+	}
+	
+	#username, #password{
+		font-family: raleway;
+		text-align: center;
+	}
+	
+	#error{
+		font-size: 60%;
+		color: red;
+		margin-bottom: 1%;
+	}
+</style>
+
+<div id = "logincontainer">
+	<div id = "loginheader">
+		<img src = "img/logo.png" id = "logo"/>
+	</div>
+	
+	<div id = "loginform">
+		<?php
+			if(isset($_GET["error"])){
+				echo "<div id = \"error\"> Invalid username/password </div>";
+			}
+		?>
+		<div id = "unenter"> DENR ID: </div> <input type = "text" id = "username"></input>
+		<div id = "pwenter"> Password: </div> <input type = "password" id = "password"></input>
+		<div id = "loginbutton" onclick = "loginfunc()"> <button id = "login"> Sign in </button> </div>
+	</div>
+	
+	<div id = "lfooter">
+		<div id = "footertext"> Only DENR Employees will be able to sign in using this form. </div>
+	</div>
+</div>
+
+<script type = "text/javascript">
+
+	function loginfunc(){
+		var usernamev = document.getElementById("username").value;
+		var passwordv = document.getElementById("password").value;
+		
+		$.ajax({
+			url: "loginprocess.php",
+			type: "POST",
+			data: {username:usernamev, password: passwordv}, // add a flag
+			success: function(data, textStatus, jqXHR){
+				window.location="loginprocess.php";
+			},
+			error: function (jqXHR, textStatus, errorThrown){
+				alert('Error!')
+			}
+		});	
+	}
+	
+</script>
