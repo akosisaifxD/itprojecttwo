@@ -9,21 +9,115 @@
 
 	<!-- CUSTOM FONT - PT Sans -->
 	<link href='https://fonts.googleapis.com/css?family=PT+Sans' rel='stylesheet' type='text/css'>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-
 
 <!-- END OF EXTERNAL CSS -->
 
 <!-- INTERNAL CSS -->
 
-	<link rel="stylesheet" type="text/css" href="journal.css">
+<style>
+
+	body{
+		font-family: 'PT Sans', sans-serif;
+	}
+
+	#jnum1{
+		border-radius: 25px 25px 0px 0px;
+		background-color: #efefef;
+		width: 55%;
+		padding-bottom: 3%;
+	}
+
+	#jsheader{
+		border-radius: 25px 0px 0px 0px;
+		background-color: #487d65;
+		color: white;
+		font-size: 170%;
+		padding: 1%;
+	}
+	
+	#jsheader header{
+		margin-left: 1.2%;
+	}
+	
+	#jsheader #subhead{
+		margin-left: 1.2%;
+		font-size: 60%;
+	}
+	
+	#rephead{
+		background-color: #49b382;
+		padding: 0.5%;
+		text-align: center;
+	}
+	
+	#rephead a {
+		margin-left: 1.2%;
+		color: white;
+	}
+	
+	#repnum{
+		border-radius: 25px 25px 0px 0px;
+		background-color: #d5d7de;
+		padding: 2%;
+		margin-top: 2%;
+		margin-left: 2%;
+		width: 90%;
+	}
+	
+	#repcont{
+		border-radius: 0px 0px 25px 25px;
+		padding: 2%;
+		background-color: white;
+		margin-left: 2%;
+		width: 90%;
+	}
+	
+	#commentbox{
+		background-color: #d5d7de;
+		width: 53.8%;
+		padding: 0.6%;
+		text-align: center;
+	}
+	
+	#submitbox{
+		background-color: #d5d7de;
+		width: 54.95%;
+		padding-bottom: 1%;
+		text-align: center;
+	}
+	
+	#previousbox{
+		background-color: #d5d7de;
+		width: 52.95%;
+		padding-bottom: 1%;
+		text-align: right;
+		padding-right: 2%;
+	}
+	
+	#report{
+		resize: none;
+	}
+	
+	#submit{
+		width: 20%;
+		height: 5%;
+	}
+
+	#bodyrep{
+		width: 100%;
+		height: 70%;
+		overflow: scroll;
+	}
+	
+	</style>
 
 <!-- END OF INTERNAL CSS -->
 
 <!-- PHP Script which captures contact person ID and contact person name -->
 <?php
-	session_start();
-	
+if(!isset($_SESSION)){
+    session_start();
+}
 	//connect to database using external PHP file
 	include 'connect.php';
 	
@@ -71,17 +165,13 @@
 <!-- HTML Content -->
 
 <div class = "journals">
-	<div id = "jrnhead"> Journal </div> 
-	<hr id = "hrule">
 	<div id = "jnum1">
-		<div id = "header">
+		<div id = "jsheader">
 			<!-- Header which uses PHP code to display siteID and contact person -->
-			<div id = "subhead">
-				<div id = "addm"><span id = "sh2"><i class="fa fa-book fa-2x"></i> <?php echo $sitecode; ?></span></div>
-				<span id = "sh1"><i class="fa fa-user fa-2x"></i> <?php echo $contactperson; ?></span>
-			</div>
+			<header> Journal - Site <?php echo $sitecode; ?></header><a id = "subhead"><?php echo "Handled by " . $contactperson; ?></a>
 		</div>
 		<div id = "body">
+			<div id = "rephead"> <a>REPORTS</a> </div>
 			<div id ="bodyrep">
 			<?php
 				//SQL query which retrieves journal information using 'siteid'
@@ -140,7 +230,9 @@
 						
 						$sendername = "";
 						
-						if (strpos($row['sender'], 'P') === false) {
+						if (strpos($row['sender'], 'P') !== false) {
+							
+						}else{
 							$sqltwo = "SELECT firstName, lastName FROM denr WHERE denrID = \"" . $row['sender'] . "\"";
 							$resulttwo = mysqli_query($conn, $sqltwo);
 							
@@ -153,35 +245,24 @@
 							} else {
 								//do nothing
 							}
-						}else{
-							$sqltwo = "SELECT contactPersonName FROM contactperson WHERE contactPersonID = \"" . $row['sender'] . "\"";
-							$resulttwo = mysqli_query($conn, $sqltwo);
-							
-							if (mysqli_num_rows($resulttwo) > 0) {
-								// output data of each row
-								while($rowtwo = mysqli_fetch_assoc($resulttwo)) {
-									//stores captured name from query onto local variable
-									$sendername = $rowtwo['contactPersonName'];
-								}
-							} else {
-								//do nothing
-							}
 						}
 						
 
 						
 						//display formatted date together with contact person
-						echo "<div id = \"repwhole\"><div id = \"repnum\"> <a>" . $finaldate . " - " . $sendername . "</a></div>";
+						echo "<div id = \"repnum\"> <a>" . $finaldate . " by " . $sendername . "</a></div>";
 						//display journal content
-						echo "<div id = \"repcont\"> <a>" . $row["comments"] . "</a></div></div>";
+						echo "<div id = \"repcont\"> <a>" . $row["comments"] . "</a></div>";
 					}
 				} else {
 				}
 			?>
 			</div>
-			<div id = "commentbox"><textarea rows = "4" cols = "90" name = "jrnreport" id = "jrnreport"></textarea><button id = "jrnsubmit" class = "jrnsubmit">Send</button></div>
 		</div>
 	</div>
+	<div id = "commentbox"><textarea rows = "8" cols = "80" name = "report" id = "report"></textarea></div>
+	<div id = "submitbox"><button id = "submit" class = "submit">Submit</button></div>
+	<div id = "previousbox"> <button id="previousbutton" onclick="previous()">Search Again</button></div>
 </div>
 
 <!-- END OF HTML Content -->
@@ -197,9 +278,9 @@
 	elem.scrollTop = elem.scrollHeight;
 	
 	//submit journal entry and update database through external php file
-	$('.jrnsubmit').on('click',function(){
+	$('.submit').on('click',function(){
 		
-		var textarea = document.getElementById("jrnreport").value;
+		var textarea = document.getElementById("report").value;
 			
 		$.ajax({
 			url: "journalentry.php",
@@ -216,7 +297,7 @@
 	
 	//function used by previous button
 	function previous(){
-		window.location="journalsearch.php";
+		window.location="hjournal.php";
 	}
 	
 </script>
