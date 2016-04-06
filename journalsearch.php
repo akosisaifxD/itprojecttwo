@@ -22,7 +22,7 @@
 		padding-bottom: 2%;
 	}	
 	
-	#header{
+	#jsheader{
 		border-radius: 25px 0px 0px 0px;
 		background-color: #487d65;
 		color: white;
@@ -42,15 +42,13 @@
 </style>
 
 <?php
-	session_start();
-	
 	$sendertypefs = $_SESSION['sendertype'];
 ?>
 
 <!-- HTML CONTENT -->
 
 <div id="searchbody">
-	<div id="header"> Journal Search </div>
+	<div id="jsheader"> Journal Search </div>
 	<div id = "search">
 		<select id = "searchbytype" name="searchselect">
 			<option value = "SiteCode"> Site Code </option>
@@ -152,9 +150,10 @@
 			$.ajax({
 				url: "journal.php",
 				type: "POST",
+				contentType: "application/x-www-form-urlencoded",
 				data: {sitecode:value, sendertype: <?php echo $sendertypefs;?>}, // add a flag
 				success: function(data, textStatus, jqXHR){
-					window.location="journal.php";
+					window.location="hjournalr.php";
 				},
 				error: function (jqXHR, textStatus, errorThrown){
 					alert('Error!')
