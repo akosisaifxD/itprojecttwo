@@ -5,41 +5,7 @@
 <!-- END OF EXTERNAL SCRIPT CALLS -->
 
 <link href='https://fonts.googleapis.com/css?family=PT+Sans' rel='stylesheet' type='text/css'>
-
-<style>
-	body{
-		font-family: 'PT Sans', sans-serif;
-	}
-
-	#sitecodeshow, #orgcodeshow, #municodeshow{
-		display: inline;
-	}
-
-	#searchbody{
-		border-radius: 25px 25px 0px 0px;
-		background-color: #efefef;
-		width: 55%;
-		padding-bottom: 2%;
-	}	
-	
-	#jsheader{
-		border-radius: 25px 0px 0px 0px;
-		background-color: #487d65;
-		color: white;
-		font-size: 170%;
-		padding: 1%;
-		text-align: center;
-	}
-	
-	#search{
-		padding-top: 2%;
-		text-align: center;
-	}
-	
-	#searchbox, #searchboxtwo, #searchboxthree {
-		width: 60%;
-	}
-</style>
+<link href='css/journalsearch.css' rel='stylesheet' type='text/css'>
 
 <?php
 	$sendertypefs = $_SESSION['sendertype'];
@@ -49,6 +15,7 @@
 
 <div id="searchbody">
 	<div id="jsheader"> Journal Search </div>
+	<hr id="jshr">
 	<div id = "search">
 		<select id = "searchbytype" name="searchselect">
 			<option value = "SiteCode"> Site Code </option>
@@ -71,15 +38,37 @@
 						die("Connection failed: " . mysqli_connect_error());
 					}
 					
-					$sql = "SELECT organizationName FROM organization";
-					$result = mysqli_query($conn, $sql);
-					if (mysqli_num_rows($result) > 0) {
-						// output data of each row
-						while($row = mysqli_fetch_assoc($result)) {
-							echo "<option value = \"" . $row["organizationName"] ."\">" . $row["organizationName"] . "</option>";
+					$checkid = $_SESSION['username'];
+					
+					if($_SESSION['accounttype'] === 'Advanced'){
+						$sql = "SELECT organizationName FROM organization";
+						$result = mysqli_query($conn, $sql);
+						if (mysqli_num_rows($result) > 0) {
+							// output data of each row
+							while($row = mysqli_fetch_assoc($result)) {
+								echo "<option value = \"" . $row["organizationName"] ."\">" . $row["organizationName"] . "</option>";
+							}
+						} else {
+							echo "0 results";
 						}
-					} else {
-						echo "0 results";
+					}
+					
+					if($_SESSION['accounttype'] === 'Basic'){
+						$sql = "SELECT DISTINCT organizationName from organization 
+								INNER JOIN siteorganization ON siteorganization.organizationID = organization.organizationID 
+								INNER JOIN site ON site.siteCode = siteorganization.siteCode 
+								INNER JOIN cenromunicipality ON cenromunicipality.municipalityID = site.municipalityID 
+								INNER JOIN denr ON denr.cenroID = cenromunicipality.cenroID
+								WHERE denr.denrID = '" . $checkid . "'";
+						$result = mysqli_query($conn, $sql);
+						if (mysqli_num_rows($result) > 0) {
+							// output data of each row
+							while($row = mysqli_fetch_assoc($result)) {
+								echo "<option value = \"" . $row["organizationName"] ."\">" . $row["organizationName"] . "</option>";
+							}
+						} else {
+							echo "0 results";
+						}
 					}
 				?>
 			</select>
@@ -112,6 +101,7 @@
 			<button class = "enter">Search</button>
 		</div>
 	</div>
+	<hr id="jshrf">
 	<div id = "results"></div>
 </div>
 
@@ -168,6 +158,7 @@
 			$.ajax({
 				url: "journalresults.php",
 				type: "POST",
+				contentType: "application/x-www-form-urlencoded",
 				data: {orgname:value}, // add a flag
 				success: function(data, textStatus, jqXHR){
 				},
@@ -180,6 +171,7 @@
 			
 			$.ajax({
 				type:'GET',
+				contentType: "application/x-www-form-urlencoded",
 				url:'journalresults.php',
 				data:'',
 				success: function(data){
@@ -195,6 +187,7 @@
 			$.ajax({
 				url: "journalmresults.php",
 				type: "POST",
+				contentType: "application/x-www-form-urlencoded",
 				data: {muniname:value}, // add a flag
 				success: function(data, textStatus, jqXHR){
 				},
@@ -207,6 +200,7 @@
 			
 			$.ajax({
 				type:'GET',
+				contentType: "application/x-www-form-urlencoded",
 				url:'journalmresults.php',
 				data:'',
 				success: function(data){

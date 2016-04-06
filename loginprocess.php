@@ -16,12 +16,17 @@
 	
 	$checker = 0;
 	
-	$sql = "SELECT password FROM denr WHERE denrID = \"" . $un . "\"";
+	$sql = "SELECT password, accountType FROM denr WHERE denrID = \"" . $un . "\"";
 	$result = mysqli_query($conn, $sql);
 	if (mysqli_num_rows($result) > 0) {
 		while($row = mysqli_fetch_assoc($result)) {
 			if($row["password"] == $pw){
 				$checker = 1;
+				if($row["accountType"] == "Basic"){
+					$_SESSION['accounttype'] = "Basic";
+				}else{
+					$_SESSION['accounttype'] = "Advanced";
+				}
 			}
 		}
 	} else {
