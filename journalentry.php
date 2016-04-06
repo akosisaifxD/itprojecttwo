@@ -20,5 +20,5 @@
 	$sitecodeparam = $sitecode;
 	$stmt->execute();
 	
-	header ("location: journal.php");
+	header ("location: hjournalr.php");
 ?>

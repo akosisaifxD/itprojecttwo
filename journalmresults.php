@@ -3,65 +3,7 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 
 <!-- END OF EXTERNAL SCRIPT CALLS -->
-
-<link href='https://fonts.googleapis.com/css?family=PT+Sans' rel='stylesheet' type='text/css'>
-
-<style>
-	body{
-		font-family: 'PT Sans', sans-serif;
-	}
-	
-	#resultsbody{
-		border-radius: 25px 25px 0px 0px;
-		background-color: #efefef;
-		width: 55%;
-		padding-bottom: 2%;
-		text-align: center;
-	}	
-	
-	#munheader{
-		border-radius: 25px 0px 0px 0px;
-		background-color: #487d65;
-		color: white;
-		font-size: 170%;
-		padding: 1%;
-		text-align: center;
-	}
-	
-	th, td {
-		border: 1px solid black;
-	}
-	
-	table{
-		width: 50%;
-		margin: 0 auto;
-	}
-	
-	#head1, #head2{
-		padding: 2%;
-		font-weight: bold;
-		background-color: #49b382;
-	}
-	
-	td{
-		padding: 1%;
-	}
-	tr:nth-child(even) {
-		background-color: white;
-	}
-	
-	tr:nth-child(odd) {
-		background-color: #d5d7de;
-	}
-	
-	#munresults{
-		padding-top: 2%;
-	}
-	
-	#previousbutton{
-		margin-top: 2%;
-	}
-</style>
+<link href='css/journalmresults.css' rel='stylesheet' type='text/css'>
 
 <?php
 	session_start();
@@ -190,7 +132,12 @@
 		
 		for(var j = numofrows; j > 0; j = j - 10){
 			pages[pagecounter] = document.createElement("span");
-			pages[pagecounter].innerHTML = "<button onclick = \"changepage(" + (pagecounter) +")\">" + (pagecounter + 1) + "</button>";
+			if(j === numofrows){
+				pages[pagecounter].innerHTML = "<a onclick = \"changepage(" + (pagecounter) +")\" id = 'startbtn' href = '#pgbutton" + (pagecounter) + "' class = 'startbtn'>" + (pagecounter + 1) + "</a>";
+			}else{
+				pages[pagecounter].innerHTML = "<a onclick = \"changepage(" + (pagecounter) +")\" id = 'pgbutton" + (pagecounter) + "' href = '#pgbutton" + (pagecounter) + "' class = 'pgbutton'>" + (pagecounter + 1) + "</a>";
+			}
+			
 			pagestab.appendChild(pages[pagecounter]);
 			
 			pagecounter++;
@@ -205,6 +152,15 @@
 	}
 	
 	function changepage(pagenum){
+		var strtbutton = document.getElementById("startbtn");
+		
+		if(strtbutton === null){
+			
+		}else{
+			strtbutton.id = "pgbutton0";
+			strtbutton.className = "pgbutton";
+		}		
+
 		var nor = <?php echo $numofrows; ?>;
 		
 		var limsub = 10 * pagenum;
@@ -245,10 +201,6 @@
 			dummycelltwo.innerHTML = "" + cellsvalue[i + limsub] + "";
 			dummycell.innerHTML = "<button id = \"" + cellsvalue[i + limsub] +"\" class = 'dynamiclink'>GO</button>";
 		}
-	}
-	
-	function alertsample(){
-		alert("HELLO");
 	}
 	
 	$(document).on('click','.dynamiclink',function(){

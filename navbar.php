@@ -47,10 +47,6 @@
 	}
 	
 	.current{
-		background-color: #25b15e;
-	}
-	
-	.current{
 		background-color: #25b15e!important;
 	}
 </style>

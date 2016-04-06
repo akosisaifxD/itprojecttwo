@@ -92,13 +92,13 @@
 	
 	#username, #password{
 		font-family: raleway;
-		text-align: center;
+
 	}
 	
 	#error{
-		font-size: 60%;
+		font-size: 90%;
 		color: red;
-		margin-bottom: 1%;
+		margin-bottom: 2%;
 	}
 </style>
 
@@ -111,6 +111,10 @@
 		<?php
 			if(isset($_GET["error"])){
 				echo "<div id = \"error\"> Invalid username/password </div>";
+			}
+			
+			if(isset($_GET["logout"])){
+				echo "<div id = \"error\"> Logout success </div>";
 			}
 		?>
 		<div id = "unenter"> DENR ID: </div> <input type = "text" id = "username"></input>

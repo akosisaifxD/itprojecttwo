@@ -45,8 +45,6 @@
 	
 	#hcontent{
 		position: relative;
-		top: 10%;
-		left: 20%;
 	}
 </style>
 

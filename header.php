@@ -1,7 +1,38 @@
+<?php
+	if(!isset($_SESSION)){
+		session_start();
+	}
+	
+	include 'connect.php';
+	
+	$username = "";
+	$userid = $_SESSION['username'];
+	
+	$sqltwo = "SELECT firstName, lastName FROM denr WHERE denrID = \"" . $userid . "\"";
+	$resulttwo = mysqli_query($conn, $sqltwo);
+							
+	if (mysqli_num_rows($resulttwo) > 0) {
+		// output data of each row
+		while($rowtwo = mysqli_fetch_assoc($resulttwo)) {
+			//stores captured name from query onto local variable
+			$username = $rowtwo['firstName'] . " " . $rowtwo['lastName'];
+		}
+	} else {
+		//do nothing
+	}
+	
+	
+?>
+
 <style>
 	@font-face {
 		font-family: raleway;
 		src: url(fonts/raleway/Raleway-SemiBold.ttf);
+	}
+	
+	@font-face {
+		font-family: berlin;
+		src: url(fonts/Berlin Sans FB/Berlin Sans FB.ttf);
 	}
 
 	body #header{
@@ -16,20 +47,10 @@
 		height: 95%;
 	}
 	
-	#headertitle-part-1{
-		font-family: raleway;
+	#headertitle{
 		position: absolute;
 		top: 18%;
 		left: 15%;
-		font-size: 500%;
-		color: white;
-	}
-	
-	#headertitle-part-2{
-		font-family: raleway;
-		position: absolute;
-		top: 31%;
-		left: 16.5%;
 		font-size: 380%;
 		color: white;
 	}
@@ -59,7 +80,7 @@
 		text-align: center;
 		box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 		width: 15%;
-		height: 50%;
+		height: 23%;
 	}
 	
 	.accoption{
@@ -75,14 +96,25 @@
 	.accoption:hover, .accoption:focus{
 		background-color: #25b15e!important;
 	}
+	
+	#currentuser{
+		position: absolute;
+		top: 54%;
+		left: 86%;
+		display: inline-block;
+		font-family: raleway;
+		font-size: 130%;
+		color: white;
+	}
 </style>
 
 <div id = "header">
 	<img src = "img/logo.png" id = "headerlogo" />
-	<div id = "headertitle-part-1"> i </div> <div id = "headertitle-part-2"> PUNO </div>
+	<div id = "headertitle"> iPUNO </div>
 	<div id = "headersettings" class = "headersettings" onclick = "accoptions()"> <i class="fa fa-cog fa-2x"></i> </div>
+	<div id = "currentuser"> <?php echo $username;?> </div>
 	<div id="settingscontent" class="settingscontent">
-		<div id = "accsettings" class = "accoption"> Account Settings </div>
+		
 		<div id = "signout" class = "accoption"> Sign out </div>
 	</div>
 </div>
@@ -92,18 +124,7 @@
 		document.getElementById("settingscontent").classList.toggle("show");
 	}
 
-	// Close the dropdown menu if the user clicks outside of it
-	window.onclick = function(event) {
-	  if (!event.target.matches('.headersettings')) {
-
-		var dropdowns = document.getElementsByClassName("settingscontent");
-		var i;
-		for (i = 0; i < dropdowns.length; i++) {
-		  var openDropdown = dropdowns[i];
-		  if (openDropdown.classList.contains('show')) {
-			
-		  }
-		}
-	  }
-	}
+	$('#signout').on('click',function(){
+		window.location="logoutprocess.php";
+	});
 </script>
