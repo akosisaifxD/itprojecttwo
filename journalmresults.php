@@ -164,7 +164,7 @@
 			cellstwo[i].id = "celltwo" + (i+1);
 			
 			cellstwo[i].innerHTML = "" + cellsvalue[i] + "";
-			cells[i].innerHTML = "<button onclick=\"followlink(this)\" id = \"" + cellsvalue[i] +"\">GO</button>";
+			cells[i].innerHTML = "<button id = \"" + cellsvalue[i] +"\" class = 'dynamiclink'>GO</button>";
 			
 			table.appendChild(rows[i]);
 		}
@@ -177,7 +177,7 @@
 			cellstwo[i].id = "celltwo" + (i+1);
 			
 			cellstwo[i].innerHTML = "" + cellsvalue[i] + "";
-			cells[i].innerHTML = "<button onclick=\"followlink(this)\" id = \"" + cellsvalue[i] +"\">GO</button>";
+			cells[i].innerHTML = "<button id = \"" + cellsvalue[i] +"\" class = 'dynamiclink'>GO</button>";
 			
 			table.appendChild(rows[i]);
 		}
@@ -199,20 +199,6 @@
 	
 	
 	tableholder.appendChild(table);
-	
-	function followlink(siteidnum){
-		$.ajax({
-			url: "journal.php",
-			type: "POST",
-			data: {siteid:siteidnum.id, sendertype: <?php echo $sendertypefs;?>}, // add a flag
-			success: function(data, textStatus, jqXHR){
-				window.location="journal.php";
-			},
-			error: function (jqXHR, textStatus, errorThrown){
-				alert('Error!')
-			}
-		});	
-	}
 	
 	function previous(){
 		window.location="journalsearch.php";
@@ -257,11 +243,29 @@
 			var dummycell = document.getElementById("cell" + (i+1));
 			
 			dummycelltwo.innerHTML = "" + cellsvalue[i + limsub] + "";
-			dummycell.innerHTML = "<button onclick=\"followlink(this)\" id = \"" + cellsvalue[i + limsub] +"\">GO</button>";
+			dummycell.innerHTML = "<button id = \"" + cellsvalue[i + limsub] +"\" class = 'dynamiclink'>GO</button>";
 		}
 	}
 	
 	function alertsample(){
 		alert("HELLO");
 	}
+	
+	$(document).on('click','.dynamiclink',function(){
+		
+		var sitecode = this.id;
+		
+		$.ajax({
+			url: "journal.php",
+			type: "POST",
+			contentType: "application/x-www-form-urlencoded",
+			data: {sitecode:sitecode, sendertype: <?php echo $sendertypefs;?>}, // add a flag
+			success: function(data, textStatus, jqXHR){
+				window.location="hjournalr.php";
+			},
+			error: function (jqXHR, textStatus, errorThrown){
+				alert('Error!')
+			}
+		});	
+	});
 </script>
