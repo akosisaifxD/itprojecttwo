@@ -40,6 +40,13 @@
 		position: relative;
 		top: 15%;
 		left: 22%;
+		background-color: white;
+	}
+	
+	#hcontent{
+		position: relative;
+		top: 10%;
+		left: 20%;
 	}
 </style>
 
@@ -52,5 +59,7 @@
 </div>
 
 <div id = "holdcontent">
-	<?php include 'content.php' ?>
+	<div id = "hcontent">
+		<?php include 'journalsearch.php' ?>
+	</div>
 </div>
