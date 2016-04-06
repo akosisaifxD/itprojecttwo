@@ -164,7 +164,7 @@
 			cellstwo[i].id = "celltwo" + (i+1);
 			
 			cellstwo[i].innerHTML = "" + cellsvalue[i] + "";
-			cells[i].innerHTML = "<button onclick=\"followlink(this)\" id = \"" + cellsvalue[i] +"\">GO</button>";
+			cells[i].innerHTML = "<button onclick=\"followlink(this)\" id = \"" + cellsvalue[i] +"\" class = \"" + cellsvalue[i] + "\">GO</button>";
 			
 			table.appendChild(rows[i]);
 		}
@@ -177,7 +177,7 @@
 			cellstwo[i].id = "celltwo" + (i+1);
 			
 			cellstwo[i].innerHTML = "" + cellsvalue[i] + "";
-			cells[i].innerHTML = "<button onclick=\"followlink(this)\" id = \"" + cellsvalue[i] +"\">GO</button>";
+			cells[i].innerHTML = "<button onclick=\"followlink(this)\" id = \"" + cellsvalue[i] +"\" class = \"" + cellsvalue[i] + "\">GO</button>";
 			
 			table.appendChild(rows[i]);
 		}
@@ -201,21 +201,21 @@
 	tableholder.appendChild(table);
 	
 	function followlink(siteidnum){
+	
+	
 		$.ajax({
 			url: "journal.php",
+			cache:false,
 			type: "POST",
-			data: {siteid:siteidnum.id, sendertype: <?php echo $sendertypefs;?>}, // add a flag
+			contentType: "application/x-www-form-urlencoded",
+			data: {sitecode:siteidnum.id, sendertype: <?php echo $sendertypefs;?>}, // add a flag
 			success: function(data, textStatus, jqXHR){
-				window.location="journal.php";
+				window.location="hjournalr.php";
 			},
 			error: function (jqXHR, textStatus, errorThrown){
 				alert('Error!')
 			}
 		});	
-	}
-	
-	function previous(){
-		window.location="journalsearch.php";
 	}
 	
 	function changepage(pagenum){
