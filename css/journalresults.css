@@ -1,0 +1,105 @@
+@font-face {
+	font-family: raleway;
+	src: url(fonts/raleway/Raleway-SemiBold.ttf);
+}
+
+#resultsbody{
+	width: 100%;
+	padding-bottom: 2%;
+}	
+	
+#resheader{
+	font-family: raleway;
+	color: #208f4d;
+	font-size: 170%;
+	position: relative;
+	padding-left: 5%;
+	padding-bottom: 1%;
+}
+
+td {
+	border: 1px solid black;
+	border-color: #25b15e;
+	padding: 1%;
+}
+	
+table{
+	width: 50%;
+	margin: 0 auto;
+}
+	
+#head1, #head2{
+	padding: 2%;
+	font-weight: bold;
+	background-color: #156234;
+	color: white;
+}
+
+tr:nth-child(even) {
+	background-color: white;
+}
+	
+tr:nth-child(odd) {
+	background-color: #d5d4d0;
+}
+	
+#resresults{
+	padding-top: 2%;
+}
+	
+#previousbutton{
+	margin-top: 2%;
+}
+
+#pages{
+	padding-top: 3%;
+	text-align: center;
+}
+
+.pgbutton{
+	font-family: raleway;
+	background-color: white;
+	padding-left: 1%;
+	padding-right: 1%;
+	padding-top: 1%;
+	padding-bottom: 1%;
+	margin-right: 0.5%;
+	border-style: solid;
+	border-color: #25b15e;
+	border-radius: 10px 10px 10px 10px;
+}
+
+.startbtn {
+	text-decoration: none;
+	font-family: raleway;
+	background-color: #25b15e!important;
+	color: white!important;
+	padding-left: 1%;
+	padding-right: 1%;
+	padding-top: 1%;
+	padding-bottom: 1%;
+	margin-right: 0.5%;
+	border-style: solid;
+	border-color: #25b15e;
+	border-radius: 10px 10px 10px 10px;
+}
+
+.pgbutton:link, .pgbutton:visited{
+	text-decoration: none;
+	color: black;
+}
+
+.pgbutton:target {
+	text-decoration: none;
+	font-family: raleway;
+	background-color: #25b15e!important;
+	color: white!important;
+	padding-left: 1%;
+	padding-right: 1%;
+	padding-top: 1%;
+	padding-bottom: 1%;
+	margin-right: 0.5%;
+	border-style: solid;
+	border-color: #25b15e;
+	border-radius: 10px 10px 10px 10px;
+}
