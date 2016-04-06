@@ -57,7 +57,7 @@
 
 <div id = "navbar">
 	<div id = "navstat">
-		<?php
+		<?php	
 			if(isset($_SESSION['cpage'])){
 				if($_SESSION['cpage'] === 'trends'){
 					echo "<div id = 'stattitle' class = 'current' onclick = 'trend()'> <i class = 'fa fa-bar-chart fa-2x'> </i> Trends </div>";
