@@ -109,3 +109,16 @@
 	border-width: 1px;
 	border-color: #25b15e;
 }
+
+#searchagn{
+	float: right;
+	position: absolute;
+	top: 40%;
+	right: 10%;
+	padding: 1.5%;
+	background-color: white;
+	border-color: #25b15e;
+	border-style: solid;
+	border-width: 3px;
+	border-radius: 15px 15px 15px 15px;
+}
