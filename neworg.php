@@ -3,12 +3,14 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 
 <!-- END OF EXTERNAL SCRIPT CALLS -->
+<link href='css/neworg.css' rel='stylesheet' type='text/css'>
 
 <div id = "neworgdiv">
-	<div id = "header"> New Organization </div>
+	<div id = "oheader"> New Organization <button class = "enter"> Submit </button> </div>
+	<hr id="jshr">
 	<div id = "inputdiv">
-		<div id="orgnamediv"> Organization Name <input type = "text" id = "orgname"></input></div>
-		<div id="orgtypediv"> Organization Type
+		<div id="orgnamediv"> Organization Name: <input type = "text" id = "orgname"></input></div>
+		<div id="orgtypediv"> Organization Type:
 			<select id = "orgtype">
 				<?php
 					include 'connect.php';
@@ -26,7 +28,8 @@
 				?>
 			</select>
 		</div>
-		<button class = "enter"> SUBMIT </button>
+		<hr id="jshr">
+		
 	</div>
 </div>
 
@@ -40,7 +43,7 @@
 			type: "POST",
 			data: {orgname:orgname, orgtype:orgtype}, // add a flag
 			success: function(data, textStatus, jqXHR){
-				window.location="neworg.php";
+				window.location="horg.php";
 			},
 			error: function (jqXHR, textStatus, errorThrown){
 				alert('Error!')

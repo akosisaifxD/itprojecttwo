@@ -86,15 +86,34 @@
 						die("Connection failed: " . mysqli_connect_error());
 					}
 					
-					$sql = "SELECT municipality.municipalityName, province.provinceName FROM municipality INNER JOIN province ON municipality.provinceID = province.provinceID WHERE municipality.provinceID BETWEEN 2 AND 7 ORDER BY provinceName, municipalityName";
-					$result = mysqli_query($conn, $sql);
-					if (mysqli_num_rows($result) > 0) {
-						// output data of each row
-						while($row = mysqli_fetch_assoc($result)) {
-							echo "<option value = \"" . $row["municipalityName"] ."\">" . $row["municipalityName"] . " (" . $row["provinceName"] . ")" . "</option>";
+					if($_SESSION['accounttype'] === 'Advanced'){
+						$sql = "SELECT municipality.municipalityName, province.provinceName FROM municipality INNER JOIN province ON municipality.provinceID = province.provinceID WHERE municipality.provinceID BETWEEN 2 AND 7 ORDER BY provinceName, municipalityName";
+						$result = mysqli_query($conn, $sql);
+						if (mysqli_num_rows($result) > 0) {
+							// output data of each row
+							while($row = mysqli_fetch_assoc($result)) {
+								echo "<option value = \"" . $row["municipalityName"] ."\">" . $row["municipalityName"] . " (" . $row["provinceName"] . ")" . "</option>";
+							}
+						} else {
+							echo "0 results";
 						}
-					} else {
-						echo "0 results";
+					}
+					
+					if($_SESSION['accounttype'] === 'Basic'){
+						$sql = "SELECT municipality.municipalityName, province.provinceName FROM municipality 
+								INNER JOIN province ON municipality.provinceID = province.provinceID
+								INNER JOIN cenromunicipality ON municipality.municipalityID = cenromunicipality.municipalityID
+								INNER JOIN denr ON cenromunicipality.cenroID = denr.cenroID
+								WHERE denrID = '" .  $checkid . "'";
+						$result = mysqli_query($conn, $sql);
+						if (mysqli_num_rows($result) > 0) {
+							// output data of each row
+							while($row = mysqli_fetch_assoc($result)) {
+								echo "<option value = \"" . $row["municipalityName"] ."\">" . $row["municipalityName"] . " (" . $row["provinceName"] . ")" . "</option>";
+							}
+						} else {
+							echo "0 results";
+						}
 					}
 				?>
 			</select>

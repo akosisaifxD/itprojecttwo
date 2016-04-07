@@ -40,6 +40,11 @@
 		position: relative;
 		top: 15%;
 		left: 22%;
+		background-color: white;
+	}
+	
+	#hcontent{
+		position: relative;
 	}
 </style>
 
@@ -52,5 +57,7 @@
 </div>
 
 <div id = "holdcontent">
-	<?php include 'content.php' ?>
+	<div id = "hcontent">
+		<?php include 'newcperson.php' ?>
+	</div>
 </div>

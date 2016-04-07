@@ -72,6 +72,7 @@
 		<div id = "jsheader">
 			<!-- Header which uses PHP code to display siteID and contact person -->
 			<header> Journal - Site <?php echo $sitecode; ?></header><a id = "subhead"><?php echo "Handled by " . $contactperson; ?></a>
+			<button id = "searchagn"> Return </button>
 		</div>
 		<hr id="jshr">
 			<div id ="bodyrep">
@@ -195,10 +196,9 @@
 		});
 	});
 	
-	//function used by previous button
-	function previous(){
+	$('#searchagn').on('click',function(){
 		window.location="hjournal.php";
-	}
+	});
 	
 </script>
 

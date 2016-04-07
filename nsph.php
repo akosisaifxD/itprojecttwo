@@ -1,0 +1,1 @@
+<img src = "img/ans.png" id = "nsph" />
