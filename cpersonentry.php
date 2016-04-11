@@ -29,6 +29,18 @@
 		echo "0 results";
 	}
 	
+	function generateRandomString($length = 10) {
+		$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		$charactersLength = strlen($characters);
+		$randomString = '';
+		for ($i = 0; $i < $length; $i++) {
+			$randomString .= $characters[rand(0, $charactersLength - 1)];
+		}
+		return $randomString;
+	}
+	
+	$password = generateRandomString();
+	
 	// prepare and bind
 	$stmt = $conn->prepare("INSERT INTO contactperson (contactPersonID, contactPersonName, mobileNumber, telephonenumber, emailaddress, address, password) VALUES (?, ?, ?, ?, ?, ?, ?)");
 	$stmt->bind_param("sssssss", $idparam, $nameparam, $mobnumparam, $telnumparam, $emailparam, $addressparam, $pwparam);
@@ -38,6 +50,36 @@
 	$telnumparam = $telnum;
 	$emailparam = $email;
 	$addressparam = $address;
-	$pwparam = "PASSWORD";
+	$pwparam = $password;
 	$stmt->execute();
+	
+	require 'PHPMailerAutoload.php';
+
+	$mail = new PHPMailer;
+
+	//$mail->SMTPDebug = 3;                               // Enable verbose debug output
+
+	$mail->isSMTP();                                      // Set mailer to use SMTP
+	$mail->Host = 'smtp.gmail.com';  						  // Specify main and backup SMTP servers
+	$mail->SMTPAuth = true;                               // Enable SMTP authentication
+	$mail->Username = 'denrtestmailer@gmail.com';                 // SMTP username
+	$mail->Password = 'denr2016';                           // SMTP password
+	$mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
+	$mail->Port = 587;                                    // TCP port to connect to
+
+	$mail->setFrom('denrtestmailer@gmail.com', 'DENRTestMailer');
+	$mail->addAddress($email);               // Name is optional
+
+	$mail->isHTML(true);                                  // Set email format to HTML
+
+	$mail->Subject = 'iPuno Account';
+	$mail->Body    = 'Your password is ' . $password;
+	$mail->AltBody = 'Your password is ' . $password;
+
+	if(!$mail->send()) {
+		echo 'Message could not be sent.';
+		echo 'Mailer Error: ' . $mail->ErrorInfo;
+	} else {
+		echo 'Message has been sent';
+	}
 ?>

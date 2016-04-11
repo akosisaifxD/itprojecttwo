@@ -7,6 +7,11 @@
 
 <div id = "neworgdiv">
 	<div id = "oheader"> New Organization <button class = "enter"> Submit </button> </div>
+	<?php
+		if(isset($_GET["success"])){
+			echo "<div id = \"success\"> Successfully added new Organization </div>";
+		}
+	?>
 	<hr id="jshr">
 	<div id = "inputdiv">
 		<div id="orgnamediv"> Organization Name: <input type = "text" id = "orgname"></input></div>
@@ -43,7 +48,7 @@
 			type: "POST",
 			data: {orgname:orgname, orgtype:orgtype}, // add a flag
 			success: function(data, textStatus, jqXHR){
-				window.location="horg.php";
+				window.location="horg.php?success=true";
 			},
 			error: function (jqXHR, textStatus, errorThrown){
 				alert('Error!')

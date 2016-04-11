@@ -80,7 +80,7 @@
 		text-align: center;
 		box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 		width: 15%;
-		height: 23%;
+		height: 50%;
 	}
 	
 	.accoption{
@@ -114,7 +114,7 @@
 	<div id = "headersettings" class = "headersettings" onclick = "accoptions()"> <i class="fa fa-cog fa-2x"></i> </div>
 	<div id = "currentuser"> <?php echo $username;?> </div>
 	<div id="settingscontent" class="settingscontent">
-		
+		<div id = "accsettings" class = "accoption"> Account Settings </div>
 		<div id = "signout" class = "accoption"> Sign out </div>
 	</div>
 </div>
@@ -126,5 +126,9 @@
 
 	$('#signout').on('click',function(){
 		window.location="logoutprocess.php";
+	});
+	
+	$('#accsettings').on('click',function(){
+		window.location="hacc.php";
 	});
 </script>

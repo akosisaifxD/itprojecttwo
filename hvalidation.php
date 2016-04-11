@@ -59,6 +59,6 @@
 
 <div id = "holdcontent">
 	<div id = "hcontent">
-		<?php include 'vph.php' ?>
+		<?php include 'validation.php' ?>
 	</div>
 </div>

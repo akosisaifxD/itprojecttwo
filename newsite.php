@@ -1,29 +1,32 @@
 <head>
 	<link rel="stylesheet" type="text/css" href="/js/jquery.tokenize.css" />
 </head>
-<style>
-.organizationcontent, .barangaycontent { 
-	width: 600px;
- }
-</style>
+
+<link href='css/newsite.css' rel='stylesheet' type='text/css'>
 
 <?php include 'connect.php'?>
 
 <!-- EXTERNAL SCRIPTS -->
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" />
-	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script   src="https://code.jquery.com/ui/1.12.0-rc.1/jquery-ui.min.js"   integrity="sha256-mFypf4R+nyQVTrc8dBd0DKddGB5AedThU73sLmLWdc0="   crossorigin="anonymous"></script>
 	<script type="text/javascript" src="jquery.tokenize.js"></script>
 	<script src="//code.jquery.com/jquery-1.10.2.js"></script>
 	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 
 <!-- END EXTERNAL SCRIPTS -->
 
 <div class = "mainformdiv">
-
+	<div id = "sheader"> New Site <button class = "enter" onclick = "exampsaif()"> Submit </button> </div>
+	<?php
+		if(isset($_GET["success"])){
+			echo "<div id = \"success\"> Successfully added new Organization </div>";
+		}
+	?>
+	<hr id="jshr">
 	<!-- MAIN FORM -->
 		<!-- YEAR INPUT -->
-		<div class = "mainformcontent">
-			<label class="yearlabel">Year</label>
+		<div class="yearlabel">Year
 			<div class="inputdiv">
 				<select class = "yearcontent" id = "yearval">
 					<!-- PHP CODE -->
@@ -41,26 +44,23 @@
 		<!-- END YEAR INPUT -->
 		
 		<!-- DECLARED AREA INPUT -->
-		<div class = "mainformcontent">
-			<label class="decarealabel">Declared Area</label>
+		<div class="decareadiv">Declared Area
 			<div class="inputdiv">
-				<input type="text" id = "decarea"></input>
+				<input type="text" id = "decarea"></input> ha
 			</div>
 		</div>
 		<!-- END DECLARED AREA INPUT -->
 		
 		<!-- CONTACT PERSON INPUT -->
-		<div class = "mainformcontent">
-			<label class="decarealabel">Contact Person</label>
+		<div class="cplabel">Contact Person
 			<div class="inputdiv">
-				<input id="cperson">
+				<input id="cperson" type = "text"></input>
 			</div>
 		</div>
 		<!-- END CONTACT PERSON INPUT -->
 		
 		<!-- ORGANIZATION INPUT -->
-		<div class = "mainformcontent">
-			<label class="decarealabel">Organization</label>
+		<div class="orglabel">Organization
 			<div class="inputdiv">
 				<select class = "organizationcontent" multiple="multiple" id="orgid">
 				<!-- PHP CODE -->
@@ -85,10 +85,19 @@
 		</div>
 		<!-- END ORGANIZATION INPUT -->
 		<br>
-	
+
+		<div class="zonelabel">Zone
+			<div class="inputdiv">
+				<select class = "zonecontent" id = "zonecontent">
+					<option value= "Protection"> Protection </option>
+					<option value= "Production"> Production </option>
+					<option value= "Protection/Production"> Protection/Production </option>
+				</select>
+			</div>
+		</div>
+		
 		<!-- PROVINCE INPUT -->
-		<div class = "mainformcontent">
-			<label class="decarealabel">Province</label>
+		<div class="provlabel">Province
 			<div class="inputdiv">
 				<select class = "provincecontent"  id="provid">
 				<option value="0"></option>
@@ -115,8 +124,7 @@
 		<!-- END PROVINCE INPUT -->
 		
 		<!-- MUNICIPALITY INPUT -->
-		<div class = "mainformcontent">
-			<label class="decarealabel">Municipality</label>
+		<div class="munilabel">Municipality
 			<div class="inputdiv">
 				<select class = "municipalitycontent"  id="municiid">
 				<option value="0"></option>
@@ -127,8 +135,7 @@
 		<!-- END MUNICIPALITY INPUT -->	
 	
 		<!-- BARANGAY INPUT -->
-		<div class = "mainformcontent">
-			<label class="decarealabel">Barangay</label>
+		<div class="brgylabel">Barangay
 			<div class="inputdiv">
 				<select class = "barangaycontent" multiple="multiple" id="brgyid">
 				<option value="0"></option>
@@ -141,22 +148,14 @@
 		</div>
 		<!-- END BARANGAY INPUT -->		
 		
-		<!-- ZONE INPUT -->
-		<div class = "mainformcontent">
-			<label class="zonelabel">Zone</label>
-			<div class="inputdiv">
-				<select class = "zonecontent">
-					<option value= "NFProtection"> NF Protection </option>
-					<option value= "NFProduction"> NF Production </option>
-				</select>
-			</div>
-		</div>
-		<!-- END ZONE INPUT -->
-		
 		<!-- COORDINATE TABLE INPUT -->
-		<div class = "mainformtable">
-			<section class = "table">
+		<div class = "tablelabel">
 				<header class = "tableheader">Coordinates</header>
+				<div id = "tablebuttons">
+					<button type = "button" class = "addbutton" onclick="addRow()"><i class="fa fa-plus-square"></i> Add Row </button>
+					<button type = "button" class = "removebutton" onclick="removeRow()"><i class="fa fa-minus-square"></i> Remove Row </button>
+					<button type = "button" class = "previewbutton" id="previewbutton" onclick="prevcoords()"> <i class="fa fa-eye"></i> Preview </button>
+				</div>
 					<table class="formactualtable" id="formactualtableid">
                         <thead>
                             <tr>
@@ -182,20 +181,133 @@
 								<td><input type = "text" id = "lat3"></input></td>
                         </tbody>
                     </table>
-					
-					<button type = "button" class = "mainformbutton" onclick="addRow()"> + Add Rows </button>
-			</section>
 		</div>
 		<!-- END COORDINATE TABLE INPUT -->
-		
-		<button onclick = "exampsaif()"> SUBMIT </button>
+	<hr id="endjshr">
 	<!-- END OF MAIN FORM -->
+</div>
+
+<div id="prevmodal" class="prevmodal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">x</span>
+    <div id="map"></div>
+  </div>
+
 </div>
 
 
 <!-- JAVASCRIPT CODES -->
 <script>
+	var map;
+	var polygon;
+	var polycheck = 0;
+	
+    function initMap() {
+		var mapOptions = {
+				zoom: 10,
+				center: {
+					lat: 16.52023885,
+					lng: 120.8456877
+                },
+                mapTypeId: google.maps.MapTypeId.SATELLITE
+		};
+		map = new google.maps.Map(document.getElementById("map"),mapOptions);  
+    }
+	
+	function prevcoords(){
+		var checker = 0;
+		var table = document.getElementById("formactualtableid"); //Call Coordinate Table
+		var offnum = table.rows.length - 1;
+		
+		for(var i = 0; i < offnum; i++){
+			var latelem = document.getElementById("lat" + (i + 1)).value.replace(/ /g,'');
+			var lngelem = document.getElementById("lng" + (i + 1)).value.replace(/ /g,'');
+			
+			if(latelem.length == 0){
+				checker = 1;
+			}
+			if(lngelem.length == 0){
+				checker = 1;
+			}
+		}
+		
+		if(checker == 1){
+			alert("All coordinates must be specified and must not have empty values");
+		}else{
+			// Get the modal
+			var modal = document.getElementById('prevmodal');
 
+			// Get the <span> element that closes the modal
+			var span = document.getElementsByClassName("close")[0];
+			
+			modal.style.display = "block";
+
+			// When the user clicks on <span> (x), close the modal
+			span.onclick = function() {
+				modal.style.display = "none";
+			}
+			
+			
+			// When the user clicks anywhere outside of the modal, close it
+			window.onclick = function(event) {
+				if (event.target == modal) {
+					modal.style.display = "none";
+				}
+			}
+			var polygonc = new google.maps.MVCArray();
+			
+			var flat;
+			var flng;
+			
+			for(var i = 0; i < offnum; i++){
+				var latelem = document.getElementById("lat" + (i + 1)).value;
+				var lngelem = document.getElementById("lng" + (i + 1)).value;
+				
+				if(i === 0){
+					flat = latelem;
+					flng = lngelem;
+				}
+				
+				var point = new google.maps.LatLng(parseFloat(latelem), parseFloat(lngelem));
+				polygonc.insertAt(polygonc.length, point);
+			}
+			
+			if(polycheck == 0){
+				polycheck = 1;
+			}else{
+				polygon.setMap(null);
+			}
+			
+			polygon = new google.maps.Polygon({
+							paths: polygonc,
+							strokeColor: 'yellow',
+							strokeOpacity: 0.8,
+							strokeWeight: 1,
+							fillColor: 'yellow',
+							fillOpacity: 0.7
+			});
+			
+			polygon.setMap(map);
+			
+			google.maps.event.trigger(map, 'resize');
+			map.setZoom(16);
+			
+			map.setCenter({lat:parseFloat(flat), lng:parseFloat(flng)});
+		}
+	}
+	
+	function removeRow(){
+		var table = document.getElementById("formactualtableid"); //Call Coordinate Table
+		var x = table.rows.length; //Take number of rows of Coordinate Table
+		if(x > 4){
+			table.deleteRow(x - 1);
+		}else{
+			alert("A polygon must have at least 3 coordinate points");
+		}
+	}
+	
 	//ADD ROW FUNCTION FOR COORDINATE TABLE IN MAIN FORM
 	function addRow(){
 		var table = document.getElementById("formactualtableid"); //Call Coordinate Table
@@ -1424,10 +1536,35 @@ $(function() {
 });
 
 	function exampsaif(){
+		var sitevalidate = 0;
+		
 		var year = document.getElementById("yearval").value;
 		var decarea = document.getElementById("decarea").value;
+		if(decarea.replace(/ /g,'').length == 0){
+			sitevalidate = 1;
+		}
+		
 		var cperson = document.getElementById("cperson").value;
+		if(cperson.replace(/ /g,'').length == 0){
+			sitevalidate = 1;
+		}
+		
+		
 		var organization = $('#orgid').val();
+		
+		if(organization == undefined){
+			sitevalidate = 1;
+		}else{
+			var org = "";
+			
+			for(var j = 0; j < organization.length; j++){
+				org = org + organization[j];
+				if(j != organization.length - 1){
+					org = org + ",";
+				}
+			}
+		}
+		
 		
 		var table = document.getElementById("formactualtableid");
 		var offnum = table.rows.length - 1;
@@ -1438,6 +1575,17 @@ $(function() {
 		for(var i = 0; i < offnum; i++){
 			var latelem = document.getElementById("lat" + (i + 1)).value;
 			var lngelem = document.getElementById("lng" + (i + 1)).value;
+			
+			var latelemc = latelem.replace(/ /g,'');
+			var lngelemc = lngelem.replace(/ /g,'');
+			
+			if(latelemc.length == 0){
+				sitevalidate = 1;
+			}
+			if(lngelemc.length == 0){
+				sitevalidate = 1;
+			}
+			
 			latitudestring = latitudestring + latelem;
 			longitudestring = longitudestring + lngelem;
 			if(i !== (offnum - 1)){
@@ -1446,7 +1594,51 @@ $(function() {
 			}
 		}
 		
+		var zonec = document.getElementById("zonecontent").value;
 		
+		var provc = document.getElementById("provid").value;
+		if(provc.replace(/ /g,'').length == 0){
+			sitevalidate = 1;
+		}
+		
+		var municic = document.getElementById("municiid").value;
+		if(municic.replace(/ /g,'').length == 0){
+			sitevalidate = 1;
+		}
+		
+		var brgy = $('#brgyid').val();
+		
+		if(brgy == undefined){
+			sitevalidate = 1;
+		}else{
+			var brgyc = "";
+			
+			for(var k = 0; k < brgy.length; k++){
+				brgyc = brgyc + brgy[k];
+				if(k != brgy.length - 1){
+					brgyc = brgyc + ",";
+				}
+			}
+		}
+		
+
+		if(sitevalidate == 1){
+			alert("Some fields are empty. Please fill up the form completely.");
+		}else{
+			$.ajax({
+				url: "siteprocess.php",
+				type: "POST",
+				data: {year:year, decarea:decarea, cperson:cperson, org:org, latstring:latitudestring, lngstring:longitudestring, zonec:zonec, provc:provc, municic: municic, brgyc: brgyc}, // add a flag
+				success: function(data, textStatus, jqXHR){
+					window.location="hsite.php?success=true";
+				},
+				error: function (jqXHR, textStatus, errorThrown){
+					alert('Error!')
+				}
+			});
+		}
 	}
 </script>
 <!-- END OF JAVASCRIPT CODES -->
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAyGBTdSmKQ2wq_L0QhV6fZcOLWIO2IbXs&callback=initMap"></script>
