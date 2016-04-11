@@ -68,3 +68,11 @@
 	border-width: 3px;
 	border-radius: 15px 15px 15px 15px;
 }
+
+#success{
+	padding-left: 5%;
+	font-family: raleway;
+	font-size: 90%;
+	color: green;
+	margin-bottom: 2%;
+}

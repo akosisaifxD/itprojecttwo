@@ -1,0 +1,330 @@
+#sheader{
+	font-family: raleway;
+	color: #208f4d;
+	font-size: 170%;
+	position: relative;
+	padding-top: 5%;
+	padding-left: 5%;
+	padding-bottom: 1%;
+}
+
+#jshr{
+	width: 90%;
+	border-color: #25b15e;
+}
+
+#endjshr{
+	position: absolute;
+	left: 5%;
+	top: 500%;
+	width: 90%;
+	border-color: #25b15e;
+}
+
+.enter{
+	float: right;
+	position: absolute;
+	top: 40%;
+	right: 10%;
+	padding: 1.5%;
+	background-color: white;
+	border-color: #25b15e;
+	border-style: solid;
+	border-width: 3px;
+	border-radius: 15px 15px 15px 15px;
+}
+
+#tablebuttons{
+	position: relative;
+	width: 100%;
+}
+
+.addbutton{
+	position: absolute;
+	float: left;
+	font-family: raleway;
+	padding: 1.5%;
+	width: 20.5%;
+	padding-left: 0%;
+	text-align: left;
+	font-size: 80%;
+	color: #25b15e;
+	background-color: white;
+	border-style: none;
+}
+
+.removebutton{
+	position: absolute;
+	font-family: raleway;
+	left: 22%;
+	width: 28.5%;
+	padding: 1.5%;
+	text-align: left;
+	margin-bottom: 20%;
+	font-size: 80%;
+	color: red;
+	background-color: white;
+	border-style: none;
+}
+
+.previewbutton{
+	position: absolute;
+	font-family: raleway;
+	left: 63%;
+	width: 20.5%;
+	padding: 1.5%;
+	text-align: left;
+	margin-bottom: 20%;
+	font-size: 80%;
+	color: blue;
+	background-color: white;
+	border-style: none;
+}
+
+#formactualtableid{
+	margin-top: 15%;
+}
+
+.yearlabel{
+	position: absolute;
+	left: 0%;
+	font-family: raleway;
+	color: #208f4d;
+	font-size: 120%;
+	float: left;
+	width: 5%;
+	margin-top: 2%;
+	padding-left: 7%;
+	padding-bottom: 2%;
+}
+
+.yearcontent{
+	margin-top: 1%;
+	width: 100%;
+	height: 35px;
+	border-color: #25b15e;
+	border-style: solid;
+	border-width: 1px;
+}
+
+.decareadiv{
+	position: absolute;
+	left: 8%;
+	font-family: raleway;
+	color: #208f4d;
+	font-size: 120%;
+	float: left;
+	width: 20%;
+	margin-top: 2%;
+	padding-left: 7%;
+	padding-bottom: 2%;
+}
+
+#decarea{
+	margin-top: 1%;
+	width: 60%;
+	height: 35px;
+	border-color: #25b15e;
+	border-style: solid;
+	border-width: 1px;
+}
+
+.cplabel{
+	position: absolute;
+	left: 25%;
+	font-family: raleway;
+	color: #208f4d;
+	font-size: 120%;
+	float: left;
+	width: 20%;
+	margin-top: 2%;
+	padding-left: 7%;
+	padding-bottom: 2%;
+}
+
+#cperson{
+	margin-top: 1%;
+	width: 100%;
+	height: 35px;
+	border-color: #25b15e;
+	border-style: solid;
+	border-width: 1px;
+}
+
+.orglabel{
+	position: absolute;
+	left: 0%;
+	top: 135%;
+	font-family: raleway;
+	color: #208f4d;
+	font-size: 120%;
+	float: left;
+	width: 25%;
+	margin-top: 2%;
+	padding-left: 7%;
+	padding-bottom: 2%;
+}
+
+#orgid{
+	margin-top: 1%;
+	width: 100%;
+	height: 50%;
+	border-color: #25b15e;
+	border-style: solid;
+	border-width: 1px;
+}
+
+.zonelabel{
+	position: absolute;
+	left: 27%;
+	top: 135%;
+	font-family: raleway;
+	color: #208f4d;
+	font-size: 120%;
+	float: left;
+	width: 25%;
+	margin-top: 2%;
+	padding-left: 7%;
+	padding-bottom: 2%;
+}
+
+.zonecontent{
+	margin-top: 1%;
+	width: 72%;
+	height: 35px;
+	border-color: #25b15e;
+	border-style: solid;
+	border-width: 1px;
+}
+
+.provlabel{
+	position: absolute;
+	left: 0%;
+	top: 210%;
+	font-family: raleway;
+	color: #208f4d;
+	font-size: 120%;
+	float: left;
+	width: 25%;
+	margin-top: 2%;
+	padding-left: 7%;
+	padding-bottom: 2%;
+}
+
+#provid{
+	margin-top: 1%;
+	width: 60%;
+	height: 35px;
+	border-color: #25b15e;
+	border-style: solid;
+	border-width: 1px;
+}
+
+.munilabel{
+	position: absolute;
+	left: 17%;
+	top: 210%;
+	font-family: raleway;
+	color: #208f4d;
+	font-size: 120%;
+	float: left;
+	width: 25%;
+	margin-top: 2%;
+	padding-left: 7%;
+	padding-bottom: 2%;
+}
+
+#municiid{
+	margin-top: 1%;
+	width: 40%;
+	height: 35px;
+	border-color: #25b15e;
+	border-style: solid;
+	border-width: 1px;
+}
+
+.brgylabel{
+	position: absolute;
+	left: 30%;
+	top: 210%;
+	font-family: raleway;
+	color: #208f4d;
+	font-size: 120%;
+	float: left;
+	width: 25%;
+	margin-top: 2%;
+	padding-left: 7%;
+	padding-bottom: 2%;
+}
+
+#brgyid{
+	margin-top: 1%;
+	width: 60%;
+	border-color: #25b15e;
+	border-style: solid;
+	border-width: 1px;
+}
+
+.tablelabel{
+	position: absolute;
+	left: 50%;
+	font-family: raleway;
+	color: #208f4d;
+	font-size: 120%;
+	float: left;
+	width: 38%;
+	height: 380%;
+	overflow-x: hidden;
+	overflow-y: scroll; 
+	padding-left: 7%;
+	padding-bottom: 2%;
+}
+
+.prevmodal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 1px;
+    top: 1px;
+    width:100%; /* Full width */
+    height: 100%; /* Full height */
+	overflow: hidden;
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 40%; /* Could be more or less, depending on screen size */
+	
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#map{
+	width: 100%;
+	height: 60%;
+}
+
+#success{
+	padding-left: 5%;
+	font-family: raleway;
+	font-size: 90%;
+	color: green;
+	margin-bottom: 2%;
+}
