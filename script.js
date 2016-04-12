@@ -993,7 +993,13 @@ function drawChart(data, titleCombo) {
 function heatmapChart(isChecked) {
 	if(isChecked) {
 		for(var key in siteAttributesPool) {
-			if(siteAttributesPool[key].stats["survivalRate"] >= 85) {
+			if(statsPool.hasOwnProperty(key) == false) {
+				siteAttributesPool[key].polygon.setOptions({
+					strokeWeight: 1,
+					fillColor: 'red',
+					strokeColor: 'red'
+				});
+			} else if(statsPool[key]["survivalRate"] >= 85) {
 				siteAttributesPool[key].polygon.setOptions({
 					strokeWeight: 1,
 					fillColor: 'yellow',
@@ -1031,7 +1037,6 @@ function search() {
 function filter() {
 	searchResults = {};
 	var queryString = "WHERE";
-	var notQueryString = "WHERE";
 	
 	var counter = 0;
 	for(var i = value0; i <= value1; i++) {
