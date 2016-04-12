@@ -27,7 +27,7 @@
 	$height = array();
 	$diameter = array();
  	$siteCode = $_GET['id'];
- 	$sql = "SELECT * FROM validation WHERE siteCode='".$siteCode."' order by validationDate desc limit 1" ;
+ 	$sql = "SELECT * FROM validation WHERE siteCode='".$siteCode."' order by startDate desc limit 1" ;
  	$result = $conn->query($sql);
  	while($row = $result->fetch_assoc()) {
 

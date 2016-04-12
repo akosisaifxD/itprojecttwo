@@ -7,8 +7,8 @@
 	<hr id="jshr">
 	<div id = "inputdiv">
 		<form class="form-horizontal" method="POST" action="submitValidation.php">
-			<div id = "startdatelabel"> Start Date: <input type="date" class="form-control" name="dateFrom" id="dateFrom"> </div>
-			<div id = "enddatelabel"> End Date: <input type="date" class="form-control" name="dateTo" id="dateTo"/> </div>
+			<div id = "startdatelabel"> Start Date: <input type="date" class="form-control" name="startDate" id="dateFrom"> </div>
+			<div id = "enddatelabel"> End Date: <input type="date" class="form-control" name="endDate" id="dateTo"/> </div>
 			<div id = "surveyorlabel"> Surveyor: <input type="text" class="form-control" name="surveyor" id="surveyor"> </div>
 			<div id = "inputbylabel"> Input By: <input type="text" class="form-control" name="inputBy" id="inputBy"> </div>
 			<div id = "areavalidatedlabel"> Area Validated: <input type="text" class="form-control" name="area" id="area"> </div>
@@ -29,25 +29,16 @@
 					</tbody>
 				</table>
 			</div>
-		</form>
+			<input type="submit" class="btn btn-success"></input>
 	</div>
+	
+	</form>
 	<hr id="jshr">
+	
+</div>                                                                                  
+  
 </div>
-
-                                      <form class="form-horizontal" method="POST" action="submitValidation.php">                                           
-                      <section class="panel">
-
-                          
-                      </section>
-                                          
-                                          <!-- Buttons -->
-                                          <div class="form-group">
-                                             <!-- Buttons -->
-                       <div class="col-lg-offset-2 col-lg-9">
-                        <button type="submit" class="btn btn-success">Submit</button>
-                       </div>
-                                          </div>
-                                      </form>
+</div>
 
 <script type="text/javascript">
 	$(document).ready(function() {
@@ -78,9 +69,9 @@
 			xmlhttp.open("GET","getSiteSpecies.php?id="+id,true);
 			xmlhttp.send();
 			
-		} //end of else
+		} 
 		
-	});//end of keyup function                                        
+	});                                       
 </script>
 
 <script type="text/javascript">

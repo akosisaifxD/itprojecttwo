@@ -1,8 +1,19 @@
 <?php
+	session_start();
+
+	if(isset($_POST['surveyor'])){
+		$_SESSION['startDate'] = $_POST['startDate'];
+		$_SESSION['endDate'] = $_POST['endDate'];
+		$_SESSION['surveyor'] = $_POST['surveyor'];
+		$_SESSION['inputBy'] = $_POST['inputBy'];
+		$_SESSION['area'] = $_POST['area'];
+		$_SESSION['siteCode'] = $_POST['siteCode'];
+
+	}
 	$servername = "localhost";
 	$username = "root";
 	$password = "";
-	$dbname = "etanim3";
+	$dbname = "newschema";
 
 	$conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -10,12 +21,12 @@
 		die("Connection failed: " . $conn->connect_error);
 	} 
 
-	$dateFrom = $_POST['dateFrom'];
-	$dateTo = $_POST['dateTo'];
-	$surveyor = $_POST['surveyor'];
-	$siteCode = $_POST['siteCode'];
-	$areaValidated = (float)$_POST['area'];
-	$inputBy = $_POST['inputBy'];
+	$dateFrom = $_SESSION['startDate'];
+	$dateTo = $_SESSION['endDate'];
+	$surveyor = $_SESSION['surveyor'];
+	$siteCode = $_SESSION['siteCode'];
+	$areaValidated = (float)$_SESSION['area'];
+	$inputBy = $_SESSION['inputBy'];
 	$validationID;
 
 	$sql = "SELECT validationID FROM `validation` order by 1 desc limit 1";
@@ -46,7 +57,7 @@
 		$diameter[$x] = $_POST['diameter'][$x];
 		$height[$x] = $_POST['height'][$x];
 	}
-	echo "$commonNames[0]";
+	
 	$speciesID = array();
 	for($y=0;$y < count($commonNames);$y++){
 		$sql = "SELECT speciesID FROM species where commonName='".$commonNames[$y]."'";
