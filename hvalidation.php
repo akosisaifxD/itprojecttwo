@@ -41,7 +41,6 @@
 		top: 15%;
 		left: 22%;
 		background-color: white;
-		text-align: center;
 	}
 	
 	#hcontent{

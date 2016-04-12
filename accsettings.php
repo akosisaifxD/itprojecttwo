@@ -28,7 +28,7 @@
 	<hr id="jshr">
 	<div id = "settings">
 		<div id="email"> Email Address: <?php echo $email;?> <button id = "cemail" class = "button" onclick = "changeEmail()"> Change E-mail Address </button> </div>
-		<div id="pw"> Password: <button id = "cpass" class = "button"> Change Password </button> </div>
+		<div id="pw"> Password: <button id = "cpass" class = "button" onclick = "changePassword()"> Change Password </button> </div>
 	</div>
 </div>
 
@@ -36,7 +36,7 @@
 
   <!-- Modal content -->
   <div class="e-modal-content">
-    <span class="close">x</span>
+    <span class="close" id="close">x</span>
     <div id="cemailadd">
 		<div id = "cemheader"> Change E-mail Address </div>
 		<hr id="jshr">
@@ -48,17 +48,57 @@
 
 </div>
 
+<div id="pwmodal" class="pwmodal">
+
+  <!-- Modal content -->
+  <div class="pw-modal-content">
+    <span class="closetwo" id="closetwo">x</span>
+    <div id="cpw">
+		<div id = "cpwheader"> Change Password </div>
+		<hr id="jshr">
+		<div id = "oldpw"> Old Password: <input type = "password" id = "opw"></input></div>
+		<div id = "newpw"> New Password: <input type = "password" id = "npw"></input></div>
+		<div id = "conpw"> Confirm Password: <input type = "password" id = "copw"></input></div>
+		<button class = "changepw"> Change </button>
+	</div>
+  </div>
+
+</div>
+
 <script>
 	function changeEmail(){
 		// Get the modal
 		var modal = document.getElementById('emailmodal');
 
 				// Get the <span> element that closes the modal
-		var span = document.getElementsByClassName("close")[0];
+		var span = document.getElementById("close");
 				
 		modal.style.display = "block";
 
 				// When the user clicks on <span> (x), close the modal
+		span.onclick = function() {
+			modal.style.display = "none";
+		}
+				
+				
+		// When the user clicks anywhere outside of the modal, close it
+		window.onclick = function(event) {
+			if (event.target == modal) {
+				modal.style.display = "none";
+			}
+		}
+	}
+	
+	function changePassword(){
+		// Get the modal
+		var modal = document.getElementById('pwmodal');
+
+				// Get the <span> element that closes the modal
+		var span = document.getElementById("closetwo");
+				
+		modal.style.display = "block";
+
+		// When the user clicks on <span> (x), close the modal
 		span.onclick = function() {
 			modal.style.display = "none";
 		}
@@ -86,5 +126,29 @@
 				alert('Error!')
 			}
 		});
+	});
+	
+	$('.changepw').on('click',function(){
+		var oldpw = document.getElementById("opw").value;
+		var newpw = document.getElementById("npw").value;
+		var checkpw = document.getElementById("copw").value;
+		
+		var userid = <?php echo $userid;?>;
+		
+		if(newpw === checkpw){
+			$.ajax({
+				url: "updatepw.php",
+				type: "POST",
+				data: {userid:userid, oldpw:oldpw, newpw:newpw}, // add a flag
+				success: function(data, textStatus, jqXHR){
+				},
+				error: function (jqXHR, textStatus, errorThrown){
+					alert('Error!')
+				}
+			});
+		}else{
+			alert("please make sure that value in new password and confirm password are the same.");
+		}
+
 	});
 </script>
