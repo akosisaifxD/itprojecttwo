@@ -19,6 +19,17 @@
 	width: 80%;
 }
 
+#cpwheader{
+	font-family: raleway;
+	color: #208f4d;
+	font-size: 170%;
+	position: relative;
+	padding-top: 5%;
+	padding-left: 5%;
+	padding-bottom: 1%;
+	width: 80%;
+}
+
 #jshr{
 	width: 90%;
 	border-color: #25b15e;
@@ -74,6 +85,30 @@
 	padding-bottom: 2%;
 }
 
+#oldpw{
+	position: relative;
+	left: 0%;
+	font-family: raleway;
+	color: #208f4d;
+	font-size: 100%;
+	float: left;
+	width: 80%;
+	margin-top: 2%;
+	padding-left: 7%;
+	padding-bottom: 2%;
+}
+#newpw, #conpw{
+	position: relative;
+	left: 0%;
+	font-family: raleway;
+	color: #208f4d;
+	font-size: 100%;
+	float: left;
+	width: 80%;
+	padding-left: 7%;
+	padding-bottom: 2%;
+}
+
 .button{
 	background-color: white;
 	font-size: 80%;
@@ -106,7 +141,28 @@
     border: 1px solid #888;
     width: 40%; /* Could be more or less, depending on screen size */
 	height: 30%;
-	
+}
+
+.pwmodal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 1px;
+    top: 1px;
+    width:100%; /* Full width */
+    height: 100%; /* Full height */
+	overflow: hidden;
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.pw-modal-content {
+    background-color: #fefefe;
+    margin: 5% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 40%; /* Could be more or less, depending on screen size */
+	height: 36%;
 }
 
 .close {
@@ -124,9 +180,35 @@
     text-decoration: none;
  }
  
+ .closetwo {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+	font-family: raleway;
+	cursor: pointer;
+}
+
+.closetwo:hover,
+.closetwo:focus {
+    color: black;
+    text-decoration: none;
+ }
+ 
  #newea{
 	margin-top: 1%;
 	width: 50%;
+	height: 35px;
+	border-color: #25b15e;
+	border-style: solid;
+	border-width: 1px;
+	font-size: 100%;
+	font-family: raleway;
+}
+
+ #opw, #npw, #copw{
+	margin-top: 1%;
+	width: 40%;
 	height: 35px;
 	border-color: #25b15e;
 	border-style: solid;
@@ -139,6 +221,20 @@
 	float: right;
 	position: absolute;
 	top: 36%;
+	right: 32%;
+	padding: 0.5%;
+	background-color: white;
+	border-color: #25b15e;
+	border-style: solid;
+	border-width: 3px;
+	border-radius: 15px 15px 15px 15px;
+	cursor: pointer;
+}
+
+.changepw{
+	float: right;
+	position: absolute;
+	top: 43%;
 	right: 32%;
 	padding: 0.5%;
 	background-color: white;
