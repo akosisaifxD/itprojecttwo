@@ -3,10 +3,10 @@
 <link href='css/validation.css' rel='stylesheet' type='text/css'>
 
 <div id = "validationdiv">
-	<div id = "vdheader"> New Validation </div>
+	<div id = "vdheader"> New Seedling Validation </div>
 	<hr id="jshr">
 	<div id = "inputdiv">
-		<form class="form-horizontal" method="POST" action="submitValidation.php">
+		<form class="form-horizontal" method="POST" action="submitSeedling.php">
 			<div id = "startdatelabel"> Start Date: <input type="date" class="form-control" name="startDate" id="dateFrom"> </div>
 			<div id = "enddatelabel"> End Date: <input type="date" class="form-control" name="endDate" id="dateTo"/> </div>
 			<div id = "surveyorlabel"> Surveyor: <input type="text" class="form-control" name="surveyor" id="surveyor"> </div>
@@ -20,16 +20,19 @@
 						<tr>
 							<th id = "spid">Species</th>
 							<th id = "qid">Quantity</th>
-							<th id = "hid">Height </th>
-							<th id = "did">Diameter</th>
+						
 						</tr>
 					</thead>
 					<tbody>
 						<tr>
 							<td><input type="text" name="species[]"></input> </td>
 							<td><input type="text" name="quantity[]" ></input> </td>
-							<td><input type="text" name="height[]" ></input> </td>
-							<td><input type="text" name="diameter[]" ></input> </td>
+				
+						<tr>
+						<tr>
+							<td><input type="text" name="species[]"></input> </td>
+							<td><input type="text" name="quantity[]" ></input> </td>
+				
 						<tr>
 					</tbody>
 				</table>
@@ -71,7 +74,7 @@
 				}
 			};
 
-			xmlhttp.open("GET","getSiteSpecies.php?id="+id,true);
+			xmlhttp.open("GET","getSeedling.php?id="+id,true);
 			xmlhttp.send();
 			
 		} 
@@ -87,13 +90,9 @@
     var newRow   = tableRef.insertRow(tableRef.rows.length);
     var speciesName = newRow.insertCell(0);
     var quantity = newRow.insertCell(1);
-    var height  = newRow.insertCell(2);
-    var diameter  = newRow.insertCell(3);
 
     speciesName.innerHTML = "<input type=text name=species[] id = 'spf'></input>";
     quantity.innerHTML = "<input type=text name=quantity[] id = 'qf'></input>";
-    height.innerHTML = "<input type=text name=height[] id = 'hf'></input>";
-    diameter.innerHTML = "<input type=text name=diameter[] id = 'df'></input>";
 	
 	}
 	
