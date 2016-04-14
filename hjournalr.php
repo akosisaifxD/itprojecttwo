@@ -1,11 +1,11 @@
 <?php
+	session_start();
+
 	if(isset($_SESSION["username"])){
 		
 	}else{
 		header('Location: denrhome.php?login=fail');
 	}
-
-	session_start();
 ?>
 
 <!-- EXTERNAL SCRIPT CALLS -->

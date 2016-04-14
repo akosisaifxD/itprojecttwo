@@ -34,6 +34,7 @@
 					</tbody>
 				</table>
 			</div>
+			<div id = "uploadframe"> Upload Images <input type="file" name="imageupload[]" id="imageupload" multiple> </div>
 			<input type="submit" class="enter"></input>
 	</div>
 	

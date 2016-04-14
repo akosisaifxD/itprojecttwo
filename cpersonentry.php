@@ -1,20 +1,93 @@
 <?php
 	session_start();
-	if(isset($_POST['name'])) {
-		$_SESSION['name'] = $_POST['name'];
+	
+	if(isset($_POST['firstname'])) {
+		$_SESSION['firstname'] = $_POST['firstname'];
+		$_SESSION['lastname'] = $_POST['lastname'];
 		$_SESSION['mobnum'] = $_POST['mobnum'];
 		$_SESSION['telnum'] = $_POST['telnum'];
 		$_SESSION['email'] = $_POST['email'];
 		$_SESSION['address'] = $_POST['address'];
 	}
 	
-	$name = $_SESSION['name'];
+	$errorcount = 0;
+	
+	$errorstring = "";
+	
+	$firstname = trim($_SESSION['firstname']);
+	$lastname = trim($_SESSION['lastname']);
+	
+	$name = $_SESSION['firstname'] . " " . $_SESSION['lastname'];
 	$mobnum = $_SESSION['mobnum'];
 	$telnum = $_SESSION['telnum'];
 	$email = $_SESSION['email'];
 	$address = $_SESSION['address'];
 	
 	$lastid = 0;
+	
+	if(strlen($firstname) === 0 ){
+		$errorcount++;
+		if($errorcount === 1){
+			$errorstring = $errorstring . 'fnamelength=error';	
+		}else{
+			$errorstring = $errorstring . '&fnamelength=error';	
+		}
+	}
+	
+	if(strlen($lastname) > 50 ){
+		$errorcount++;
+		if($errorcount === 1){
+			$errorstring = $errorstring . 'lnameexceed=error';	
+		}else{
+			$errorstring = $errorstring . '&lnameexceed=error';	
+		}
+	}
+	
+	if(strlen($lastname) === 0){
+		$errorcount++;
+		if($errorcount === 1){
+			$errorstring = $errorstring . 'lnamelength=error';	
+		}else{
+			$errorstring = $errorstring . '&lnamelength=error';	
+		}
+	}
+	
+	if(strlen($lastname) > 50 ){
+		$errorcount++;
+		if($errorcount === 1){
+			$errorstring = $errorstring . 'lnameexceed=error';	
+		}else{
+			$errorstring = $errorstring . '&lnameexceed=error';	
+		}
+	}
+	
+	if (!ctype_digit($mobnum) && strlen($mobnum) > 0) {
+		$errorcount++;
+		if($errorcount === 1){
+			$errorstring = $errorstring . 'mobcontchar=error';	
+		}else{
+			$errorstring = $errorstring . '&mobcontchar=error';	
+		}
+	}
+	
+	if (!ctype_digit($telnum) && strlen($telnum) > 0 ) {
+		$errorcount++;
+		if($errorcount === 1){
+			$errorstring = $errorstring . 'telcontchar=error';	
+		}else{
+			$errorstring = $errorstring . '&telcontchar=error';	
+		}
+	}
+	
+	if (!filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
+echo("$email is a valid email address");
+} else {
+  echo("$email is not a valid email address");
+}
+	
+	if($errorcount > 0){
+		header ("location: hcperson.php?" . $errorstring . "&fname=" . $firstname . "&lname=" . $lastname . "&mobnum=" . $mobnum . "&telnum=" . $telnum);
+	}
 	
 	include 'connect.php';
 
