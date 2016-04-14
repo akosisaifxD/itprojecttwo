@@ -76,3 +76,11 @@
 	color: green;
 	margin-bottom: 2%;
 }
+
+#error{
+	padding-left: 5%;
+	font-family: raleway;
+	font-size: 90%;
+	color: red;
+	margin-bottom: 2%;
+}

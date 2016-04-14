@@ -85,6 +85,7 @@
 	border-color: #25b15e;
 	border-style: solid;
 	border-width: 1px;
+	border-collapse: collapse;
 }
 
 #spf, #qf, #hf, #df{
@@ -93,6 +94,7 @@
 	border-color: #25b15e;
 	border-style: solid;
 	border-width: 1px;
+	border-collapse: collapse;
 	height: 30px;
 	font-size: 110%;
 }
@@ -105,6 +107,7 @@
 	border-color: #25b15e;
 	border-style: solid;
 	border-width: 1px;
+	border-collapse: collapse;
 }
 
 .enter{
@@ -118,4 +121,23 @@
 	border-style: solid;
 	border-width: 3px;
 	border-radius: 15px 15px 15px 15px;
+}
+
+#uploadframe{
+	font-family: raleway;
+	font-size: 80%;
+	position: absolute;
+	top: 56%;
+	right: 35%;
+	width: 18%;
+	height: 6%;
+	padding-top: 1%;
+	padding-left: 1%;
+	border-color: #25b15e;
+	border-style: solid;
+	border-width: 1px;
+}
+
+#imageupload{
+	margin-top: 2%;
 }
