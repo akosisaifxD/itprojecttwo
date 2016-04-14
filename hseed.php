@@ -1,7 +1,7 @@
 <!-- EXTERNAL SCRIPT CALLS -->
-
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-
+<head>
+	<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+</head>
 <!-- END OF EXTERNAL SCRIPT CALLS -->
 
 <?php
@@ -13,7 +13,7 @@
 		header('Location: denrhome.php?login=fail');
 	}
 	
-	$_SESSION['cpage'] = 'account';
+	$_SESSION['cpage'] = 'seedling';
 ?>
 
 <style>
@@ -65,6 +65,6 @@
 
 <div id = "holdcontent">
 	<div id = "hcontent">
-		<?php include 'accsettings.php' ?>
+		<?php include 'seedlingValidation.php' ?>
 	</div>
 </div>

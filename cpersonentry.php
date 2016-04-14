@@ -73,8 +73,7 @@
 	$mail->isHTML(true);                                  // Set email format to HTML
 
 	$mail->Subject = 'iPuno Account';
-	$mail->Body    = 'Your password is ' . $password;
-	$mail->AltBody = 'Your password is ' . $password;
+	$mail->Body    = 'Dear ' . $name . ',<br>Good Day!<br><br>Your username is P' . $lastid .' and your password is ' . $password . ". You may use iPuno's journals to report any activity by accessing this link.<br><br>Thank You!";
 
 	if(!$mail->send()) {
 		echo 'Message could not be sent.';

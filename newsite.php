@@ -1,23 +1,7 @@
-<head>
-	<link rel="stylesheet" type="text/css" href="/js/jquery.tokenize.css" />
-</head>
-
-<link href='css/newsite.css' rel='stylesheet' type='text/css'>
-
 <?php include 'connect.php'?>
 
-<!-- EXTERNAL SCRIPTS -->
-	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" />
-<script   src="https://code.jquery.com/ui/1.12.0-rc.1/jquery-ui.min.js"   integrity="sha256-mFypf4R+nyQVTrc8dBd0DKddGB5AedThU73sLmLWdc0="   crossorigin="anonymous"></script>
-	<script type="text/javascript" src="jquery.tokenize.js"></script>
-	<script src="//code.jquery.com/jquery-1.10.2.js"></script>
-	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
-
-<!-- END EXTERNAL SCRIPTS -->
-
 <div class = "mainformdiv">
-	<div id = "sheader"> New Site <button class = "enter" onclick = "exampsaif()"> Submit </button> </div>
+	<div id = "sheader"> New Site <button class = "entert" onclick = "exampsaif()"> Submit </button> </div>
 	<?php
 		if(isset($_GET["success"])){
 			echo "<div id = \"success\"> Successfully added new Organization </div>";
@@ -79,7 +63,9 @@
 					?>
 				</select>
 				<script type="text/javascript">
-					$('.organizationcontent').tokenize();
+					$(document).ready(function() {
+						$('#orgid').multiselect();
+					});
 				</script>
 			</div>
 		</div>
@@ -141,9 +127,6 @@
 				<option value="0"></option>
 				<!-- PHP CODE -->
 				</select>
-				<script type="text/javascript">
-					$('#brgyid').tokenize();
-				</script>
 			</div>
 		</div>
 		<!-- END BARANGAY INPUT -->		
@@ -333,16 +316,17 @@
 		$("#municiid").change(function() {
 			var mval = $(this).val();
 			$("#brgyid").html(moptions[mval]);
+			$('#brgyid').multiselect({ buttonClass: 'btn btn-link brgydd' }  );
 		});
 		
 		var adjoptions = ["<option value='0'></option>","<option value='0'></option>","<option value='0'></option>","<option value='0'></option>","<option value='0'></option>","<option value='0'></option>","<option value='0'></option>","<option value='0'></option>"];
 		
 		var moptions = [
-			"<option value='0'></option>",
+			"",
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 15 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -356,7 +340,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 16 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -370,7 +354,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 17 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -384,7 +368,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 18 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -398,7 +382,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 19 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -412,7 +396,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 20 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -426,7 +410,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 21 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -440,7 +424,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 22 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -454,7 +438,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 23 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -468,7 +452,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 24 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -482,7 +466,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 25 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -496,7 +480,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 26 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -510,7 +494,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 27 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -524,7 +508,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 28 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -538,7 +522,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 29 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -552,7 +536,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 30 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -566,7 +550,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 31 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -580,7 +564,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 32 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -594,7 +578,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 33 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -608,7 +592,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 34 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -622,7 +606,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 35 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -636,7 +620,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 36 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -650,7 +634,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 37 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -664,7 +648,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 38 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -678,7 +662,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 39 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -692,7 +676,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 40 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -706,7 +690,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 41 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -720,7 +704,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 42 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -734,7 +718,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 43 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -748,7 +732,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 44 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -762,7 +746,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 45 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -776,7 +760,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 46 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -790,7 +774,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 47 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -804,7 +788,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 48 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -818,7 +802,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 49 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -832,7 +816,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 50 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -846,7 +830,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 51 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -860,7 +844,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 52 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -874,7 +858,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 53 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -888,7 +872,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 54 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -902,7 +886,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 55 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -916,7 +900,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 56 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -930,7 +914,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 57 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -944,7 +928,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 58 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -958,7 +942,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 59 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -972,7 +956,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 60 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -986,7 +970,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 61 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -1000,7 +984,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 62 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -1014,7 +998,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 63 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -1028,7 +1012,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 64 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -1042,7 +1026,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 65 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -1056,7 +1040,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 66 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -1070,7 +1054,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 67 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -1084,7 +1068,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 68 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -1098,7 +1082,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 69 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -1112,7 +1096,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 70 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -1126,7 +1110,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 71 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -1140,7 +1124,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 72 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -1154,7 +1138,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 73 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -1168,7 +1152,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 74 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -1182,7 +1166,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 75 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -1196,7 +1180,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 76 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -1210,7 +1194,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 77 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -1224,7 +1208,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 78 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -1238,7 +1222,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 79 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -1252,7 +1236,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 80 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -1266,7 +1250,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 81 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -1280,7 +1264,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 82 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -1294,7 +1278,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 83 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -1308,7 +1292,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 84 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -1322,7 +1306,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 85 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -1336,7 +1320,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 86 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -1350,7 +1334,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 87 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -1364,7 +1348,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 88 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -1378,7 +1362,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 89 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -1392,7 +1376,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 90 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -1406,7 +1390,7 @@
 			<?php
 				$sql = "SELECT barangayID, barangayName, municipalityID FROM barangay WHERE municipalityID = 91 ORDER BY barangayName ASC";
 				$result = mysqli_query($conn, $sql);
-				echo "\"<option value='0'></option>";
+				echo "\"";
 				if (mysqli_num_rows($result) > 0) {
 					// output data of each row
 					while($row = mysqli_fetch_assoc($result)) {
@@ -1418,6 +1402,7 @@
 				echo "\"";
 			?>
 		];
+		
 		
 		var options = [
 			"<option value='0'></option>",

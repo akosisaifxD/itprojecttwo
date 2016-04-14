@@ -116,6 +116,10 @@
 			if(isset($_GET["logout"])){
 				echo "<div id = \"error\"> Logout success </div>";
 			}
+			
+			if(isset($_GET["login"])){
+				echo "<div id = \"error\"> You must first login to visit the sites pages. </div>";
+			}
 		?>
 		<div id = "unenter"> DENR ID: </div> <input type = "text" id = "username"></input>
 		<div id = "pwenter"> Password: </div> <input type = "password" id = "password"></input>

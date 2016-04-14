@@ -3,7 +3,7 @@
 <link href='css/validation.css' rel='stylesheet' type='text/css'>
 
 <div id = "validationdiv">
-	<div id = "vdheader"> New Validation </div>
+	<div id = "vdheader"> New Site Validation </div>
 	<hr id="jshr">
 	<div id = "inputdiv">
 		<form class="form-horizontal" method="POST" action="submitValidation.php">
@@ -26,15 +26,15 @@
 					</thead>
 					<tbody>
 						<tr>
-							<td><input type="text" name="species[]"></input> </td>
-							<td><input type="text" name="quantity[]" ></input> </td>
-							<td><input type="text" name="height[]" ></input> </td>
-							<td><input type="text" name="diameter[]" ></input> </td>
+							<td><input type="text" name="species[]" id = "spf"></input> </td>
+							<td><input type="text" name="quantity[]" id = "qf"></input> </td>
+							<td><input type="text" name="height[]" id = "hf"></input> </td>
+							<td><input type="text" name="diameter[]" id = "df"></input> </td>
 						<tr>
 					</tbody>
 				</table>
 			</div>
-			<input type="submit" class="btn btn-success"></input>
+			<input type="submit" class="enter"></input>
 	</div>
 	
 	</form>

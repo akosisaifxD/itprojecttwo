@@ -165,8 +165,12 @@
 			<hr id="jshr">
 		</div>
 	</div>
-	<div id = "commentbox"><textarea rows = "8" cols = "80" name = "report" id = "report"></textarea></div>
-	<div id = "submitbox"><button id = "submit" class = "submit">Submit</button></div>
+	<form action = "journalentry.php" method = "POST" enctype="multipart/form-data">
+		<input type = "hidden" id = "sitecode" name = "sitecode" value = "<?php echo $sitecode;?>"/>
+		<input type = "hidden" id = "senderid" name = "senderid" value = "<?php echo $senderid;?>"/>
+		<div id = "commentbox"><textarea rows = "8" cols = "80" name = "comments" id = "report"></textarea></div>
+		<div id = "submitbox"><input type="file" name="imageupload[]" id="imageupload" multiple><input type = "submit" id = "submit" class = "submit" value = "Submit" /></div>
+	</form>
 </div>
 <hr id="jshr">
 
@@ -179,6 +183,7 @@
 	elem.scrollTop = elem.scrollHeight;
 	
 	//submit journal entry and update database through external php file
+	/*
 	$('.submit').on('click',function(){
 		
 		var textarea = document.getElementById("report").value;
@@ -195,6 +200,7 @@
 			}
 		});
 	});
+	*/
 	
 	$('#searchagn').on('click',function(){
 		window.location="hjournal.php";

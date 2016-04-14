@@ -43,7 +43,7 @@
 	
 	$siteids = array();
 	
-	$sql = "SELECT siteCode FROM site WHERE municipalityID = " . $muniid;
+	$sql = "SELECT siteCode FROM site WHERE municipalityID = " . $muniid . " AND siteCode IS NOT NULL";
 	$result = mysqli_query($conn, $sql);
 	
 	if (mysqli_num_rows($result) > 0) {

@@ -1,11 +1,27 @@
 <!-- EXTERNAL SCRIPT CALLS -->
-
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-
+<head>
+	<link rel="stylesheet" href="css/newsite.css" />
+	
+	<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+	<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	
+	<script src="js/bootstrap-multiselect.js"></script>
+	<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
+</head>
 <!-- END OF EXTERNAL SCRIPT CALLS -->
 
 <?php
 	session_start();
+
+	if(isset($_SESSION["username"])){
+		
+	}else{
+		header('Location: denrhome.php?login=fail');
+	}
+	
 	$_SESSION['cpage'] = 'site';
 ?>
 

@@ -34,7 +34,7 @@
 		color: #e0ded8;
 	}
 	
-	#stattitle-cp, #stattitle-o, #stattitle-s, #stattitle-v{
+	#stattitle-cp, #stattitle-o, #stattitle-s, #stattitle-v, #stattitle-g{
 		cursor: pointer;
 		padding: 10%;
 		font-family: raleway;
@@ -67,30 +67,38 @@
 					echo "<div id = 'stattitle-js' onclick = 'journal()'> <i class = 'fa fa-book fa-2x'> </i> Journals </div>";
 				}
 				
-				echo "<div id = 'stattitle-b'> ADD </div>";
-				
-				if($_SESSION['cpage'] === 'cperson'){
-					echo "<div id = 'stattitle-cp' class = 'current' onclick = 'cperson()'> <i class = 'fa fa-user-plus fa-2x' id = 'decicon'></i> Contact Person </div>";
-				}else{
-					echo "<div id = 'stattitle-cp' onclick = 'cperson()'> <i class = 'fa fa-user-plus fa-2x' id = 'decicon'></i> Contact Person </div>";
-				}
-				
-				if($_SESSION['cpage'] === 'organization'){
-					echo "<div id = 'stattitle-o' class = 'current' onclick = 'org()'> <i class = 'fa fa-users fa-2x' id = 'decicon'></i> Organization </div>";
-				}else{
-					echo "<div id = 'stattitle-o' onclick = 'org()'> <i class = 'fa fa-users fa-2x' id = 'decicon'></i> Organization </div>";
-				}
-				
-				if($_SESSION['cpage'] === 'site'){
-					echo "<div id = 'stattitle-s' class = 'current' onclick = 'site()'> <i class = 'fa fa-map-marker fa-2x' id = 'decicon'></i> Site </div>";
-				}else{
-					echo "<div id = 'stattitle-s' onclick = 'site()'> <i class = 'fa fa-map-marker fa-2x' id = 'decicon'></i> Site </div>";
-				}
-				
-				if($_SESSION['cpage'] === 'validation'){
-					echo "<div id = 'stattitle-v' class = 'current' onclick = 'validation()'> <i class = 'fa fa-check-circle-o fa-2x' id = 'decicon'></i> Validation </div>";
-				}else{
-					echo "<div id = 'stattitle-v' onclick = 'validation()'> <i class = 'fa fa-check-circle-o fa-2x' id = 'decicon'></i> Validation </div>";
+				if($_SESSION['accounttype'] !== 'CPerson'){
+					echo "<div id = 'stattitle-b'> ADD </div>";
+					
+					if($_SESSION['cpage'] === 'cperson'){
+						echo "<div id = 'stattitle-cp' class = 'current' onclick = 'cperson()'> <i class = 'fa fa-user-plus fa-2x' id = 'decicon'></i> Contact Person </div>";
+					}else{
+						echo "<div id = 'stattitle-cp' onclick = 'cperson()'> <i class = 'fa fa-user-plus fa-2x' id = 'decicon'></i> Contact Person </div>";
+					}
+					
+					if($_SESSION['cpage'] === 'organization'){
+						echo "<div id = 'stattitle-o' class = 'current' onclick = 'org()'> <i class = 'fa fa-users fa-2x' id = 'decicon'></i> Organization </div>";
+					}else{
+						echo "<div id = 'stattitle-o' onclick = 'org()'> <i class = 'fa fa-users fa-2x' id = 'decicon'></i> Organization </div>";
+					}
+					
+					if($_SESSION['cpage'] === 'site'){
+						echo "<div id = 'stattitle-s' class = 'current' onclick = 'site()'> <i class = 'fa fa-map-marker fa-2x' id = 'decicon'></i> Site </div>";
+					}else{
+						echo "<div id = 'stattitle-s' onclick = 'site()'> <i class = 'fa fa-map-marker fa-2x' id = 'decicon'></i> Site </div>";
+					}
+					
+					if($_SESSION['cpage'] === 'validation'){
+						echo "<div id = 'stattitle-v' class = 'current' onclick = 'validation()'> <i class = 'fa fa-check-circle-o fa-2x' id = 'decicon'></i> Validation </div>";
+					}else{
+						echo "<div id = 'stattitle-v' onclick = 'validation()'> <i class = 'fa fa-check-circle-o fa-2x' id = 'decicon'></i> Validation </div>";
+					}
+					
+					if($_SESSION['cpage'] === 'seedling'){
+						echo "<div id = 'stattitle-g' class = 'current' onclick = 'seedling()'> <i class='fa fa-tree fa-2x' aria-hidden='true' id = 'decicon'></i> Seedling </div>";
+					}else{
+						echo "<div id = 'stattitle-g' onclick = 'seedling()'> <i class='fa fa-tree fa-2x' aria-hidden='true' id = 'decicon'></i> Seedling </div>";
+					}
 				}
 			}
 		?>
@@ -177,6 +185,20 @@
 			data: {}, // add a flag
 			success: function(data, textStatus, jqXHR){
 				window.location="hvalidation.php";
+			},
+			error: function (jqXHR, textStatus, errorThrown){
+				alert('Error!')
+			}
+		});	
+	}
+	
+	function seedling(){
+		$.ajax({
+			url: "hseed.php",
+			type: "POST",
+			data: {}, // add a flag
+			success: function(data, textStatus, jqXHR){
+				window.location="hseed.php";
 			},
 			error: function (jqXHR, textStatus, errorThrown){
 				alert('Error!')

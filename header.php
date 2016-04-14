@@ -8,20 +8,33 @@
 	$username = "";
 	$userid = $_SESSION['username'];
 	
-	$sqltwo = "SELECT firstName, lastName FROM denr WHERE denrID = \"" . $userid . "\"";
-	$resulttwo = mysqli_query($conn, $sqltwo);
-							
-	if (mysqli_num_rows($resulttwo) > 0) {
-		// output data of each row
-		while($rowtwo = mysqli_fetch_assoc($resulttwo)) {
-			//stores captured name from query onto local variable
-			$username = $rowtwo['firstName'] . " " . $rowtwo['lastName'];
+	if(strpos($userid, 'P') !== false){
+		$sqltwo = "SELECT contactPersonName FROM contactPerson WHERE contactPersonID = \"" . $userid . "\"";
+		$resulttwo = mysqli_query($conn, $sqltwo);
+								
+		if (mysqli_num_rows($resulttwo) > 0) {
+			// output data of each row
+			while($rowtwo = mysqli_fetch_assoc($resulttwo)) {
+				//stores captured name from query onto local variable
+				$username = $rowtwo['contactPersonName'];
+			}
+		} else {
+			//do nothing
 		}
-	} else {
-		//do nothing
-	}
-	
-	
+	}else{
+		$sqltwo = "SELECT firstName, lastName FROM denr WHERE denrID = \"" . $userid . "\"";
+		$resulttwo = mysqli_query($conn, $sqltwo);
+								
+		if (mysqli_num_rows($resulttwo) > 0) {
+			// output data of each row
+			while($rowtwo = mysqli_fetch_assoc($resulttwo)) {
+				//stores captured name from query onto local variable
+				$username = $rowtwo['firstName'] . " " . $rowtwo['lastName'];
+			}
+		} else {
+			//do nothing
+		}
+	}	
 ?>
 
 <style>
@@ -98,9 +111,10 @@
 	}
 	
 	#currentuser{
-		position: absolute;
+		position: relative;
 		top: 54%;
-		left: 86%;
+		float: right;
+		margin-right: 6%;
 		display: inline-block;
 		font-family: raleway;
 		font-size: 130%;

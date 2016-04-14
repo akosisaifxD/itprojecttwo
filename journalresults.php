@@ -45,7 +45,7 @@
 	
 	$siteids = array();
 	
-	$sql = "SELECT siteCode FROM siteorganization WHERE organizationID = " . $orgid;
+	$sql = "SELECT siteCode FROM siteorganization WHERE organizationID = " . $orgid . " AND siteCode IS NOT NULL";
 	$result = mysqli_query($conn, $sql);
 	
 	if (mysqli_num_rows($result) > 0) {

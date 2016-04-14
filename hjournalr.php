@@ -1,4 +1,10 @@
 <?php
+	if(isset($_SESSION["username"])){
+		
+	}else{
+		header('Location: denrhome.php?login=fail');
+	}
+
 	session_start();
 ?>
 
