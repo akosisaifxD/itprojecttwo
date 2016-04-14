@@ -21,12 +21,13 @@
 	border-color: #25b15e;
 }
 
-.enter{
+.entert{
 	float: right;
 	position: absolute;
 	top: 40%;
 	right: 10%;
 	padding: 1.5%;
+	font-size: 50%;
 	background-color: white;
 	border-color: #25b15e;
 	border-style: solid;
@@ -100,7 +101,7 @@
 
 .yearcontent{
 	margin-top: 1%;
-	width: 100%;
+	width: 90px;
 	height: 35px;
 	border-color: #25b15e;
 	border-style: solid;
@@ -109,7 +110,7 @@
 
 .decareadiv{
 	position: absolute;
-	left: 8%;
+	left: 10%;
 	font-family: raleway;
 	color: #208f4d;
 	font-size: 120%;
@@ -122,7 +123,7 @@
 
 #decarea{
 	margin-top: 1%;
-	width: 60%;
+	width: 80%;
 	height: 35px;
 	border-color: #25b15e;
 	border-style: solid;
@@ -144,7 +145,7 @@
 
 #cperson{
 	margin-top: 1%;
-	width: 100%;
+	width: 150%;
 	height: 35px;
 	border-color: #25b15e;
 	border-style: solid;
@@ -190,7 +191,7 @@
 
 .zonecontent{
 	margin-top: 1%;
-	width: 72%;
+	width: 97%;
 	height: 35px;
 	border-color: #25b15e;
 	border-style: solid;
@@ -200,12 +201,12 @@
 .provlabel{
 	position: absolute;
 	left: 0%;
-	top: 210%;
+	top: 190%;
 	font-family: raleway;
 	color: #208f4d;
 	font-size: 120%;
 	float: left;
-	width: 25%;
+	width: 31%;
 	margin-top: 2%;
 	padding-left: 7%;
 	padding-bottom: 2%;
@@ -223,12 +224,12 @@
 .munilabel{
 	position: absolute;
 	left: 17%;
-	top: 210%;
+	top: 190%;
 	font-family: raleway;
 	color: #208f4d;
 	font-size: 120%;
 	float: left;
-	width: 25%;
+	width: 32%;
 	margin-top: 2%;
 	padding-left: 7%;
 	padding-bottom: 2%;
@@ -246,7 +247,7 @@
 .brgylabel{
 	position: absolute;
 	left: 30%;
-	top: 210%;
+	top: 190%;
 	font-family: raleway;
 	color: #208f4d;
 	font-size: 120%;
@@ -259,7 +260,8 @@
 
 #brgyid{
 	margin-top: 1%;
-	width: 60%;
+	width: 82%;
+	height: 35px;
 	border-color: #25b15e;
 	border-style: solid;
 	border-width: 1px;
@@ -272,7 +274,7 @@
 	color: #208f4d;
 	font-size: 120%;
 	float: left;
-	width: 38%;
+	width: 45%;
 	height: 380%;
 	overflow-x: hidden;
 	overflow-y: scroll; 
@@ -327,4 +329,31 @@
 	font-size: 90%;
 	color: green;
 	margin-bottom: 2%;
+}
+
+.dropdown-menu>li>a {
+    display: block;
+    padding: 3px 20px;
+    clear: both;
+    font-weight: 400;
+    line-height: 1.42857143;
+    color: #333;
+    white-space: nowrap;
+    width: 450px;
+}
+
+.dropdown-menu{
+	overflow-y: scroll;
+	height: 400px;
+}
+
+.btn-default{
+	margin-top: 1%;
+	width: 300px;
+}
+
+.brgydd{
+    color: #333;
+    background-color: #e6e6e6;
+    border-color: #adadad;
 }

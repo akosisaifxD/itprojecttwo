@@ -1,0 +1,121 @@
+#vdheader{
+	font-family: raleway;
+	color: #208f4d;
+	font-size: 170%;
+	position: relative;
+	padding-top: 5%;
+	padding-left: 5%;
+	padding-bottom: 1%;
+}
+
+#jshr{
+	width: 90%;
+	border-color: #25b15e;
+}
+
+#startdatelabel{
+	position: relative;
+	left: 0%;
+	font-family: raleway;
+	color: #208f4d;
+	font-size: 120%;
+	float: left;
+	width: 50%;
+	margin-top: 2%;
+	padding-left: 7%;
+	padding-bottom: 2%;
+}
+
+#enddatelabel, #surveyorlabel, #inputbylabel, #areavalidatedlabel{
+	position: relative;
+	left: 0%;
+	font-family: raleway;
+	color: #208f4d;
+	font-size: 120%;
+	float: left;
+	width: 50%;
+	padding-left: 7%;
+	padding-bottom: 2%;
+}
+
+#sitecodelabel{
+	position: relative;
+	left: 0%;
+	font-family: raleway;
+	color: #208f4d;
+	font-size: 120%;
+	float: left;
+	width: 50%;
+	padding-left: 7%;
+	padding-bottom: 2%;
+}
+
+#dateFrom, #dateTo, #surveyor, #inputBy, #area, #siteCode{
+	margin-top: 1%;
+	width: 50%;
+	height: 35px;
+	border-color: #25b15e;
+	border-style: solid;
+	border-width: 1px;
+	font-size: 100%;
+	font-family: raleway;
+}
+
+#ptableholder{
+	font-family: raleway;
+	color: #208f4d;
+	position: relative;
+	width: 60%;
+	padding-left: 7%;
+	float: left;
+	padding-bottom: 3%;
+	height: 30%;
+	overflow-y: scroll;
+	margin-bottom: 3%;
+}
+
+#plantationTable{
+	margin-top: 2%;
+}
+
+#spid{
+	padding-left: 1%;
+	padding-top: 2%;
+	padding-bottom: 2%;
+	border-color: #25b15e;
+	border-style: solid;
+	border-width: 1px;
+}
+
+#spf, #qf, #hf, #df{
+	font-family: raleway;
+	width: 100%;
+	border-color: #25b15e;
+	border-style: solid;
+	border-width: 1px;
+	height: 30px;
+	font-size: 110%;
+}
+
+#qid, #hid, #did{
+	padding-left: 1%;
+	padding-top: 2%;
+	padding-bottom: 2%;
+	padding-right: 9%;
+	border-color: #25b15e;
+	border-style: solid;
+	border-width: 1px;
+}
+
+.enter{
+	float: right;
+	position: absolute;
+	top: 3.9%;
+	right: 10%;
+	padding: 1.5%;
+	background-color: white;
+	border-color: #25b15e;
+	border-style: solid;
+	border-width: 3px;
+	border-radius: 15px 15px 15px 15px;
+}

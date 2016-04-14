@@ -76,6 +76,10 @@
 	word-break: break-all;
 	float: left;
 }
+
+#imageup{
+	width: 20%;
+}
 	
 #commentbox{
 	background-color: #d5d7de;
@@ -90,6 +94,11 @@
 	width: 90%;
 	margin-left: 5%;
 	padding-bottom: 2%;
+}
+
+#imageupload{
+	padding-left: 25%;
+	width: 50%;
 }
 	
 #report{
