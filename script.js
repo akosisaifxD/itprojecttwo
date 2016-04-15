@@ -40,6 +40,23 @@ var chartcatcompare = $('input[name=comparecat]:radio:checked').val();
 var result;
 var dynamicsearch = [];
 
+var data1;
+var titleCombo1;
+var tableData1;
+var dataArea1;
+var titleArea1;
+var dataArea2;
+var titleArea2;
+var previousTab = "";
+var hide = true;
+
+var entry = {"year":[],"province":[],"cenro":[],"orgname":[],"species":[]};
+var yearsSearch = [];
+var provinceSearch = [];
+var cenroSearch = [];
+var orgNameSearch = [];
+var specieSearch = [];
+
 var chartWorker = new Worker('scripts/chartworker.js');
 var tableWorker = new Worker('scripts/tableworker.js');
 var setmapWorker = new Worker('scripts/setmapworker.js');
@@ -51,26 +68,26 @@ chartWorker.addEventListener('message', function(e) {
 	years = JSON.parse(x[1]);
 	var dataArray = JSON.parse(x[0]);
 
-	var data = google.visualization.arrayToDataTable(dataArray);
+	data1 = google.visualization.arrayToDataTable(dataArray);
 
 	if(chartcat == "survivalRate") {
-		var titleCombo = "Survival Rate\n";
-		titleCombo += "Year: "+ value0 + " - " + value1 + "\n";
+		titleCombo1 = "Survival Rate\n";
+		titleCombo1 += "Year: "+ value0 + " - " + value1 + "\n";
 		if(searchCategory != "" && searchValue != "") {
-			titleCombo += searchCategory + ": " + searchValue;
+			titleCombo1 += searchCategory + ": " + searchValue;
 		}
 	} else if(chartcat == "growthRate") {
-		var titleCombo = "Growth Rate\n";
-		titleCombo += "Year: "+ value0 + " - " + value1 + "\n";
+		titleCombo1 = "Growth Rate\n";
+		titleCombo1 += "Year: "+ value0 + " - " + value1 + "\n";
 		if(searchCategory != "" && searchValue != "") {
-			titleCombo += searchCategory + ": " + searchValue;
+			titleCombo1 += searchCategory + ": " + searchValue;
 		}
 	} else if(chartcat == "maturityRate") {
-		var titleCombo = "Maturity Rate\n";
-		titleCombo += "No data available.";
+		titleCombo1 = "Maturity Rate\n";
+		titleCombo1 += "No data available.";
 	}
 	
-	drawChart(data, titleCombo);
+	drawChart(data1, titleCombo1);
 }, false);
 
 tableWorker.addEventListener('message', function(e) {
@@ -79,9 +96,9 @@ tableWorker.addEventListener('message', function(e) {
 	
 	overallInventory = JSON.parse(x[1]);
 	
-	var data = google.visualization.arrayToDataTable(dataArray);
+	tableData1 = google.visualization.arrayToDataTable(dataArray);
 	
-	drawInventory(data);
+	drawInventory(tableData1);
 }, false);
 
 setmapWorker.addEventListener('message', function(e){
@@ -104,39 +121,39 @@ area1Worker.addEventListener('message', function(e){
 	dataArray1 = JSON.parse(e.data);
 	mergeArrayData = dataArray1;
 	
-	var data = google.visualization.arrayToDataTable(dataArray1);
+	dataArea1 = google.visualization.arrayToDataTable(dataArray1);
 	
 	if(chartcatcompare == "survivalRate") {
-		var titleCombo = "Survival Rate\n";
-		titleCombo += "Year: "+ minYear + " - " + maxYear;
+		titleArea1 = "Survival Rate\n";
+		titleArea1 += "Year: "+ minYear + " - " + maxYear;
 	} else if(chartcatcompare == "growthRate") {
-		var titleCombo = "Growth Rate\n";
-		titleCombo += "Year: "+ minYear + " - " + maxYear;
+		titleArea1 = "Growth Rate\n";
+		titleArea1 += "Year: "+ minYear + " - " + maxYear;
 	} else if(chartcatcompare == "maturityRate") {
-		var titleCombo = "Maturity Rate\n";
-		titleCombo += "No data available.";
+		titleArea1 = "Maturity Rate\n";
+		titleArea1 += "No data available.";
 	}
 	
-	drawChartArea1(data, titleCombo);
+	drawChartArea1(dataArea1, titleArea1);
 });
 
 area2Worker.addEventListener('message', function(e){
 	dataArray2 = JSON.parse(e.data);
 	
-	var data = google.visualization.arrayToDataTable(dataArray2);
+	dataArea2 = google.visualization.arrayToDataTable(dataArray2);
 	
 	if(chartcatcompare == "survivalRate") {
-		var titleCombo = "Survival Rate\n";
-		titleCombo += "Year: "+ minYear + " - " + maxYear;
+		titleArea2 = "Survival Rate\n";
+		titleArea2 += "Year: "+ minYear + " - " + maxYear;
 	} else if(chartcatcompare == "growthRate") {
-		var titleCombo = "Growth Rate\n";
-		titleCombo += "Year: "+ minYear + " - " + maxYear;
+		titleArea2 = "Growth Rate\n";
+		titleArea2 += "Year: "+ minYear + " - " + maxYear;
 	} else if(chartcatcompare == "maturityRate") {
-		var titleCombo = "Maturity Rate\n";
-		titleCombo += "No data available.";
+		titleArea2 = "Maturity Rate\n";
+		titleArea2 += "No data available.";
 	}
 	
-	drawChartArea2(data, titleCombo);
+	drawChartArea2(dataArea2, titleArea2);
 });
 
 function seedlingsObject() {
@@ -157,6 +174,28 @@ function siteAttributes(id, year, color) {
 }
 
 function init() {
+	$('ul.tabs li').click(function() {
+		var tab_id = $(this).attr('data-tab');
+		
+		$('ul.tabs li').removeClass('current');
+		$('.tab-content').removeClass('current');
+
+		if(tab_id == previousTab) {
+			if(hide) {
+				hide = false;
+			} else {
+				$(this).addClass('current');
+				$("#" + tab_id).addClass('current');
+				hide = true;
+			}
+		} else {
+			$(this).addClass('current');
+			$("#" + tab_id).addClass('current');
+		}
+		
+		previousTab = tab_id;
+	});
+	
 	$.when(
 		$.get("initialize.php").done(function(data) {
 			site = JSON.parse(data);
@@ -168,22 +207,75 @@ function init() {
 		
 		$.get("seedlings.php").done(function(data) {
 			seedlings = JSON.parse(data);
+		}),
+		
+		$.get("autocomplete.php?q=year").done(function(data) {
+			yearsSearch = data.split(",");
+
+			$("#yearInput").autocomplete({
+				source: function(request, response) {
+					var results = $.ui.autocomplete.filter(yearsSearch, request.term);
+					response(results.slice(0, 5));
+				}
+			});
+			
+		}),
+
+		$.get("autocomplete.php?q=province").done(function(data) {
+			provinceSearch = data.split(",");
+			
+			$("#provinceInput").autocomplete({
+				source: function(request, response) {
+					var results = $.ui.autocomplete.filter(provinceSearch, request.term);
+					response(results.slice(0, 5));
+				}
+			});
+			
+		}),
+			
+		$.get("autocomplete.php?q=cenro").done(function(data) {
+			cenroSearch = data.split(",");
+			
+			$("#cenroInput").autocomplete({
+				source: function(request, response) {
+					var results = $.ui.autocomplete.filter(cenroSearch, request.term);
+					response(results.slice(0, 5));
+				}
+			});
+			
+		}),
+			
+		$.get("autocomplete.php?q=orgname").done(function(data) {
+			orgNameSearch = data.split(",");
+			
+			$("#orgnameInput").autocomplete({
+				source: function(request, response) {
+					var results = $.ui.autocomplete.filter(orgNameSearch, request.term);
+					response(results.slice(0, 5));
+				}
+			});
+			
+		}),
+			
+		$.get("autocomplete.php?q=species").done(function(data) {
+			specieSearch = data.split(",");
+			
+			$("#speciesInput").autocomplete({
+				source: function(request, response) {
+					var results = $.ui.autocomplete.filter(specieSearch, request.term);
+					response(results.slice(0, 5));
+				}
+			});
+			
 		})
+
 	).then(function() {
 		initMap();
 	});
 }
 
 function initMap() {
-	$('ul.tabs li').click(function() {
-		var tab_id = $(this).attr('data-tab');
 
-		$('ul.tabs li').removeClass('current');
-		$('.tab-content').removeClass('current');
-
-		$(this).addClass('current');
-		$("#" + tab_id).addClass('current');
-	});
 	
 	var styles = [
     {
@@ -729,8 +821,8 @@ var lastId = 0;
 function addInfoWindow(polygon, id) {
 	polygon.addListener('click', function(e) {
 		$.get("areainfo.php?q='" + id + "'").done(function(data) {
-			result = JSON.parse(data);
-			if(data == "[]") {
+			var result = JSON.parse(data);
+			if(result == "[]") {
 				var location = e.latLng;
 				if(siteAttributesPool[id + ""].iWindow == 0) {
 					var iWindow = new google.maps.InfoWindow;
@@ -771,13 +863,14 @@ function addInfoWindow(polygon, id) {
 				}
 				
 				var location = e.latLng;
+				//area info for css
 				if(siteAttributesPool[id + ""].iWindow == 0) {
 					var iWindow = new google.maps.InfoWindow;
-					iWindow.setContent('<center><b>Area Informaton</b></center> <br/> Province: ' + result[0].provincename + 
+					iWindow.setContent('<center><b><p>Area Informaton</p></b></center> <br/> Province: ' + result[0].provincename + 
 					'<br/> Municipality: ' + result[0].municipalityname + 
 					'<br/>Barangay: ' + barangays + 
-					'<br/> Declared Area: ' + result[0].declaredarea + 
-					'<br/> Computed Area: ' + result[0].computedarea + 
+					'<br/> Declared Area: ' + result[0].declaredarea + ' ha' +
+					'<br/> Computed Area: ' + result[0].computedarea + ' ha' +
 					'<br/> Component: ' + result[0].component + 
 					'<br/> Zone: ' + result[0].zone + 
 					'<br/> Organization: ' + orgs + 
@@ -958,7 +1051,9 @@ function drawInventory(data) {
 		'controlType': 'StringFilter',
 		'containerId': 'filter_div',
 		'options': {
-			'filterColumnLabel': 'Tree Specie'
+			'filterColumnLabel': 'Tree Specie',
+			'height': 300,
+			'width': 500
 		}
 	});
 
@@ -966,8 +1061,8 @@ function drawInventory(data) {
 		'chartType': 'Table',
 		'containerId': 'table_div',
 		'options': {
-			width: 350,
-			height: 300,
+			height: 600,
+			width: 1900,
 			showRowNumber: true,
 			allowHtml: true
 		}
@@ -1073,6 +1168,7 @@ function filter() {
 		}
 	}
 	
+	console.log(queryString);
 	$.get("filter.php?q= " + queryString).done(function(data) {
 		searchResults = JSON.parse(data);
 		setmapWorker.postMessage(JSON.stringify(searchResults));
@@ -1082,12 +1178,12 @@ function filter() {
 }
 
 function applyFilter() {	
-	for(var key in siteAttributesPool) {
+	for(var k33ey in siteAttributesPool) {
 		if(searchResults.hasOwnProperty(key) == true && siteAttributesPool[key].isSet == false) {
 			siteAttributesPool[key].polygon.setMap(map);
 			siteAttributesPool[key].isSet = true;
 		} else if(searchResults.hasOwnProperty(key) == false && siteAttributesPool[key].isSet == true) {
-			siteAttributesPool[key].polygon.setMap(null);
+			si333teAttributesPool[key].polygon.setMap(null);
 			siteAttributesPool[key].isSet = false;
 		}
 	}
@@ -1202,8 +1298,6 @@ function search2(initial) {
 function drawChartArea1(data, titleCombo) {
 	var options = {
 		title: titleCombo,
-		'width': 350,
-		'height': 200,
 		legend: {
 			position: 'bottom'
 		}
@@ -1218,8 +1312,6 @@ function drawChartArea1(data, titleCombo) {
 function drawChartArea2(data, titleCombo) {
 	var options = {
 		title: titleCombo,
-		'width': 350,
-		'height': 200,
 		legend: {
 			position: 'bottom'
 		}
@@ -1318,3 +1410,178 @@ function getAutoComplete(category, isCompare) {
 		}
 	}
 }
+
+function enter(category) {
+	var inputboxID = "#" + category + "Input";
+	var labelID = "#" + category + "Selected";
+	var value = $(inputboxID).val().trim();
+	var pID = category + "-" + value.replace(/\s/g, '');
+	var pID2 = category + "-" + value;
+	
+	if(entry[category].indexOf(value) < 0) {
+		entry[category].push(value);
+		
+		$(labelID).append('<p id=' + pID + '>' + value + '<button onclick="removeEntry(\'' + pID2 + '\');"></button></p>');
+	}
+}
+
+function removeEntry(pID) {
+	var splitID = pID;
+	var category = splitID.split("-")[0];
+	var value = splitID.replace(category+"-","");
+	var index = entry[category].indexOf(value);
+	if(index > -1) {
+		entry[category].splice(index, 1);
+		document.getElementById(pID.replace(/\s/g, '')).remove();
+		//$("#" + pID.replace(/\s/g, '')).remove();
+	}
+}
+
+function advancedSearch() {
+	var queryString = "WHERE";
+	var first = true;
+	var counter = 0;
+	var prefix = "";
+	
+	for(var key in entry) {
+		if(entry[key].length > 0) {
+			if(counter != 0) {
+				queryString += ' AND';
+			}
+			for(var i = 0; i < entry[key].length; i++) {
+				prefix = determinePrefix(key);
+				if(i == 0) {
+					if(entry[key].length == 1) {
+						queryString += ' (' + prefix + '="' + entry[key][i] + '")';
+					} else {
+						queryString += ' (' + prefix + '="' + entry[key][i] + '"';
+					}
+				} else if(i == entry[key].length-1) {
+					queryString += ' OR ' + prefix + '="' + entry[key][i] + '")';
+				} else {
+					queryString += ' OR ' + prefix + '="' + entry[key][i] + '"';
+				}
+			}
+			counter++;
+		}
+	}
+	
+	if(queryString != "WHERE") {
+		$.get("filter.php?q= " + queryString).done(function(data) {
+			searchResults = JSON.parse(data);
+			setmapWorker.postMessage(JSON.stringify(searchResults));
+			chartWorker.postMessage(JSON.stringify(searchResults) + "-parse-parse-" + JSON.stringify(years) + "-parse-parse-" + chartcat + "-parse-parse-" + JSON.stringify(validationsPool));
+			tableWorker.postMessage(JSON.stringify(searchResults) + "-parse-parse-" + JSON.stringify(inventoryPool));
+		});
+	}
+}
+
+function determinePrefix(key) {
+	if(key == "year") {
+		return "site.year";
+	} else if(key == "orgname") {
+		return "organization.organizationName";
+	} else if(key == "cenro") {
+		return "cenro.cenroName";
+	} else if(key == "species") {
+		return "species.commonName";
+	} else if(key == "province") {
+		return "province.provinceName";
+	}
+}
+
+$(document).ready(function() {
+  $("#SearchDivButton").click(function(){
+        $("#hide3").toggle();
+	});
+});
+$(document).ready(function() {
+  $("#tabButton").click(function(){
+        $("#hide4").toggle();
+    });
+});
+$(document).ready(function() {
+  $("#legendButton").click(function(){
+        $("#hide1").toggle();
+    });
+});
+$(document).ready(function() {
+  $("#sliderDivButton").click(function(){
+        $("#hide2").toggle();
+    });
+});
+
+
+
+
+$('.searchFilter').draggable({
+  containment: "parent",
+  zIndex: 103
+});
+
+var posStack = [];
+var coordinates = function(element) {
+    element = $(element);
+    var top = element.position().top;
+    var left = element.position().left;
+    posStack.push({x:left,y:top});
+}
+
+
+$('.searchFilter').draggable({ containment: "parent", scroll: false,
+    		start: function() { 
+        		coordinates('.searchFilter');
+    					},
+   		 stop: function() {
+        		//coordinates('#logo');
+    				}
+		});
+$("#resetButton").on('click', function(){
+    var pos = posStack.pop();
+   // alert(pos.x);
+ $('.searchFilter').css("left", pos.x);
+     $('.searchFilter').css("top", pos.y);
+});
+$('#legend_div').draggable();
+$('#slider_div').draggable();
+    $( "#tab-1" ).resizable({
+      minHeight: 333,
+      minWidth: 475
+    });
+	
+	$("#tab-1").resize(function(){
+		if(this.resizeTO) clearTimeout(this.resizeTO);
+		this.resizeTO = setTimeout(function(){
+			drawChart(data1, titleCombo1);
+		}, 500);
+				
+	});
+	
+	
+	$( "#tab-2" ).resizable({
+      minHeight: 358,
+      minWidth: 475
+    });
+	
+	$("#tab-2").resize(function(){
+		if(this.resizeTO) clearTimeout(this.resizeTO);
+		this.resizeTO = setTimeout(function(){
+			drawInventory(tableData1);
+		}, 500);
+				
+	});
+	
+	
+	$( "#tab-3" ).resizable({
+      minHeight: 658,
+      minWidth: 475
+    });
+	
+	$("#tab-3").resize(function(){
+		if(this.resizeTO) clearTimeout(this.resizeTO);
+		this.resizeTO = setTimeout(function(){
+			drawChartArea1(dataArea1, titleArea1);
+			drawChartArea2(dataArea2, titleArea2);
+		}, 500);
+				
+	});

@@ -83,7 +83,7 @@ function enter(category) {
 	if(entry[category].indexOf(value) < 0) {
 		entry[category].push(value);
 		
-		$(labelID).append('<p id=' + pID + '>' + value + '<button onclick="removeEntry(\'' + pID2 + '\');"></button></p>');
+		$(labelID).append('<p id=' + pID + '>' + value + '<button id="removeButton" onclick="removeEntry(\'' + pID2 + '\');">X</button></p>');
 	}
 }
 
@@ -253,32 +253,52 @@ function getValidations(queryString) {
 function drawTable() {
 	tables = [];
 	for(var key in years) {
+		//var tr0 = document.createElement('tr');
+		//var th0 = document.createElement("th");
+		//th0.style.textAlign = "center"
+
+		//var heading = document.createTextNode('HEADING:DENR REPORT');
+		//th0.appendChild(heading);
+		//th0.rowSpan = "2";
+		//tr0.appendChild(th0);
+		var tr0 = document.createElement('tr');
 		var tr1 = document.createElement('tr');   
 		
+		var th0 = document.createElement("th");
 		var th1 = document.createElement("th");
 		var th2 = document.createElement("th");
 		var th3 = document.createElement("th");
 		var th4 = document.createElement("th");
 		var th5 = document.createElement("th");
+		th0.style.textAlign = "center"
+		th1.style.textAlign = "center"
+		th2.style.textAlign = "center"
+		th3.style.textAlign = "center"
+		th4.style.textAlign = "center"
+		th5.style.textAlign = "center"
 		
+		var heading = document.createTextNode('HEADING:DENR REPORT');
 		var yearText = document.createTextNode('Year');
 		var cenroText = document.createTextNode('CENRO');
 		var siteCodeText = document.createTextNode('Site Code');
 		var seedlingText = document.createTextNode('Seedling');
 		var validationText = document.createTextNode('');
 		
+		th0.appendChild(heading);
 		th1.appendChild(yearText);
 		th2.appendChild(cenroText);
 		th3.appendChild(siteCodeText);
 		th4.appendChild(seedlingText);
 		th5.appendChild(validationText);
 		
+		th0.colSpan = "11";
 		th1.rowSpan = "2";
 		th2.rowSpan = "2";
 		th3.rowSpan = "2";
 		th4.colSpan = "3";
 		th5.colSpan = "5";
 		
+		tr0.appendChild(th0);
 		tr1.appendChild(th1);
 		tr1.appendChild(th2);
 		tr1.appendChild(th3);
@@ -286,7 +306,7 @@ function drawTable() {
 		tr1.appendChild(th5);
 
 		
-		var tr2 = document.createElement('tr');   
+		var tr2 = document.createElement('tr');
 			
 		var th6 = document.createElement("th");
 		var th7 = document.createElement("th");
@@ -296,6 +316,14 @@ function drawTable() {
 		var th11 = document.createElement("th");
 		var th12 = document.createElement("th");
 		var th13 = document.createElement("th");
+		th6.style.textAlign = "center"
+		th7.style.textAlign = "center"
+		th8.style.textAlign = "center"
+		th9.style.textAlign = "center"
+		th10.style.textAlign = "center"
+		th11.style.textAlign = "center"
+		th12.style.textAlign = "center"
+		th13.style.textAlign = "center"
 		
 		var seedlingSpeciesText = document.createTextNode('Species');
 		var seedlingQuantityText = document.createTextNode('Quantity');
@@ -328,6 +356,7 @@ function drawTable() {
 		th5.appendChild(validationText);
 		tr1.appendChild(th5);
 		var table = document.createElement("table");
+		table.appendChild(tr0);
 		table.appendChild(tr1);
 		table.appendChild(tr2);
 		
@@ -360,6 +389,12 @@ function drawTable() {
 			var tdTotal = document.createElement('td');
 			var tdTotalQty = document.createElement('td');
 			var tdAreaSeedlings = document.createElement('td');
+			td1.style.textAlign = "right"
+			td2.style.textAlign = "right"
+			td3.style.textAlign = "right"
+			tdTotal.style.textAlign = "right"
+			tdTotalQty.style.textAlign = "right"
+			tdAreaSeedlings.style.textAlign = "right"
 			
 			var yearNode = document.createTextNode(site[key + ""]["Year"]);
 			var cenroNode = document.createTextNode(site[key + ""]["Cenro"]);
@@ -405,6 +440,11 @@ function drawTable() {
 					var tdValidationTotalQty = document.createElement('td');
 					var tdValidationAreaNode = document.createElement('td');
 					var tdSr = document.createElement('td');
+					tdValidationDate.style.textAlign = "right"
+					tdValidationTotal.style.textAlign = "right"
+					tdValidationTotalQty.style.textAlign = "right"
+					tdValidationAreaNode.style.textAlign = "right"
+					tdSr.style.textAlign = "right"
 					
 					tdValidationDate.appendChild(dateNode);
 					tdValidationDate.rowSpan = rowspanValue;
@@ -430,6 +470,8 @@ function drawTable() {
 				var trSeedlings = document.createElement('tr');
 				var tdKey = document.createElement('td');
 				var tdQty = document.createElement('td');
+				tdKey.style.textAlign = "right"
+				tdQty.style.textAlign = "right"
 				if(site[key]["seedlingsArray"]) {
 					if(x >= site[key]["seedlingsArray"].length) {
 					var nodeKey = document.createTextNode("");
@@ -455,6 +497,8 @@ function drawTable() {
 					if(targetDate == yearsArray[i]) {
 						var tdKey2 = document.createElement('td');
 						var tdQty2 = document.createElement('td');
+						tdKey2.style.textAlign = "right"
+						tdQty2.style.textAlign = "right"
 						if(site[key]["validation"][key2]["validationArray"]) {
 							if(x >= site[key]["validation"][key2]["validationArray"].length) {
 								var nodeKey2 = document.createTextNode("");
