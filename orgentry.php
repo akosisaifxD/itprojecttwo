@@ -26,7 +26,7 @@
 	}
 	
 	if($orgcount > 0){
-		header ("location: horg.php?fail=exists");
+		header ("location: horg.php?fail=exists&orgname=" . $orgname);
 	}else{
 		// prepare and bind
 		$stmt = $conn->prepare("INSERT INTO organization (organizationName, organizationTypeID) VALUES (?, ?)");

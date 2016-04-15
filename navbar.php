@@ -18,7 +18,7 @@
 		
 	}
 	
-	#stattitle, #stattitle-js{
+	#stattitle, #stattitle-js, #stattitle-rg{
 		cursor: pointer;
 		padding: 10%;
 		font-family: raleway;
@@ -34,7 +34,7 @@
 		color: #e0ded8;
 	}
 	
-	#stattitle-cp, #stattitle-o, #stattitle-s, #stattitle-v, #stattitle-g{
+	#stattitle-cp, #stattitle-o, #stattitle-s, #stattitle-v, #stattitle-g, #stattitle-cc{
 		cursor: pointer;
 		padding: 10%;
 		font-family: raleway;
@@ -61,6 +61,12 @@
 					echo "<div id = 'stattitle' onclick = 'trend()'> <i class = 'fa fa-bar-chart fa-2x'> </i> Trends </div>";
 				}
 				
+				if($_SESSION['cpage'] === 'reporting'){
+					echo "<div id = 'stattitle-rg' class = 'current' onclick = 'reporting()'> <i class='fa fa-table fa-2x' aria-hidden='true'> </i> Reporting </div>";
+				}else{
+					echo "<div id = 'stattitle-rg' onclick = 'reporting()'> <i class='fa fa-table fa-2x' aria-hidden='true'> </i> Reporting </div>";
+				}
+				
 				if($_SESSION['cpage'] === 'journals'){
 					echo "<div id = 'stattitle-js' class = 'current' onclick = 'journal()'> <i class = 'fa fa-book fa-2x'> </i> Journals </div>";
 				}else{
@@ -69,6 +75,12 @@
 				
 				if($_SESSION['accounttype'] !== 'CPerson'){
 					echo "<div id = 'stattitle-b'> ADD </div>";
+					
+					if($_SESSION['cpage'] === 'colorcode'){
+						echo "<div id = 'stattitle-cc' class = 'current' onclick = 'colorcode()'> <i class = 'fa fa-pencil fa-2x' id = 'decicon'></i> Color Code </div>";
+					}else{
+						echo "<div id = 'stattitle-cc' onclick = 'colorcode()'> <i class = 'fa fa-pencil fa-2x' id = 'decicon'></i> Color Code </div>";
+					}
 					
 					if($_SESSION['cpage'] === 'cperson'){
 						echo "<div id = 'stattitle-cp' class = 'current' onclick = 'cperson()'> <i class = 'fa fa-user-plus fa-2x' id = 'decicon'></i> Contact Person </div>";
@@ -82,6 +94,12 @@
 						echo "<div id = 'stattitle-o' onclick = 'org()'> <i class = 'fa fa-users fa-2x' id = 'decicon'></i> Organization </div>";
 					}
 					
+					if($_SESSION['cpage'] === 'seedling'){
+						echo "<div id = 'stattitle-g' class = 'current' onclick = 'seedling()'> <i class='fa fa-tree fa-2x' aria-hidden='true' id = 'decicon'></i> Seedling </div>";
+					}else{
+						echo "<div id = 'stattitle-g' onclick = 'seedling()'> <i class='fa fa-tree fa-2x' aria-hidden='true' id = 'decicon'></i> Seedling </div>";
+					}
+					
 					if($_SESSION['cpage'] === 'site'){
 						echo "<div id = 'stattitle-s' class = 'current' onclick = 'site()'> <i class = 'fa fa-map-marker fa-2x' id = 'decicon'></i> Site </div>";
 					}else{
@@ -92,12 +110,6 @@
 						echo "<div id = 'stattitle-v' class = 'current' onclick = 'validation()'> <i class = 'fa fa-check-circle-o fa-2x' id = 'decicon'></i> Validation </div>";
 					}else{
 						echo "<div id = 'stattitle-v' onclick = 'validation()'> <i class = 'fa fa-check-circle-o fa-2x' id = 'decicon'></i> Validation </div>";
-					}
-					
-					if($_SESSION['cpage'] === 'seedling'){
-						echo "<div id = 'stattitle-g' class = 'current' onclick = 'seedling()'> <i class='fa fa-tree fa-2x' aria-hidden='true' id = 'decicon'></i> Seedling </div>";
-					}else{
-						echo "<div id = 'stattitle-g' onclick = 'seedling()'> <i class='fa fa-tree fa-2x' aria-hidden='true' id = 'decicon'></i> Seedling </div>";
 					}
 				}
 			}
@@ -199,6 +211,34 @@
 			data: {}, // add a flag
 			success: function(data, textStatus, jqXHR){
 				window.location="hseed.php";
+			},
+			error: function (jqXHR, textStatus, errorThrown){
+				alert('Error!')
+			}
+		});	
+	}
+	
+	function reporting(){
+		$.ajax({
+			url: "hseed.php",
+			type: "POST",
+			data: {}, // add a flag
+			success: function(data, textStatus, jqXHR){
+				window.location="hreporting.php";
+			},
+			error: function (jqXHR, textStatus, errorThrown){
+				alert('Error!')
+			}
+		});	
+	}
+	
+	function colorcode(){
+		$.ajax({
+			url: "hseed.php",
+			type: "POST",
+			data: {}, // add a flag
+			success: function(data, textStatus, jqXHR){
+				window.location="hcolorcode.php";
 			},
 			error: function (jqXHR, textStatus, errorThrown){
 				alert('Error!')

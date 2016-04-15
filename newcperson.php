@@ -12,48 +12,75 @@
 			if(isset($_GET["success"])){
 				echo "<div id = \"success\"> Successfully added new Contact Person </div>";
 			}
-			if(isset($_GET["fnamelength"])){
-				echo "<div id = \"error\"> First name field must not be empty </div>";
-			}
-			if(isset($_GET["lnamelength"])){
-				echo "<div id = \"error\"> Last name field must not be empty </div>";
-			}
-			if(isset($_GET["mobcontchar"])){
-				echo "<div id = \"error\"> Only numeric digits are allowed for mobile number </div>";
-			}
-			if(isset($_GET["telcontchar"])){
-				echo "<div id = \"error\"> Only numeric digits are allowed for telephone number </div>";
-			}
 		?>
 		<hr id="jshr">
 		<div id = "inputdiv">
 			<?php
+				if(isset($_GET["fnamelength"])){
+					echo "<div id = \"firstnameerror\"> First name field must not be empty </div>";
+				}
 				if(isset($_GET["fname"])){
 					echo "<div id = 'firstnamediv'> First Name: <input type = 'text' id = 'firstname' name = 'firstname' value = '" . $_GET['fname'] . "' maxlength='50'></input></div>";
 				}else{
 					echo "<div id = 'firstnamediv'> First Name: <input type = 'text' id = 'firstname' name = 'firstname'></input></div>";
 				}
-
+				
+				if(isset($_GET["lnamelength"])){
+					echo "<div id = \"lastnameerror\"> Last name field must not be empty </div>";
+				}
 				if(isset($_GET["lname"])){
 					echo "<div id = 'lastnamediv'> Last Name: <input type = 'text' id = 'lastname' name = 'lastname' value = '" . $_GET['lname'] . "' maxlength='50'></input></div>";
 				}else{
 					echo "<div id = 'lastnamediv'> Last Name: <input type = 'text' id = 'lastname' name = 'lastname'></input></div>";
 				}
 				
+				if(isset($_GET["moblength"])){
+					echo "<div id = \"moberror\"> Mobile number field must not be empty </div>";
+				}
+				if(isset($_GET["mobcontchar"])){
+					echo "<div id = \"moberror\"> Only numeric digits are allowed for mobile number </div>";
+				}
 				if(isset($_GET["mobnum"])){
 					echo "<div id = 'mobnumdiv'> Mobile Number: <input type = 'text' id = 'mobnum' name = 'mobnum' value = '" . $_GET['mobnum'] . "' maxlength='11' pattern = '.{11,}' title = '11 digits'></input></div>";
 				}else{
 					echo "<div id = 'mobnumdiv'> Mobile Number: <input type = 'text' id = 'mobnum' name = 'mobnum' maxlength='11' pattern = '.{11,}' title = '11 digits'></input></div>";
 				}
 				
+				if(isset($_GET["tellength"])){
+					echo "<div id = \"telerror\"> Telephone number field must not be empty </div>";
+				}
+				if(isset($_GET["telcontchar"])){
+					echo "<div id = \"telerror\"> Only numeric digits are allowed for telephone number </div>";
+				}
 				if(isset($_GET["telnum"])){
-					echo "<div id = 'telnumdiv'> Telephone Number: <input type = 'text' id = 'telnum' name = 'telnum' value = '" . $_GET['telnum'] . "' maxlength='7'></input></div>";
+					echo "<div id = 'telnumdiv'> Telephone Number: <input type = 'text' id = 'telnum' name = 'telnum' value = '" . $_GET['telnum'] . "' maxlength='7' pattern = '.{7,}' title = '7 digits'></input></div>";
 				}else{
-					echo "<div id = 'telnumdiv'> Telephone Number: <input type = 'text' id = 'telnum' name = 'telnum' maxlength='7'></input></div>";
+					echo "<div id = 'telnumdiv'> Telephone Number: <input type = 'text' id = 'telnum' name = 'telnum' maxlength='7' pattern = '.{7,}' title = '7 digits'></input></div>";
+				}
+				
+				if(isset($_GET["emaill"])){
+					echo "<div id = \"emerror\"> Please enter an email address. </div>";
+				}
+				if(isset($_GET["emailf"])){
+					echo "<div id = \"emerror\"> You have entered an invalid email address. Please try another one </div>";
+				}
+				if(isset($_GET["email"])){
+					echo "<div id = 'emaildiv'> Email Address: <input type = 'text' id = 'email' name = 'email' value = '" . $_GET['email'] . "'></input> </div>";
+				}else{
+					echo "<div id = 'emaildiv'> Email Address: <input type = 'text' id = 'email' name = 'email'></input> </div>";
+				}
+				
+				if(isset($_GET["addl"])){
+					echo "<div id = \"adderror\"> Address field must not be empty </div>";
+				}
+				if(isset($_GET["address"])){
+					echo "<div id = 'addressdiv'> Address: <input type = 'text' id = 'address' name = 'address' value = '" . $_GET['address'] . "' maxlength='200'></input> </div>";
+				}else{
+					echo "<div id = 'addressdiv'> Address: <input type = 'text' id = 'address' name = 'address' maxlength='200'></input> </div>";
 				}
 			?>
-			<div id = "emaildiv"> Email Address: <input type = "text" id = "email" name = "email"></input> </div>
-			<div id = "addressdiv"> Address: <input type = "text" id = "address" name = "address"></input> </div>
+			
+			
 		</div>
 		<hr id="jshr">
 	</div>

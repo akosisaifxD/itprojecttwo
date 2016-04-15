@@ -12,13 +12,20 @@
 			if(isset($_GET["success"])){
 				echo "<div id = \"success\"> Successfully added new Organization </div>";
 			}
-			if(isset($_GET["fail"])){
-				echo "<div id = \"error\"> Organization with the same name already exists. </div>";
-			}
 		?>
 		<hr id="jshr">
 		<div id = "inputdiv">
-			<div id="orgnamediv"> Organization Name: <input type = "text" id = "orgname" name = "orgname"></input></div>
+			<?php
+				if(isset($_GET["fail"])){
+					echo "<div id = \"error\"> Organization with the same name already exists. </div>";
+				}
+				if(isset($_GET["orgname"])){
+					echo "<div id='orgnamediv'> Organization Name: <input type = 'text' id = 'orgname' name = 'orgname' value = '" . $_GET['orgname'] . "'></input></div>";
+				}else{
+					echo "<div id='orgnamediv'> Organization Name: <input type = 'text' id = 'orgname' name = 'orgname'></input></div>";
+				}
+			?>
+			
 			<div id="orgtypediv"> Organization Type:
 				<select id = "orgtype" name = "orgtype">
 					<?php

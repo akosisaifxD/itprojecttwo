@@ -61,12 +61,29 @@
 		}
 	}
 	
+	if(strlen($mobnum) === 0){
+		$errorcount++;
+		if($errorcount === 1){
+			$errorstring = $errorstring . 'moblength=error';	
+		}else{
+			$errorstring = $errorstring . '&moblength=error';	
+		}
+	}
 	if (!ctype_digit($mobnum) && strlen($mobnum) > 0) {
 		$errorcount++;
 		if($errorcount === 1){
 			$errorstring = $errorstring . 'mobcontchar=error';	
 		}else{
 			$errorstring = $errorstring . '&mobcontchar=error';	
+		}
+	}
+	
+	if(strlen($telnum) === 0){
+		$errorcount++;
+		if($errorcount === 1){
+			$errorstring = $errorstring . 'tellength=error';	
+		}else{
+			$errorstring = $errorstring . '&tellength=error';	
 		}
 	}
 	
@@ -79,14 +96,37 @@
 		}
 	}
 	
-	if (!filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
-echo("$email is a valid email address");
-} else {
-  echo("$email is not a valid email address");
-}
+	$email = filter_var($email, FILTER_SANITIZE_EMAIL);
+	
+	if(strlen($email) === 0){
+		$errorcount++;
+		if($errorcount === 1){
+			$errorstring = $errorstring . 'emaill=error';	
+		}else{
+			$errorstring = $errorstring . '&emaill=error';	
+		}
+	}else{
+		if (filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
+			$errorcount++;
+			if($errorcount === 1){
+				$errorstring = $errorstring . 'emailf=error';	
+			}else{
+				$errorstring = $errorstring . '&emailf=error';	
+			}
+		}	
+	}
+	
+	if(strlen($address) === 0){
+		$errorcount++;
+		if($errorcount === 1){
+			$errorstring = $errorstring . 'addl=error';	
+		}else{
+			$errorstring = $errorstring . '&addl=error';	
+		}
+	}
 	
 	if($errorcount > 0){
-		header ("location: hcperson.php?" . $errorstring . "&fname=" . $firstname . "&lname=" . $lastname . "&mobnum=" . $mobnum . "&telnum=" . $telnum);
+		header ("location: hcperson.php?" . $errorstring . "&fname=" . $firstname . "&lname=" . $lastname . "&mobnum=" . $mobnum . "&telnum=" . $telnum . "&email=" . $email . "&address=" . $address);
 	}
 	
 	include 'connect.php';
@@ -153,5 +193,9 @@ echo("$email is a valid email address");
 		echo 'Mailer Error: ' . $mail->ErrorInfo;
 	} else {
 		echo 'Message has been sent';
+	}
+	
+	if($errorcount === 0){
+		header ("location: hcperson.php?success=true");
 	}
 ?>
