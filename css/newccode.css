@@ -13,7 +13,7 @@
 	border-color: #25b15e;
 }
 
-#orgnamediv{
+#coloryeardiv{
 	position: relative;
 	left: 0%;
 	font-family: raleway;
@@ -26,16 +26,17 @@
 	padding-bottom: 2%;
 }
 
-#orgname{
+#coloryear{
+	font-family: raleway;
 	margin-left: 1%;
-	width: 40%;
+	width: 10%;
 	height: 3%;
 	border-color: #25b15e;
 	border-style: solid;
 	border-width: 1px;
 }
 
-#orgtypediv{
+#colorpallete{
 	position: relative;
 	left: 0%;
 	font-family: raleway;
@@ -47,9 +48,9 @@
 	padding-bottom: 2%;
 }
 
-#orgtype{
+#color{
 	margin-left: 1%;
-	width: 40%;
+	width: 12%;
 	height: 3%;
 	border-color: #25b15e;
 	border-style: solid;
@@ -77,10 +78,10 @@
 	margin-bottom: 2%;
 }
 
-#error{
+#colorerror{
+	margin-top: 0.5%;
 	position: absolute;
-	margin-top: 0.2%;
-	margin-left: 17%;
+	margin-left: 6.3%;
 	padding-left: 5%;
 	font-family: raleway;
 	font-size: 70%;

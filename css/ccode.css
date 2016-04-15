@@ -1,0 +1,43 @@
+#addcolorcode{
+	font-family: raleway;
+	position: relative;
+	color: #208f4d;
+	float: left;
+	font-size: 180%;
+	border-color: #25b15e;
+	border-style: solid;
+	border-width: 1px;
+	width: 27.5%;
+	height: 10%;
+	text-align: center;
+	left: 20%;
+	cursor: pointer;
+}
+
+#editcolorcode{
+	font-family: raleway;
+	position: relative;
+	float: left;
+	color: #289f92;
+	font-size: 180%;
+	border-color: #289f92;
+	border-style: solid;
+	border-width: 1px;
+	width: 27.5%;
+	height: 10%;
+	text-align: center;
+	left: 21%;
+	cursor: pointer;
+}
+
+#logo{
+	float: left;
+	clear: none;
+	margin-top: 7%;
+	margin-left: 10%;
+}
+
+#title{
+	margin-top: 10%;
+	width: 100%;
+}
