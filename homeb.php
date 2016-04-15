@@ -4,7 +4,6 @@
     <meta name="description" content="Creative - Bootstrap 3 Responsive Admin Template">
     <meta name="author" content="GeeksLabs">
     <meta name="keyword" content="Creative, Dashboard, Admin, Template, Theme, Bootstrap, Responsive, Retina, Minimal">
-    <link rel="shortcut icon" href="img/favicon.png">
 
     <title>Index</title>
 
@@ -48,95 +47,29 @@
     <title>iPuno</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" media="screen and (min-width:320px) and (max-width:480px)" href="css/map-responsive.css" />
 </head>
 
 <body>
 
       <header class="header dark-bg">
-            <div class="toggle-nav">
-                <div class="icon-reorder tooltips" data-original-title="Toggle Navigation" data-placement="bottom"><i class="icon_menu"></i></div>
-            </div>
 
-            <!--logo start-->
+           <!--logo start-->
             <a href="home.php" class="logo"><img src = "img/logos/whiteinlogo.png" id="weblogo"> i<span class="lite">PUNO</span></a>
             <!--logo end-->
-
-            <div class="nav search-row" id="top_menu">
-                <!--  search form start -->
-                <ul class="nav top-menu">                    
-                    <li>
-                        <form class="navbar-form">
-                            <input class="form-control" placeholder="Search" type="text">
-                        </form>
-                    </li>                    
-                </ul>
-                <!--  search form end -->                
+			
+			<div class="top-nav notification-row">                
+                <span class="lite"><a class="btn btn-success" title="Bootstrap 3 themes generator" id="loginButton" href="">
+                					<span class="icon_lock_alt"></span> 
+                					Login
+                				   </a>
+                </span>
             </div>
+
       </header>      
       <!--header end-->
 
-      <!--sidebar start-->
-      <aside>
-          <div id="sidebar"  class="nav-collapse ">
-              <!-- sidebar menu start-->
-              <ul class="sidebar-menu">                
-                  <li class="active">
-                      <a class="" href="homeb.php">
-                          <i class="icon_house_alt"></i>
-                          <span>Home</span>
-                      </a>
-                  </li>
-                  <li>
-                      <a class="" href="login.php">
-                          <i class="icon_lock_alt"></i>
-                          <span>Login</span>
-                      </a>
-                  </li>
-                  <li class="sub-menu">
-                      <a href="javascript:;" class="">
-                          <i class="fa fa-files-o"></i>
-                          <span>Forms</span>
-                          <span class="menu-arrow arrow_carrot-right"></span>
-                      </a>
-                      <ul class="sub">
-                          <li><a class="" href="newPersonnel.php">Add New Personnel</a></li>                          
-                          <li><a class="" href="newSiteb.php">Add New Site</a></li>
-                          <li><a class="" href="validation.php">Validation</a></li>
-                      </ul>
-                  </li>   
-                  <li>
-                      <a class="" href="trends.php">
-                          <i class="icon_flowchart"></i>
-                          <span>Trends</span>
-                      </a>
-                  </li>
-                  <li>
-                      <a class="" href="journalList.php">
-                          <i class="icon_document_alt"></i>
-                          <span>Journals</span>
-                      </a>
-                  </li>  
-                  <li>
-                      <a class="" href="">
-                          <i class="icon_genius"></i>
-                          <span>About Us</span>
-                      </a>
-                  </li>
-                  <li>                     
-                      <a class="" href="">
-                          <i class="icon_mail_alt"></i>
-                          <span>Contact Us</span>
-                          
-                      </a>
-                                         
-                  </li>
-                  
-              </ul>
-              <!-- sidebar menu end-->
-          </div>
-      </aside>
-      <!--sidebar end-->
-</section>
     <!--main content start-->
 	
 	<div id="mapnavigation">
@@ -160,7 +93,7 @@
 	<div id="hide2">
     <div id="slider_div">
         <button type="button" id="animatebtn"><img src='flatfiles/play.png'/></button>
-        <button type="button" id="pausebtn"><img src='flatfiles/pause.png'/></button>
+        <!--<button type="button" id="pausebtn"><img src='flatfiles/pause.png'/></button>-->
         <div id="slider-range" style="width: 50%;"></div>
     </div>
 	</div>
@@ -172,11 +105,11 @@
         <select id="search_choices" onchange='getAutoComplete(this.value);'>
 		  <option value = "province">Province</option>
 		  <option value = "muni_city">Municipality or City</option>
-		  <option value = "cenro">Cenro</option>
+		  <option value = "cenro">CENRO</option>
 		  <option value = "components">Components</option>
 		  <option value = "zone">Zone</option>
 		  <option value = "species">Species</option>
-		  <option value = "commodities">Commodities</option>
+		  <option value = "commodities">Commodity</option>
 		  <option value = "orgname">Organization Name</option>
 		  <option value = "orgtype">Type of Organization</option>
 		</select>
@@ -186,25 +119,25 @@
         <button id="searchbtn" class="searchButtonMain" onclick="search();">Search</button>
 		
 				<!-- Trigger/Open The Modal -->
-		<button id="advbtn" class="searchButtonMain">Advance Filter</button>
+		<button id="advbtn" class="searchButtonMain">Advanced Filter</button>
     </div>
 	</div>
 	
     <ul class="tabs" id="tabs_div">
-        <li class="tab-link current" data-tab="tab-1"><img src='flatfiles/trends.png' /></li>
+        <li class="tab-link" data-tab="tab-1"><img src='flatfiles/trends.png' /></li>
         <li class="tab-link" data-tab="tab-2"><img src='flatfiles/trees.png' /></li>
         <li class="tab-link" data-tab="tab-3"><img src='flatfiles/compare.png' /></li>
     </ul>
 	
-    <div id="tab-1" class="tab-content current">
+    <div id="tab-1" class="tab-content">
         <div id="radio_div">
             <form onchange="changeCategory();">
-                <input type="radio" name="chart" value="survivalRate" checked>Survival Rate<br>
-                <input type="radio" name="chart" value="growthRate">Growth Rate<br/>
+                <input type="radio" name="chart" value="survivalRate" checked>Survival Rate</input>
+                <input type="radio" name="chart" value="growthRate">Growth Rate</input>
 				<input type="radio" name="chart" value="maturityRate">Maturity Rate<br/>
             </form>
 
-            <div id='heatmapbtn'><input type='checkbox' id='isHeat' onchange='heatmapChart(this.checked)'>HeatMap</div>
+            <div id='heatmapbtn'><input type='checkbox' id='isHeat' onchange='heatmapChart(this.checked)'>Apply HeatMap</div>
         </div>
         <div id="chart_div"></div>
     </div>
@@ -226,11 +159,11 @@
         <select id="search_area" onchange="getAutoComplete(this.value,'autocomplete');">
 			<option value = "province">Province</option>
 			<option value = "muni_city">Municipality or City</option>
-			<option value = "cenro">Cenro</option>
+			<option value = "cenro">CENRO</option>
 			<option value = "components">Components</option>
 			<option value = "zone">Zone</option>
 			<option value = "species">Species</option>
-			<option value = "commodities">Commodities</option>
+			<option value = "commodities">Commodity</option>
 			<option value = "orgname">Organization Name</option>
 			<option value = "orgtype">Type of Organization</option>
 		</select>
@@ -258,7 +191,7 @@
 		<div class="modal-content">
 		  <div class="modal-header">
 			<span class="close">×</span>
-			<h2>Advance Filter</h2>
+			<h2>Advanced Filter</h2>
 		  </div>
 		  <div class="modal-body" style="overflow:scroll;">
 	<!-- MAIN FORM -->
@@ -267,11 +200,11 @@
 		<tr>
 			<td>
 				<div id="yearContainer">
-				<button onclick="javascript:ShowHide('year')" id="inputButton">Input Year</button>
+				<p> Year</p>
 				<div class="mid" id="year" style="display: visible;">
-					Search Year:<br><input id="yearInput">
-					</input>
-					Selected Year/s:<div id="yearSelected">
+					<br><input id="yearInput" placeholder="Search Year...">
+			</input> <button id='enterButton' onclick='enter("year");'>Enter</button><br>
+			Selected Year/s:<div id="yearSelected">
 					</div>
 				</div><br>
 				<script type="text/javascript">
@@ -290,11 +223,11 @@
 			<!-- PROVINCE INPUT -->
 			<td>
 				<div id="provinceContainer">
-				<button onclick="javascript:ShowHide('province')" id="inputButton">Input Province</button>
+				<p>Province</p>
 				<div class="mid" id="province" style="display: visible;">
-					Search Province:<br><input id="provinceInput">
-					</input>
-					Selected Province/s:<div id="provinceSelected">
+					<br><input id="provinceInput" placeholder="Search Province...">
+					</input> <button id='enterButton' onclick='enter("province");'>Enter</button><br>
+			Selected Province/s:<div id="provinceSelected">
 					</div>
 				</div><br>
 				<script type="text/javascript">
@@ -315,11 +248,11 @@
 		<tr>
 			<td>
 				<div id="cenroContainer">
-				<button onclick="javascript:ShowHide('cenro')" id="inputButton">Input CENRO</button>
+				<p>CENRO</p>
 				<div class="mid" id="cenro" style="display: visible;">
-					Search CENRO:<br><input id="cenroInput">
-					</input>
-					Selected CENRO:<div id="cenroSelected">
+					<br><input id="cenroInput" placeholder="Search CENRO...">
+			</input><button id='enterButton' onclick='enter("cenro");'>Enter</button><br>
+			Selected CENRO:<div id="cenroSelected">
 					</div>
 				</div><br>
 				<script type="text/javascript">
@@ -338,11 +271,11 @@
 				<!-- ORGANIZATION INPUT -->
 			<td>
 				<div id="organizationContainer">
-				<button onclick="javascript:ShowHide('org')" id="inputButton">Input Organization Name</button>
+				<p>Organization</p>
 				<div class="mid" id="org" style="display: visible;">
-					Search Organization:<br><input id="organizationInput">
-					</input>
-					Selected Organization/s:<div id="organizationSelected">
+					<br><input id="orgnameInput" placeholder="Search Organization...">
+			</input> <button id='enterButton' onclick='enter("orgname");'>Enter</button><br>
+			Selected Organizatoin/s:<div id="orgnameSelected">
 					</div>
 				</div><br>
 				<script type="text/javascript">
@@ -363,11 +296,11 @@
 		<tr>
 			<td>
 				<div id="specieContainer">
-				<button onclick="javascript:ShowHide('specie')" id="inputButton">Input Species</button>
+				<p>Species</p>
 				<div class="mid" id="specie" style="display: visible;">
-					Search Specie/s:<br><input id="specieInput">
-					</input>
-					Selected Specie/s:<div id="specieSelected">
+					<br><input id="speciesInput" placeholder="Search Species...">
+					</input> <button id='enterButton' onclick='enter("species");'>Enter</button><br>
+			Selected Species:<div id="speciesSelected">
 					</input>
 				</div><br>
 				<script type="text/javascript">
@@ -392,7 +325,7 @@
 		  
 		</div>
 				<div class="modal-footer">
-					<h3><button class = "inputButton"> Search </button></h3>
+					<h3><button class = "inputButton" onclick="advancedSearch();"> Search </button></h3>
 				</div>
 		</div>
 		</div>
@@ -489,82 +422,7 @@
     });
   });
 
-// TOGGLE,DRAG,RESIZE
-$(document).ready(function() {
-  $("#SearchDivButton").click(function(){
-        $("#hide3").toggle();
-	});
-});
-$(document).ready(function() {
-  $("#tabButton").click(function(){
-        $("#hide4").toggle();
-    });
-});
-$(document).ready(function() {
-  $("#legendButton").click(function(){
-        $("#hide1").toggle();
-    });
-});
-$(document).ready(function() {
-  $("#sliderDivButton").click(function(){
-        $("#hide2").toggle();
-    });
-});
 
-
-
-
-$('.searchFilter').draggable({
-  containment: "parent",
-  zIndex: 103
-});
-
-var posStack = [];
-var coordinates = function(element) {
-    element = $(element);
-    var top = element.position().top;
-    var left = element.position().left;
-    posStack.push({x:left,y:top});
-}
-
-
-
-$('.searchFilter').draggable({ containment: "parent", scroll: false,
-    		start: function() { 
-        		coordinates('.searchFilter');
-    					},
-   		 stop: function() {
-        		//coordinates('#logo');
-    				}
-		});
-$("#resetButton").on('click', function(){
-    var pos = posStack.pop();
-   // alert(pos.x);
- $('.searchFilter').css("left", pos.x);
-     $('.searchFilter').css("top", pos.y);
-});
-
-//$('#legend_div').draggable();
-//$('#slider_div').draggable();
-//$('#search_div').draggable();
-    $( "#tab-1" ).resizable({
-      minHeight: 333,
-      minWidth: 475,
-	  animate: true
-    });
-	
-	$("#tab-1").resize(function(){
-		if(this.resizeTO) clearTimeout(this.resizeTO);
-		this.resizeTO = setTimeout(function(){
-			drawChart();
-		}, 500);
-		
-		
-	});
-	
-	
-	$( "#tab-2" ).resizable();
-	$( "#tab-3" ).resizable();
 
   </script>
 

@@ -18,7 +18,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 } 
 
-mysqli_select_db($conn,"newschema");
+mysqli_select_db($conn,"ipuno");
 $sql="select 
     site.sitecode, areaValidated, commonname, quantity
 from
