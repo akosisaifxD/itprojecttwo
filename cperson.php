@@ -1,13 +1,13 @@
 <link href='css/ccode.css' rel='stylesheet' type='text/css'>
 
-<div id = "ccheader"> Color Code </div>
+<div id = "ccheader"> Contact Person </div>
 <hr id="jshr">
 <div id = "options">
 	<div id = "addcolorcode" onclick = "add()">
 		<div id = "logo"><i class="fa fa-plus fa-2x" aria-hidden="true"></i></div>
 		<div id = "title">Add</div>
 	</div>
-	<div id = "editcolorcode">
+	<div id = "editcolorcode" onclick = "edit()">
 		<div id = "logo"><i class = 'fa fa-pencil fa-2x' aria-hidden="true"></i></div>
 		<div id = "title">Edit</div>
 	</div>
@@ -21,11 +21,25 @@
 <script>
 	function add(){
 		$.ajax({
-			url: "hnccode.php",
+			url: "hcperson.php",
 			type: "POST",
 			data: {}, // add a flag
 			success: function(data, textStatus, jqXHR){
-				window.location="hnccode.php";
+				window.location="hcperson.php";
+			},
+			error: function (jqXHR, textStatus, errorThrown){
+				alert('Error!')
+			}
+		});	
+	}
+	
+	function edit(){
+		$.ajax({
+			url: "hscperson.php",
+			type: "POST",
+			data: {}, // add a flag
+			success: function(data, textStatus, jqXHR){
+				window.location="hscperson.php";
 			},
 			error: function (jqXHR, textStatus, errorThrown){
 				alert('Error!')
@@ -35,11 +49,11 @@
 	
 	function removex(){
 		$.ajax({
-			url: "hrccode.php",
+			url: "hrcperson.php",
 			type: "POST",
 			data: {}, // add a flag
 			success: function(data, textStatus, jqXHR){
-				window.location="hrccode.php";
+				window.location="hrcperson.php";
 			},
 			error: function (jqXHR, textStatus, errorThrown){
 				alert('Error!')

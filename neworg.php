@@ -19,6 +19,9 @@
 				if(isset($_GET["fail"])){
 					echo "<div id = \"error\"> Organization with the same name already exists. </div>";
 				}
+				if(isset($_GET["orglength"])){
+					echo "<div id = \"error\"> Organization Name field must not be empty </div>";
+				}
 				if(isset($_GET["orgname"])){
 					echo "<div id='orgnamediv'> Organization Name: <input type = 'text' id = 'orgname' name = 'orgname' value = '" . $_GET['orgname'] . "'></input></div>";
 				}else{

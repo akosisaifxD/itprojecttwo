@@ -33,7 +33,7 @@
 		}
 	}
 	
-	$sql = "SELECT year FROM colorcodes";
+	$sql = "SELECT year FROM colorcodes WHERE active = 1";
 	$result = mysqli_query($conn, $sql);
 	
 	if (mysqli_num_rows($result) > 0) {
@@ -50,9 +50,31 @@
 	} else {
 	}
 	
+	$inactiveyears = array();
+	$iycount = 0;
+	
+	$sql = "SELECT year FROM colorcodes WHERE active = 0";
+	$result = mysqli_query($conn, $sql);
+	if (mysqli_num_rows($result) > 0) {
+		// output data of each row
+		while($row = mysqli_fetch_assoc($result)) {
+			$inactiveyears[$iycount] = $row['year'];
+			$iycount++;
+		}
+	} else {
+		echo "0 results";
+	}
+	
 	if($errorcount > 0){
 		header ("location: hcolorcode.php?" . $errorstring . "&coloryear=" . $coloryear);
 	}else{
+		if (in_array($coloryear, $inactiveyears)) {
+			$sql = "UPDATE colorcodes SET color = '$color', active = 1 WHERE year =" . $coloryear;
+
+			if ($conn->query($sql) === TRUE) {
+			} else {
+			}
+		}
 		// prepare and bind
 		$stmt = $conn->prepare("INSERT INTO colorcodes (year, color) VALUES (?, ?)");
 		$stmt->bind_param("is", $yearparam, $colorparam);
@@ -60,7 +82,7 @@
 		$colorparam = $color;
 		$stmt->execute();
 		
-		header ("location: hcolorcode.php?success=added");
+		header ("location: hnccode.php?success=added");
 	}
 	
 ?>

@@ -1,6 +1,8 @@
 <?php
 	session_start();
 
+	include 'connect.php';
+	
 	if(isset($_SESSION["username"])){
 		
 	}else{
@@ -15,8 +17,53 @@
 <!-- END OF EXTERNAL SCRIPT CALLS -->
 
 <?php
-
 	$_SESSION['cpage'] = 'journals';
+
+	$senderid = $_SESSION['username'];
+	
+	if(isset($_POST['sitecode'])) {
+		$_SESSION['sitecode'] = $_POST['sitecode'];
+	}
+	
+	//use POST data and set to local PHP Variables
+	$sitecode = $_SESSION['sitecode'];
+	$sendertype = $_SESSION['sendertype'];
+	
+	$errorcount = 0;
+	
+	$errorstring = "";
+	
+	if(strlen(TRIM($sitecode)) === 0){
+		$errorcount++;
+		if($errorcount === 1){
+			$errorstring = $errorstring . 'sitecode=error';	
+		}else{
+			$errorstring = $errorstring . '&sitecode=error';	
+		}
+	}
+	
+	if($errorcount > 0){
+		header ("location: hjournal.php?" . $errorstring);
+	}
+	
+	$sites = array();
+	$arrcount = 0;
+	
+	if($_SESSION['accounttype'] === 'Advanced'){
+		$sql = "SELECT siteCode FROM site";
+		$result = mysqli_query($conn, $sql);
+		
+		if (mysqli_num_rows($result) > 0) {
+			while($row = mysqli_fetch_assoc($result)) {
+				$sites[$arrcount] = $row['siteCode'];
+				$arrcount++;
+			}
+		}
+	}
+	
+	if (!in_array($sitecode, $sites)) {
+		header ("location: hjournal.php?dne=true");
+	}
 ?>
 
 <style>
@@ -59,15 +106,21 @@
 </style>
 
 <div id = "holdheader">
-	<?php include 'header.php';?>
+	<?php
+		include 'header.php';
+	?>
 </div>
 
 <div id = "holdnav">
-	<?php include 'navbar.php';?>
+	<?php
+		include 'navbar.php';
+	?>
 </div>
 
 <div id = "holdcontent">
 	<div id = "hcontent">
-		<?php include 'journal.php';?>
+		<?php
+			include 'journal.php';
+		?>
 	</div>
 </div>

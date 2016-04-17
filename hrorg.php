@@ -1,6 +1,9 @@
 <!-- EXTERNAL SCRIPT CALLS -->
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 
 <!-- END OF EXTERNAL SCRIPT CALLS -->
 
@@ -13,7 +16,7 @@
 		header('Location: denrhome.php?login=fail');
 	}
 	
-	$_SESSION['cpage'] = 'colorcode'; 
+	$_SESSION['cpage'] = 'organization'; 
 ?>
 
 <style>
@@ -45,14 +48,13 @@
 		width: 68%;
 		height: 100%;
 		position: relative;
-		top: 8%;
+		top: 15%;
 		left: 22%;
 		background-color: white;
 	}
 	
 	#hcontent{
 		position: relative;
-		top: 8%;
 	}
 </style>
 
@@ -66,6 +68,6 @@
 
 <div id = "holdcontent">
 	<div id = "hcontent">
-		<?php include 'ccode.php' ?>
+		<?php include 'removeorganization.php' ?>
 	</div>
 </div>

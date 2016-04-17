@@ -13,6 +13,15 @@
 	$onconverted = strtolower($orgname);
 	$orgcount = 0;
 	
+	$errorcount = 0;
+	
+	$errorstring = "";
+	
+	if(strlen(TRIM($orgname)) === 0){
+		$errorcount++;
+		$errorstring = $errorstring . '&orglength=error';	
+	}
+	
 	$sql = "SELECT organizationName FROM organization";
 	$result = mysqli_query($conn, $sql);
 	
@@ -25,9 +34,15 @@
 	} else {
 	}
 	
+	if($errorcount > 0){
+		header ("location: horg.php?" . $errorstring);
+	}
+	
 	if($orgcount > 0){
 		header ("location: horg.php?fail=exists&orgname=" . $orgname);
-	}else{
+	}
+	
+	if($errorcount === 0 && $orgcount === 0){
 		// prepare and bind
 		$stmt = $conn->prepare("INSERT INTO organization (organizationName, organizationTypeID) VALUES (?, ?)");
 		$stmt->bind_param("ss", $orgnameparam, $orgtypeparam);

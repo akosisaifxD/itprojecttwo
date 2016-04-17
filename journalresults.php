@@ -151,10 +151,8 @@
 	tableholder.appendChild(table);
 	
 	function followlink(siteidnum){
-	
-	
 		$.ajax({
-			url: "journal.php",
+			url: "hjournalr.php",
 			cache:false,
 			type: "POST",
 			contentType: "application/x-www-form-urlencoded",

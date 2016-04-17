@@ -12,9 +12,9 @@
     $searchTerm = $_GET['term'];
     
     //get matched data from skills table
-    $query = $db->query("SELECT contactPersonName FROM contactperson WHERE contactPersonName LIKE '%".$searchTerm."%' AND active = 1 ORDER BY contactPersonName ASC");
+    $query = $db->query("SELECT organizationName FROM organization WHERE organizationName LIKE '%".$searchTerm."%' AND active = 1 ORDER BY organizationName ASC");
     while ($row = $query->fetch_assoc()) {
-        $data[] = $row['contactPersonName'];
+        $data[] = $row['organizationName'];
     }
     
     //return json data

@@ -12,6 +12,9 @@
 			if(isset($_GET["success"])){
 				echo "<div id = \"success\"> Successfully added new Contact Person </div>";
 			}
+			if(isset($_GET["cpersondup"])){
+				echo "<div id = 'cpersondup'> Contact Person already exists </div>";
+			}
 		?>
 		<hr id="jshr">
 		<div id = "inputdiv">

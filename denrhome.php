@@ -121,9 +121,11 @@
 				echo "<div id = \"error\"> You must first login to visit the sites pages. </div>";
 			}
 		?>
-		<div id = "unenter"> DENR ID: </div> <input type = "text" id = "username"></input>
-		<div id = "pwenter"> Password: </div> <input type = "password" id = "password"></input>
-		<div id = "loginbutton" onclick = "loginfunc()"> <button id = "login"> Sign in </button> </div>
+		<form action = "loginprocess.php" method = "POST">
+			<div id = "unenter"> DENR ID: </div> <input type = "text" id = "username" name = "username"></input>
+			<div id = "pwenter"> Password: </div> <input type = "password" id = "password" name = "password" ></input>
+			<div id = "loginbutton" onclick = "loginfunc()"> <input type = "submit" id = "login" value = "Sign In" /></div>
+		</form>
 	</div>
 	
 	<div id = "lfooter">
@@ -132,22 +134,5 @@
 </div>
 
 <script type = "text/javascript">
-
-	function loginfunc(){
-		var usernamev = document.getElementById("username").value;
-		var passwordv = document.getElementById("password").value;
-		
-		$.ajax({
-			url: "loginprocess.php",
-			type: "POST",
-			data: {username:usernamev, password: passwordv}, // add a flag
-			success: function(data, textStatus, jqXHR){
-				window.location="loginprocess.php";
-			},
-			error: function (jqXHR, textStatus, errorThrown){
-				alert('Error!')
-			}
-		});	
-	}
 	
 </script>

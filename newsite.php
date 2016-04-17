@@ -1514,11 +1514,11 @@
 </script>
 
 <script>
-$(function() {
-    $( "#cperson" ).autocomplete({
-        source: 'autocomplete.php'
-    });
-});
+	$(function() {
+		$( "#cperson" ).autocomplete({
+			source: 'autocomplete.php'
+		});
+	});
 
 	function exampsaif(){
 		var sitevalidate = 0;

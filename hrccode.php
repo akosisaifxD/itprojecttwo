@@ -45,14 +45,13 @@
 		width: 68%;
 		height: 100%;
 		position: relative;
-		top: 8%;
+		top: 15%;
 		left: 22%;
 		background-color: white;
 	}
 	
 	#hcontent{
 		position: relative;
-		top: 8%;
 	}
 </style>
 
@@ -66,6 +65,6 @@
 
 <div id = "holdcontent">
 	<div id = "hcontent">
-		<?php include 'ccode.php' ?>
+		<?php include 'removeccode.php' ?>
 	</div>
 </div>

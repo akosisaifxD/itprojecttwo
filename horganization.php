@@ -13,7 +13,7 @@
 		header('Location: denrhome.php?login=fail');
 	}
 	
-	$_SESSION['cpage'] = 'colorcode'; 
+	$_SESSION['cpage'] = 'organization'; 
 ?>
 
 <style>
@@ -66,6 +66,6 @@
 
 <div id = "holdcontent">
 	<div id = "hcontent">
-		<?php include 'ccode.php' ?>
+		<?php include 'organization.php' ?>
 	</div>
 </div>

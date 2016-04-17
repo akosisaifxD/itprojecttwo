@@ -30,13 +30,14 @@
 			header('Location: denrhome.php?error=true');
 		}
 	}else{
-		$sql = "SELECT password, accountType FROM denr WHERE denrID = \"" . $un . "\"";
+		$sql = "SELECT password, accountType, lastLogin FROM denr WHERE denrID = \"" . $un . "\"";
 		$result = mysqli_query($conn, $sql);
 		if (mysqli_num_rows($result) > 0) {
 			while($row = mysqli_fetch_assoc($result)) {
-				if($row["password"] == $pw){
+				if($row["password"] === $pw){
+					$_SESSION['prevll'] = $row['lastLogin'];
 					$checker = 1;
-					if($row["accountType"] == "Basic"){
+					if($row["accountType"] === "Basic"){
 						$_SESSION['accounttype'] = "Basic";
 					}else{
 						$_SESSION['accounttype'] = "Advanced";
@@ -50,6 +51,13 @@
 	
 	if($checker == 1){
 		$_SESSION['sendertype'] = 0;
+		
+		$sql = "UPDATE denr SET lastLogin=now() WHERE denrID = '" . $un . "'";
+
+		if ($conn->query($sql) === TRUE) {
+		} else {
+		}
+		
 		header('Location: holder.php');
 	}else{
 		header('Location: denrhome.php?error=true');

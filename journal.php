@@ -14,24 +14,8 @@
 
 <!-- PHP Script which captures contact person ID and contact person name -->
 <?php
-
-	if(!isset($_SESSION)){
-		session_start();
-	}
-
-	$senderid = $_SESSION['username'];
-	
 	//connect to database using external PHP file
 	include 'connect.php';
-	
-	//Check if 'siteid' is present in POST data
-	if(isset($_POST['sitecode'])) {
-		$_SESSION['sitecode'] = $_POST['sitecode'];
-	}
-	
-	//use POST data and set to local PHP Variables
-	$sitecode = $_SESSION['sitecode'];
-	$sendertype = $_SESSION['sendertype'];
 	
 	//local variable to store contact person ID
 	$contactpersonid = "";
@@ -134,7 +118,17 @@
 						$sendername = "";
 						
 						if (strpos($row['sender'], 'P') !== false) {
+							$sqltwo = "SELECT contactPersonName FROM contactperson WHERE contactPersonID = \"" . $row['sender'] . "\"";
+							$resulttwo = mysqli_query($conn, $sqltwo);
 							
+							if (mysqli_num_rows($resulttwo) > 0) {
+								// output data of each row
+								while($rowtwo = mysqli_fetch_assoc($resulttwo)) {
+									$sendername = $rowtwo['contactPersonName'];
+								}
+							} else {
+								//do nothing
+							}
 						}else{
 							$sqltwo = "SELECT firstName, lastName FROM denr WHERE denrID = \"" . $row['sender'] . "\"";
 							$resulttwo = mysqli_query($conn, $sqltwo);

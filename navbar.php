@@ -1,55 +1,6 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
-<style>
-	@font-face {
-		font-family: raleway;
-		src: url(fonts/raleway/Raleway-SemiBold.ttf);
-	}
-
-	body #navbar{
-		background-color: #208f4d;
-		height: 100%;
-		width: 100%;
-		color: white;
-	}
-	
-	#navstat{
-		text-align: center;
-		
-	}
-	
-	#stattitle, #stattitle-js, #stattitle-rg{
-		cursor: pointer;
-		padding: 10%;
-		font-family: raleway;
-		font-size: 130%;
-	}
-	
-	#stattitle-b{
-		cursor: context-menu;
-		padding: 10%;
-		font-family: raleway;
-		font-size: 100%;
-		background-color: #267747;
-		color: #e0ded8;
-	}
-	
-	#stattitle-cp, #stattitle-o, #stattitle-s, #stattitle-v, #stattitle-g, #stattitle-cc{
-		cursor: pointer;
-		padding: 10%;
-		font-family: raleway;
-		font-size: 90%;
-		background-color: #267747;
-	}
-	
-	#decicon{
-		float: left;
-	}
-	
-	.current{
-		background-color: #25b15e!important;
-	}
-</style>
+<link href='css/navbar.css' rel='stylesheet' type='text/css'>
 
 <div id = "navbar">
 	<div id = "navstat">
@@ -68,13 +19,21 @@
 				}
 				
 				if($_SESSION['cpage'] === 'journals'){
-					echo "<div id = 'stattitle-js' class = 'current' onclick = 'journal()'> <i class = 'fa fa-book fa-2x'> </i> Journals </div>";
+					if(isset($_SESSION['ujcount'])){
+						echo "<div id = 'stattitle-js' class = 'current' onclick = 'journal()'> <i class = 'fa fa-book fa-2x'> </i> Journals <div id = 'notifnum'>" . $_SESSION['ujcount'] . "</div></div>";
+					}else{
+						echo "<div id = 'stattitle-js' class = 'current' onclick = 'journal()'> <i class = 'fa fa-book fa-2x'> </i> Journals </div>";
+					}
 				}else{
-					echo "<div id = 'stattitle-js' onclick = 'journal()'> <i class = 'fa fa-book fa-2x'> </i> Journals </div>";
+					if(isset($_SESSION['ujcount'])){
+						echo "<div id = 'stattitle-js' onclick = 'journal()'> <i class = 'fa fa-book fa-2x'> </i> Journals <div id = 'notifnum'>" . $_SESSION['ujcount'] . "</div></div>";
+					}else{
+						echo "<div id = 'stattitle-js' onclick = 'journal()'> <i class = 'fa fa-book fa-2x'> </i> Journals </div>";
+					}
 				}
 				
 				if($_SESSION['accounttype'] !== 'CPerson'){
-					echo "<div id = 'stattitle-b'> ADD </div>";
+					echo "<div id = 'stattitle-b'> ADMIN TOOLS </div>";
 					
 					if($_SESSION['cpage'] === 'colorcode'){
 						echo "<div id = 'stattitle-cc' class = 'current' onclick = 'colorcode()'> <i class = 'fa fa-pencil fa-2x' id = 'decicon'></i> Color Code </div>";
@@ -114,7 +73,6 @@
 				}
 			}
 		?>
-		
 	</div>
 </div>
 
@@ -150,11 +108,11 @@
 	
 	function cperson(){
 		$.ajax({
-			url: "hcperson.php",
+			url: "hcontactperson.php",
 			type: "POST",
 			data: {}, // add a flag
 			success: function(data, textStatus, jqXHR){
-				window.location="hcperson.php";
+				window.location="hcontactperson.php";
 			},
 			error: function (jqXHR, textStatus, errorThrown){
 				alert('Error!')
@@ -164,11 +122,11 @@
 
 	function org(){
 		$.ajax({
-			url: "horg.php",
+			url: "horganization.php",
 			type: "POST",
 			data: {}, // add a flag
 			success: function(data, textStatus, jqXHR){
-				window.location="horg.php";
+				window.location="horganization.php";
 			},
 			error: function (jqXHR, textStatus, errorThrown){
 				alert('Error!')
@@ -220,7 +178,7 @@
 	
 	function reporting(){
 		$.ajax({
-			url: "hseed.php",
+			url: "hreporting.php",
 			type: "POST",
 			data: {}, // add a flag
 			success: function(data, textStatus, jqXHR){
@@ -234,7 +192,7 @@
 	
 	function colorcode(){
 		$.ajax({
-			url: "hseed.php",
+			url: "hcolorcode.php",
 			type: "POST",
 			data: {}, // add a flag
 			success: function(data, textStatus, jqXHR){
