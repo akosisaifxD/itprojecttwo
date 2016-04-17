@@ -15,8 +15,8 @@ body{
 	width: 100%;
 	padding-bottom: 2%;
 }	
-	
-#jsheader{
+
+#jnheader{
 	color: #208f4d;
 	font-size: 170%;
 	position: relative;
@@ -25,9 +25,23 @@ body{
 	padding-bottom: 1%;
 }
 
+#jsheader{
+	color: #208f4d;
+	font-size: 170%;
+	position: relative;
+	padding-left: 5%;
+	padding-bottom: 1%;
+}
+
 #jshr{
 	width: 90%;
 	border-color: #25b15e;
+}
+
+#jnhr{
+	width: 90%;
+	border-color: #25b15e;
+	margin-bottom: 2%;
 }
 
 #jshrf{
@@ -67,4 +81,39 @@ body{
 	border-style: solid;
 	border-width: 3px;
 	border-radius: 10px 10px 10px 10px;
+}
+
+#error{
+	margin-top: 0.5%;
+	position: absolute;
+	margin-left: 19%;
+	padding-left: 5%;
+	font-family: raleway;
+	font-size: 70%;
+	color: red;
+	margin-bottom: 0.2%;
+}
+
+#jnnotif{
+	margin-top: 6%;
+	position: absolute;
+	margin-left: 23%;
+	padding-left: 5%;
+	font-family: raleway;
+	font-size: 80%;
+	color: red;
+	margin-bottom: 0.2%;
+}
+
+#ujjournal{
+	font-size: 140%;
+	position: relative;
+	padding-top: 1%;
+	padding-left: 5%;
+	padding-bottom: 1%;
+}
+
+.link{
+	margin-left: 2%;
+	padding: 0.7%;
 }

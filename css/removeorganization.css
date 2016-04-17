@@ -13,14 +13,14 @@
 	border-color: #25b15e;
 }
 
-#orgnamediv{
+#inputdiv{
 	position: relative;
 	left: 0%;
 	font-family: raleway;
 	color: #208f4d;
 	font-size: 120%;
 	float: left;
-	width: 50%;
+	width: 80%;
 	margin-top: 2%;
 	padding-left: 7%;
 	padding-bottom: 2%;
@@ -28,28 +28,7 @@
 
 #orgname{
 	margin-left: 1%;
-	width: 40%;
-	height: 3%;
-	border-color: #25b15e;
-	border-style: solid;
-	border-width: 1px;
-}
-
-#orgtypediv{
-	position: relative;
-	left: 0%;
-	font-family: raleway;
-	color: #208f4d;
-	font-size: 120%;
-	float: left;
-	width: 40%;
-	padding-left: 7%;
-	padding-bottom: 2%;
-}
-
-#orgtype{
-	margin-left: 1%;
-	width: 50%;
+	width: 60%;
 	height: 3%;
 	border-color: #25b15e;
 	border-style: solid;
@@ -79,8 +58,8 @@
 
 #error{
 	position: absolute;
-	margin-top: 0.2%;
-	margin-left: 17%;
+	top: 63%;
+	margin-left: 18%;
 	padding-left: 5%;
 	font-family: raleway;
 	font-size: 70%;
