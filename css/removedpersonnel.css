@@ -1,0 +1,68 @@
+#oheader{
+	font-family: raleway;
+	color: #208f4d;
+	font-size: 170%;
+	position: relative;
+	padding-top: 5%;
+	padding-left: 5%;
+	padding-bottom: 1%;
+}
+
+#jshr{
+	width: 90%;
+	border-color: #25b15e;
+}
+
+#inputdiv{
+	position: relative;
+	left: 0%;
+	font-family: raleway;
+	color: #208f4d;
+	font-size: 120%;
+	float: left;
+	width: 50%;
+	margin-top: 2%;
+	padding-left: 7%;
+	padding-bottom: 2%;
+}
+
+#dperson{
+	margin-left: 1%;
+	width: 40%;
+	height: 3%;
+	border-color: #25b15e;
+	border-style: solid;
+	border-width: 1px;
+}
+
+.enter{
+	float: right;
+	position: absolute;
+	top: 40%;
+	right: 10%;
+	padding: 1.5%;
+	background-color: white;
+	border-color: #25b15e;
+	border-style: solid;
+	border-width: 3px;
+	border-radius: 15px 15px 15px 15px;
+}
+
+#success{
+	padding-left: 5%;
+	font-family: raleway;
+	font-size: 90%;
+	color: green;
+	margin-bottom: 2%;
+}
+
+#error{
+	position: absolute;
+	top: 63%;
+	margin-left: 20%;
+	padding-left: 5%;
+	font-family: raleway;
+	font-size: 70%;
+	color: red;
+	margin-bottom: 0.2%;
+}

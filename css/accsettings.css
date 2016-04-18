@@ -244,3 +244,11 @@
 	border-radius: 15px 15px 15px 15px;
 	cursor: pointer;
 }
+
+#success{
+	padding-left: 5%;
+	font-family: raleway;
+	font-size: 90%;
+	color: green;
+	margin-bottom: 2%;
+}
