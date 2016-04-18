@@ -42,6 +42,7 @@
 		position: fixed;
 		top: 15%;
 		left:10%;
+		z-index: 2;
 	}
 	
 	#holdcontent{

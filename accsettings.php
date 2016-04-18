@@ -25,6 +25,14 @@
 
 <div id = "accsetdiv">
 	<div id = "asheader"> Account Settings </div>
+	<?php
+		if(isset($_GET["changeemail"])){
+			echo "<div id = 'success'> Successfully edited E-mail Address </div>";
+		}
+		if(isset($_GET["changepw"])){
+			echo "<div id = 'success'> Successfully edited Password </div>";
+		}
+	?>
 	<hr id="jshr">
 	<div id = "settings">
 		<div id="email"> Email Address: <?php echo $email;?> <button id = "cemail" class = "button" onclick = "changeEmail()"> Change E-mail Address </button> </div>
@@ -141,6 +149,7 @@
 				type: "POST",
 				data: {userid:userid, oldpw:oldpw, newpw:newpw}, // add a flag
 				success: function(data, textStatus, jqXHR){
+					window.location="hacc.php?changepw=success";
 				},
 				error: function (jqXHR, textStatus, errorThrown){
 					alert('Error!')

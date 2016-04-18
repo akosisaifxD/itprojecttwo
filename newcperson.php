@@ -22,10 +22,13 @@
 				if(isset($_GET["fnamelength"])){
 					echo "<div id = \"firstnameerror\"> First name field must not be empty </div>";
 				}
+				if(isset($_GET["fnamedig"])){
+					echo "<div id = \"firstnameerror\"> First name must only contain characters </div>";
+				}
 				if(isset($_GET["fname"])){
 					echo "<div id = 'firstnamediv'> First Name: <input type = 'text' id = 'firstname' name = 'firstname' value = '" . $_GET['fname'] . "' maxlength='50'></input></div>";
 				}else{
-					echo "<div id = 'firstnamediv'> First Name: <input type = 'text' id = 'firstname' name = 'firstname'></input></div>";
+					echo "<div id = 'firstnamediv'> First Name: <input type = 'text' id = 'firstname' name = 'firstname' maxlength='50'></input></div>";
 				}
 				
 				if(isset($_GET["lnamelength"])){
@@ -34,7 +37,7 @@
 				if(isset($_GET["lname"])){
 					echo "<div id = 'lastnamediv'> Last Name: <input type = 'text' id = 'lastname' name = 'lastname' value = '" . $_GET['lname'] . "' maxlength='50'></input></div>";
 				}else{
-					echo "<div id = 'lastnamediv'> Last Name: <input type = 'text' id = 'lastname' name = 'lastname'></input></div>";
+					echo "<div id = 'lastnamediv'> Last Name: <input type = 'text' id = 'lastname' name = 'lastname' maxlength='50'></input></div>";
 				}
 				
 				if(isset($_GET["moblength"])){

@@ -208,7 +208,7 @@
 		var sitecode = this.id;
 		
 		$.ajax({
-			url: "journal.php",
+			url: "hjournalr.php",
 			type: "POST",
 			contentType: "application/x-www-form-urlencoded",
 			data: {sitecode:sitecode, sendertype: <?php echo $sendertypefs;?>}, // add a flag

@@ -61,12 +61,12 @@
 		}
 	}
 	
-	if(strlen($lastname) > 50 ){
+	if (ctype_digit($firstname) && strlen($firstname) > 0) {
 		$errorcount++;
 		if($errorcount === 1){
-			$errorstring = $errorstring . 'lnameexceed=error';	
+			$errorstring = $errorstring . 'fnamedig=error';	
 		}else{
-			$errorstring = $errorstring . '&lnameexceed=error';	
+			$errorstring = $errorstring . '&fnamedig=error';	
 		}
 	}
 	
@@ -79,6 +79,16 @@
 		}
 	}
 	
+	if (ctype_digit($lastname) && strlen($lastname) > 0) {
+		$errorcount++;
+		if($errorcount === 1){
+			$errorstring = $errorstring . 'lnamedig=error';	
+		}else{
+			$errorstring = $errorstring . '&lnamedig=error';	
+		}
+	}
+	
+	/*
 	if(strlen($lastname) > 50 ){
 		$errorcount++;
 		if($errorcount === 1){
@@ -87,6 +97,7 @@
 			$errorstring = $errorstring . '&lnameexceed=error';	
 		}
 	}
+	*/
 	
 	if(strlen($mobnum) === 0){
 		$errorcount++;

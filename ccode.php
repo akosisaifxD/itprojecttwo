@@ -7,7 +7,7 @@
 		<div id = "logo"><i class="fa fa-plus fa-2x" aria-hidden="true"></i></div>
 		<div id = "title">Add</div>
 	</div>
-	<div id = "editcolorcode">
+	<div id = "editcolorcode" onclick = "edit()">
 		<div id = "logo"><i class = 'fa fa-pencil fa-2x' aria-hidden="true"></i></div>
 		<div id = "title">Edit</div>
 	</div>
@@ -26,6 +26,20 @@
 			data: {}, // add a flag
 			success: function(data, textStatus, jqXHR){
 				window.location="hnccode.php";
+			},
+			error: function (jqXHR, textStatus, errorThrown){
+				alert('Error!')
+			}
+		});	
+	}
+	
+	function edit(){
+		$.ajax({
+			url: "hsccode.php",
+			type: "POST",
+			data: {}, // add a flag
+			success: function(data, textStatus, jqXHR){
+				window.location="hsccode.php";
 			},
 			error: function (jqXHR, textStatus, errorThrown){
 				alert('Error!')

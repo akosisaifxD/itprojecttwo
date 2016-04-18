@@ -100,7 +100,9 @@
 		cursor: pointer;
 	}
 	
-	.show {display:block!important;}
+	.show {
+		display: block!important;
+	}
 	
 	.accoption{
 		padding: 2.5%;
