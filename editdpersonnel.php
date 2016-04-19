@@ -32,7 +32,7 @@
 ?>
 
 <form action = "dpersonedit.php" method = "POST">
-		<div id = "cpheader"> New DENR Personnel <input type="submit" class = "enter"></input> </div>
+		<div id = "cpheader"> Edit DENR Personnel <input type="submit" class = "enter"></input> </div>
 		<?php
 			if(isset($_GET["success"])){
 				echo "<div id = \"success\"> Successfully added new DENR Personnel </div>";

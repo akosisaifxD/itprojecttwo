@@ -12,7 +12,7 @@
     $searchTerm = $_GET['term'];
     
     //get matched data from skills table
-    $query = $db->query("SELECT contactPersonName FROM contactperson WHERE contactPersonName LIKE '%".$searchTerm."%' AND active = 1 ORDER BY contactPersonName ASC");
+    $query = $db->query("SELECT IF(suffix = '', concat(firstName, ' ', lastName), concat(firstName, ' ', lastName, ' ', suffix)) as 'contactPersonName' FROM contactperson WHERE concat(firstName, ' ', lastName, ' ', suffix) LIKE '%".$searchTerm."%' AND active = 1 ORDER BY firstName ASC");
     while ($row = $query->fetch_assoc()) {
         $data[] = $row['contactPersonName'];
     }

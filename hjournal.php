@@ -31,7 +31,7 @@
 		position: fixed;
 		top: 0%;
 		left: 10%;
-		z-index:1;
+		z-index:4;
 	}
 	
 	#holdnav{
@@ -50,6 +50,7 @@
 		top: 15%;
 		left: 22%;
 		background-color: white;
+		z-index: 1;
 	}
 	
 	#hcontent{

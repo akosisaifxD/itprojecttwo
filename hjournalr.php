@@ -59,6 +59,42 @@
 				$arrcount++;
 			}
 		}
+	}else{
+		$cenroid = "";
+		
+		$sql = "SELECT cenroID FROM denr WHERE denrID = '" . $senderid . "'";
+		$result = mysqli_query($conn, $sql);
+		
+		if (mysqli_num_rows($result) > 0) {
+			while($row = mysqli_fetch_assoc($result)) {
+				$cenroid = $row['cenroID'];
+			}
+		}
+		
+		$municipalities = array();
+		$municount = 0;
+		
+		$sql = "SELECT municipalityID FROM cenromunicipality WHERE cenroID = '" . $cenroid . "'";
+		$result = mysqli_query($conn, $sql);
+		
+		if (mysqli_num_rows($result) > 0) {
+			while($row = mysqli_fetch_assoc($result)) {
+				$municipalities[$municount] = $row['municipalityID'];
+				$municount++;
+			}
+		}
+		
+		for($i = 0; $i < sizeof($municipalities); $i++){
+			$sql = "SELECT siteCode FROM site WHERE municipalityID = '" . $municipalities[$i] . "'";
+			$result = mysqli_query($conn, $sql);
+			
+			if (mysqli_num_rows($result) > 0) {
+				while($row = mysqli_fetch_assoc($result)) {
+					$sites[$arrcount] = $row['siteCode'];
+					$arrcount++;
+				}
+			}	
+		}
 	}
 	
 	if (!in_array($sitecode, $sites)) {

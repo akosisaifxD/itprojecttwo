@@ -9,106 +9,29 @@
 
 <?php	
 	include 'connect.php';
-	
-	$checkid = $_SESSION['username'];
-	$sendertypefs = $_SESSION['sendertype'];
-	
-	$lastlogin = "";
-	
-	$lastloginsplit = explode(" ", $_SESSION['prevll']);
-	$lldatesplit = explode("-", $lastloginsplit[0]);
-	$lltimesplit = explode(":", $lastloginsplit[1]);
-	
-	$lldateyear = $lldatesplit[0];
-	$lldatemonth = $lldatesplit[1];
-	$lldateday = $lldatesplit[2];
-	
-	$lltimehour = $lltimesplit[0];
-	$lltimemins = $lltimesplit[1];
-	$lltimesecs = $lltimesplit[2];
-	
-	$jrnsitecodes = array();
-	
-	$sql = "SELECT journalDate, siteCode FROM journal";
-	$result = mysqli_query($conn, $sql);
-	
-	$ujcount = 0;
-	
-	if (mysqli_num_rows($result) > 0) {
-		while($row = mysqli_fetch_assoc($result)) {
-			$jdatesplit = explode(" ", $row['journalDate']);
-			$jddatesplit = explode("-", $jdatesplit[0]);
-			$jdtimesplit = explode(":", $jdatesplit[1]);
-			
-			$jddateyear = $jddatesplit[0];
-			$jddatemonth = $jddatesplit[1];
-			$jddateday = $jddatesplit[2];
-			
-			$jdtimehour = $jdtimesplit[0];
-			$jdtimemins = $jdtimesplit[1];
-			$jdtimesecs = $jdtimesplit[2];
-			
-			$ujcheck;
-			
-			if(floatval($jddateyear) >= floatval($lldateyear)){
-				if(floatval($jddatemonth) >= floatval($lldatemonth) || floatval($jddateyear) > floatval($lldateyear)){
-					if(floatval($jddateday) >= floatval($lldateday) || floatval($jddatemonth) > floatval($lldatemonth)){
-						if(floatval($jdtimehour) >= floatval($lltimehour) || floatval($jddateday) > floatval($lldateday)){
-							if(floatval($jdtimemins) >= floatval($lltimemins) || floatval($jdtimehour) > floatval($lltimehour)){
-								if(floatval($jdtimesecs) > floatval($lltimesecs) || floatval($jdtimemins) > floatval($lltimemins)){
-									$ujcheck = true;
-								}else{
-									$ujcheck = false;
-								}
-							}else{
-								$ujcheck = false;
-							}
-						}else{
-							$ujcheck = false;
-						}
-					}else{
-						$ujcheck = false;
-					}
-				}else{
-					$ujcheck = false;
-				}
-			}else{
-				$ujcheck = false;
-			}
-			
-			if($ujcheck === true){
-				if (!in_array($row['siteCode'], $jrnsitecodes)) {
-					$jrnsitecodes[$ujcount] = $row['siteCode'];
-					$ujcount++;
-				}
-			}else{
-			}
-		}
-	} else {
-	}
-	
-	if($ujcount > 0){
-		$_SESSION['ujcount'] = $ujcount;
-	}
-
+	include 'journalnotifalgo.php';
 ?>
 
 <!-- HTML CONTENT -->
 
+<form action = "refreshprevll.php" method = "POST">
+	<input type = "submit" value = "Refresh" id = "refresh" />
+</form>
 <div id="searchbody">
 	<?php
-		if($ujcount > 0){
-			echo "<div id = \"jnnotif\"> New Journal Entries are available </div>";
-			echo "<div id='jnheader'> Journal Notifications </div>";
-			echo "<hr id='jshr'>";
-			for($i = 0; $i < $ujcount; $i++){
-				echo "<div id = 'ujjournal'> Site Code: " . $jrnsitecodes[$i] . "<button onclick='followlink(this)' id = '" . $jrnsitecodes[$i] . "' class = 'link'>GO</button></div>";
+		if(isset($_SESSION['prevll'])){
+			if($ujcount > 0){
+				echo "<div id = \"jnnotif\"> New Journal Entries are available </div>";
+				echo "<div id='jnheader'> Journal Notifications </div>";
+				echo "<hr id='jshr'>";
+				for($i = 0; $i < $ujcount; $i++){
+					echo "<div id = 'ujjournal'> Site Code: " . $jrnsitecodes[$i] . "<button onclick='followlink(this)' id = '" . $jrnsitecodes[$i] . "' class = 'link'>GO</button></div>";
+				}
+				echo "<hr id='jnhr'>";
 			}
-			echo "<hr id='jnhr'>";
-			echo "<div id='jsheader'> Journal Search </div>";
-		}else{
-			echo "<div id='jnheader'> Journal Search </div>";
 		}
+		
+		echo "<div id='jnheader'> Journal Search </div>";
 	?>
 	
 	<hr id="jshr">

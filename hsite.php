@@ -31,6 +31,7 @@
     	margin: 0;
 		background-color: #d5d4d0;
 		width: 100%;
+		overflow-y: hidden;
 	}
 	
 	#holdheader{
@@ -48,11 +49,13 @@
 		position: fixed;
 		top: 15%;
 		left:10%;
+		z-index: 2;
 	}
 	
 	#holdcontent{
 		width: 68%;
-		height: 100%;
+		height: 85%;
+		overflow-y: scroll;
 		position: relative;
 		top: 15%;
 		left: 22%;

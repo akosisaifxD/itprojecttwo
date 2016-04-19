@@ -12,6 +12,8 @@
 	
 	include 'connect.php';
 	
+	$un = $_SESSION['username'];
+	
 	if(strlen($comments) > 0){
 		// prepare and bind
 		$stmt = $conn->prepare("INSERT INTO journal (comments, sender, siteCode) VALUES (?, ?, ?)");
