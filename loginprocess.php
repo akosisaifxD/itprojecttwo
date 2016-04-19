@@ -37,6 +37,7 @@
 		return strpos($un, 'P');
 	}
 	
+	/*
 	function verifyPasswordForContactPerson(){
 		$sql = "SELECT password FROM contactperson WHERE contactPersonID = \"" . $un . "\"";
 		$result = mysqli_query($conn, $sql);
@@ -51,6 +52,7 @@
 			header('Location: denrhome.php?error=true');
 		}
 	}
+	*/
 	
 	function verifyPasswordForDENR($un, $pw, $checker, $conn){
 		$sql = "SELECT password, accountType, lastLogin FROM denr WHERE denrID = \"" . $un . "\"";
@@ -58,7 +60,12 @@
 		if (mysqli_num_rows($result) > 0) {
 			while($row = mysqli_fetch_assoc($result)) {
 				if($row["password"] === $pw){
-					$_SESSION['prevll'] = $row['lastLogin'];
+					if(isset($row['lastLogin'])){
+						$_SESSION['prevll'] = $row['lastLogin'];
+					}else{
+						$_SESSION['prevll'] = "0-0-0 0:0:0";
+					}
+					
 					$_SESSION['checker'] = 1;
 					if($row["accountType"] === "Basic"){
 						$_SESSION['accounttype'] = "Basic";
@@ -96,7 +103,7 @@
 	$pw = setPassword();
 	
 	if(checkIfContactPerson($un) !== false){
-		verifyPasswordForContactPerson();
+		header('Location: denrhome.php?error=true');
 	}else{
 		verifyPasswordForDENR($un, $pw, $checker, $conn);
 		$checker = setChecker();

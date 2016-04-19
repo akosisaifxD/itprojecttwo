@@ -36,28 +36,24 @@
 					echo "<div id = 'stattitle-b' onclick = 'adminoptions()'> ADMIN TOOLS <i class='fa fa-caret-right fa-2x' aria-hidden='true' id = 'atarrow'></i></div>";
 					
 					echo "<div id = 'adminsettings'>";
-					if($_SESSION['cpage'] === 'colorcode'){
-						echo "<div id = 'stattitle-cc' class = 'current' onclick = 'colorcode()'> <i class = 'fa fa-pencil fa-2x' id = 'decicon'></i> Color Code </div>";
-					}else{
-						echo "<div id = 'stattitle-cc' onclick = 'colorcode()'> <i class = 'fa fa-pencil fa-2x' id = 'decicon'></i> Color Code </div>";
+					if($_SESSION['accounttype'] === 'Advanced'){
+						if($_SESSION['cpage'] === 'denrpersonnel'){
+							echo "<div id = 'stattitle-dp' class = 'current' onclick = 'denrpersonnel()'> <i class = 'fa fa-user-secret fa-2x' id = 'decicon'></i> DENR Personnel </div>";
+						}else{
+							echo "<div id = 'stattitle-dp' onclick = 'denrpersonnel()'> <i class = 'fa fa-user-secret fa-2x' id = 'decicon'></i> DENR Personnel </div>";
+						}	
+					
+						if($_SESSION['cpage'] === 'site'){
+							echo "<div id = 'stattitle-s' class = 'current' onclick = 'site()'> <i class = 'fa fa-map-marker fa-2x' id = 'decicon'></i> Site </div>";
+						}else{
+							echo "<div id = 'stattitle-s' onclick = 'site()'> <i class = 'fa fa-map-marker fa-2x' id = 'decicon'></i> Site </div>";
+						}
 					}
 					
-					if($_SESSION['cpage'] === 'cperson'){
-						echo "<div id = 'stattitle-cp' class = 'current' onclick = 'cperson()'> <i class = 'fa fa-user-plus fa-2x' id = 'decicon'></i> Contact Person </div>";
+					if($_SESSION['cpage'] === 'validation'){
+						echo "<div id = 'stattitle-v' class = 'current' onclick = 'validation()'> <i class = 'fa fa-check-circle-o fa-2x' id = 'decicon'></i> Validation </div>";
 					}else{
-						echo "<div id = 'stattitle-cp' onclick = 'cperson()'> <i class = 'fa fa-user-plus fa-2x' id = 'decicon'></i> Contact Person </div>";
-					}
-					
-					if($_SESSION['cpage'] === 'denrpersonnel'){
-						echo "<div id = 'stattitle-dp' class = 'current' onclick = 'denrpersonnel()'> <i class = 'fa fa-user-secret fa-2x' id = 'decicon'></i> DENR Personnel </div>";
-					}else{
-						echo "<div id = 'stattitle-dp' onclick = 'denrpersonnel()'> <i class = 'fa fa-user-secret fa-2x' id = 'decicon'></i> DENR Personnel </div>";
-					}
-					
-					if($_SESSION['cpage'] === 'organization'){
-						echo "<div id = 'stattitle-o' class = 'current' onclick = 'org()'> <i class = 'fa fa-users fa-2x' id = 'decicon'></i> Organization </div>";
-					}else{
-						echo "<div id = 'stattitle-o' onclick = 'org()'> <i class = 'fa fa-users fa-2x' id = 'decicon'></i> Organization </div>";
+						echo "<div id = 'stattitle-v' onclick = 'validation()'> <i class = 'fa fa-check-circle-o fa-2x' id = 'decicon'></i> Validation </div>";
 					}
 					
 					if($_SESSION['cpage'] === 'seedling'){
@@ -66,23 +62,38 @@
 						echo "<div id = 'stattitle-g' onclick = 'seedling()'> <i class='fa fa-tree fa-2x' aria-hidden='true' id = 'decicon'></i> Seedling </div>";
 					}
 					
-					if($_SESSION['cpage'] === 'site'){
-						echo "<div id = 'stattitle-s' class = 'current' onclick = 'site()'> <i class = 'fa fa-map-marker fa-2x' id = 'decicon'></i> Site </div>";
-					}else{
-						echo "<div id = 'stattitle-s' onclick = 'site()'> <i class = 'fa fa-map-marker fa-2x' id = 'decicon'></i> Site </div>";
+					if($_SESSION['accounttype'] === 'Advanced'){
+						if($_SESSION['cpage'] === 'cperson'){
+							echo "<div id = 'stattitle-cp' class = 'current' onclick = 'cperson()'> <i class = 'fa fa-user-plus fa-2x' id = 'decicon'></i> Contact Person </div>";
+						}else{
+							echo "<div id = 'stattitle-cp' onclick = 'cperson()'> <i class = 'fa fa-user-plus fa-2x' id = 'decicon'></i> Contact Person </div>";
+						}
+						
+						if($_SESSION['cpage'] === 'cenro'){
+							echo "<div id = 'stattitle-cen' class = 'current' onclick = 'cenro()'> <i class = 'fa fa-building-o fa-2x' id = 'decicon'></i> CENRO </div>";
+						}else{
+							echo "<div id = 'stattitle-cen' onclick = 'cenro()'> <i class = 'fa fa-building-o fa-2x' id = 'decicon'></i> CENRO </div>";
+						}
+						
+						if($_SESSION['cpage'] === 'organization'){
+							echo "<div id = 'stattitle-o' class = 'current' onclick = 'org()'> <i class = 'fa fa-users fa-2x' id = 'decicon'></i> Organization </div>";
+						}else{
+							echo "<div id = 'stattitle-o' onclick = 'org()'> <i class = 'fa fa-users fa-2x' id = 'decicon'></i> Organization </div>";
+						}
+						
+						if($_SESSION['cpage'] === 'colorcode'){
+							echo "<div id = 'stattitle-cc' class = 'current' onclick = 'colorcode()'> <i class = 'fa fa-pencil fa-2x' id = 'decicon'></i> Color Code </div>";
+						}else{
+							echo "<div id = 'stattitle-cc' onclick = 'colorcode()'> <i class = 'fa fa-pencil fa-2x' id = 'decicon'></i> Color Code </div>";
+						}
+						
+						if($_SESSION['cpage'] === 'species'){
+							echo "<div id = 'stattitle-sps' class = 'current' onclick = 'species()'> <i class = 'fa fa-leaf fa-2x' id = 'decicon'></i> Species </div>";
+						}else{
+							echo "<div id = 'stattitle-sps' onclick = 'species()'> <i class = 'fa fa-leaf fa-2x' id = 'decicon'></i> Species </div>";
+						}
 					}
-					
-					if($_SESSION['cpage'] === 'species'){
-						echo "<div id = 'stattitle-sps' class = 'current' onclick = 'site()'> <i class = 'fa fa-leaf fa-2x' id = 'decicon'></i> Species </div>";
-					}else{
-						echo "<div id = 'stattitle-sps' onclick = 'site()'> <i class = 'fa fa-leaf fa-2x' id = 'decicon'></i> Species </div>";
-					}
-					
-					if($_SESSION['cpage'] === 'validation'){
-						echo "<div id = 'stattitle-v' class = 'current' onclick = 'validation()'> <i class = 'fa fa-check-circle-o fa-2x' id = 'decicon'></i> Validation </div>";
-					}else{
-						echo "<div id = 'stattitle-v' onclick = 'validation()'> <i class = 'fa fa-check-circle-o fa-2x' id = 'decicon'></i> Validation </div>";
-					}
+	
 					echo "</div>";
 				}
 			}
@@ -153,11 +164,11 @@
 	
 	function site(){
 		$.ajax({
-			url: "hsite.php",
+			url: "hhsite.php",
 			type: "POST",
 			data: {}, // add a flag
 			success: function(data, textStatus, jqXHR){
-				window.location="hsite.php";
+				window.location="hhsite.php";
 			},
 			error: function (jqXHR, textStatus, errorThrown){
 				alert('Error!')
@@ -228,6 +239,34 @@
 			data: {}, // add a flag
 			success: function(data, textStatus, jqXHR){
 				window.location="hdenrpersonnel.php";
+			},
+			error: function (jqXHR, textStatus, errorThrown){
+				alert('Error!')
+			}
+		});	
+	}
+	
+	function species(){
+		$.ajax({
+			url: "hspecies.php",
+			type: "POST",
+			data: {}, // add a flag
+			success: function(data, textStatus, jqXHR){
+				window.location="hspecies.php";
+			},
+			error: function (jqXHR, textStatus, errorThrown){
+				alert('Error!')
+			}
+		});	
+	}
+	
+	function cenro(){
+		$.ajax({
+			url: "hcenro.php",
+			type: "POST",
+			data: {}, // add a flag
+			success: function(data, textStatus, jqXHR){
+				window.location="hcenro.php";
 			},
 			error: function (jqXHR, textStatus, errorThrown){
 				alert('Error!')

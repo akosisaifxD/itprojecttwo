@@ -1,10 +1,38 @@
 <?php include 'connect.php'?>
 
+<form action = "siteprocess.php" method = "POST">
 <div class = "mainformdiv">
-	<div id = "sheader"> New Site <button class = "entert" onclick = "exampsaif()"> Submit </button> </div>
+	<div id = "sheader"> New Site <input type = "submit" value = "Submit" class = "entert"> </div>
 	<?php
 		if(isset($_GET["success"])){
 			echo "<div id = \"success\"> Successfully added new Organization </div>";
+		}
+		if(isset($_GET["decalength"])){
+			echo "<div id = \"error\"> Declared area field must not be left empty </div>";
+		}
+		if(isset($_GET["deccont"])){
+			echo "<div id = \"error\"> Declared area field must only contain digits </div>";
+		}
+		if(isset($_GET["cpersondne"])){
+			echo "<div id = \"error\"> Contact person field must not be left empty </div>";
+		}
+		if(isset($_GET["cplength"])){
+			echo "<div id = \"error\"> Contact person entered does not exist </div>";
+		}
+		if(isset($_GET["orgerr"])){
+			echo "<div id = \"error\"> At least one organization must be chosen </div>";
+		}
+		if(isset($_GET["provlength"])){
+			echo "<div id = \"error\"> A province must be chosen </div>";
+		}
+		if(isset($_GET["munilength"])){
+			echo "<div id = \"error\"> A municipality must be chosen </div>";
+		}
+		if(isset($_GET["brgyerr"])){
+			echo "<div id = \"error\"> At least one barangay must be chosen </div>";
+		}
+		if(isset($_GET["tableerr"])){
+			echo "<div id = \"error\"> All rows in table must be filled up </div>";
 		}
 	?>
 	<hr id="jshr">
@@ -12,7 +40,7 @@
 		<!-- YEAR INPUT -->
 		<div class="yearlabel">Year
 			<div class="inputdiv">
-				<select class = "yearcontent" id = "yearval">
+				<select class = "yearcontent" id = "yearval" name="year">
 					<!-- PHP CODE -->
 					<?php
 						$currentyear = date("Y"); //Get Current Year
@@ -30,7 +58,7 @@
 		<!-- DECLARED AREA INPUT -->
 		<div class="decareadiv">Declared Area
 			<div class="inputdiv">
-				<input type="text" id = "decarea"></input> ha
+				<input type="text" id = "decarea" name = "decarea"></input> ha
 			</div>
 		</div>
 		<!-- END DECLARED AREA INPUT -->
@@ -38,7 +66,7 @@
 		<!-- CONTACT PERSON INPUT -->
 		<div class="cplabel">Contact Person
 			<div class="inputdiv">
-				<input id="cperson" type = "text"></input>
+				<input id="cperson" type = "text" name = "cperson"></input>
 			</div>
 		</div>
 		<!-- END CONTACT PERSON INPUT -->
@@ -46,7 +74,7 @@
 		<!-- ORGANIZATION INPUT -->
 		<div class="orglabel">Organization
 			<div class="inputdiv">
-				<select class = "organizationcontent" multiple="multiple" id="orgid">
+				<select class = "organizationcontent" multiple="multiple" id="orgid" name = "org[]">
 				<!-- PHP CODE -->
 					<?php
 						$sql = "SELECT organizationID, organizationName FROM organization ORDER BY organizationName ASC";
@@ -74,7 +102,7 @@
 
 		<div class="zonelabel">Zone
 			<div class="inputdiv">
-				<select class = "zonecontent" id = "zonecontent">
+				<select class = "zonecontent" id = "zonecontent" name = "zonec">
 					<option value= "Protection"> Protection </option>
 					<option value= "Production"> Production </option>
 					<option value= "Protection/Production"> Protection/Production </option>
@@ -85,7 +113,7 @@
 		<!-- PROVINCE INPUT -->
 		<div class="provlabel">Province
 			<div class="inputdiv">
-				<select class = "provincecontent"  id="provid">
+				<select class = "provincecontent"  id="provid" name = "provc">
 				<option value="0"></option>
 				<!-- PHP CODE -->
 					<?php
@@ -112,7 +140,7 @@
 		<!-- MUNICIPALITY INPUT -->
 		<div class="munilabel">Municipality
 			<div class="inputdiv">
-				<select class = "municipalitycontent"  id="municiid">
+				<select class = "municipalitycontent"  id="municiid" name = "municic">
 				<option value="0"></option>
 					<!-- DYNAMIC PROVINCE MUNICIPALITY RELATIONSHIP (SEE JAVASCRIPT) -->
 				</select>
@@ -123,7 +151,7 @@
 		<!-- BARANGAY INPUT -->
 		<div class="brgylabel">Barangay
 			<div class="inputdiv">
-				<select class = "barangaycontent" multiple="multiple" id="brgyid">
+				<select class = "barangaycontent" multiple="multiple" id="brgyid" name = "brgyc">
 				<option value="0"></option>
 				<!-- PHP CODE -->
 				</select>
@@ -150,22 +178,37 @@
                         <tbody>
                             <tr>
                                 <td>1</td>
-								<td><input type = "text" id = "lng1"></input></td>
-								<td><input type = "text" id = "lat1"></input></td>
+								<td><input type = "text" id = "lng1" name = 'lng1'></input></td>
+								<td><input type = "text" id = "lat1" name = 'lat1'></input></td>
                             </tr>
                             <tr>
                                 <td>2</td>
-								<td><input type = "text" id = "lng2"></input></td>
-								<td><input type = "text" id = "lat2"></input></td>
+								<td><input type = "text" id = "lng2" name = 'lng2'></input></td>
+								<td><input type = "text" id = "lat2" name = 'lat2'></input></td>
                             </tr>
                             <tr>
                                 <td>3</td>
-								<td><input type = "text" id = "lng3"></input></td>
-								<td><input type = "text" id = "lat3"></input></td>
+								<td><input type = "text" id = "lng3" name = 'lng3'></input></td>
+								<td><input type = "text" id = "lat3" name = 'lat3'></input></td>
                         </tbody>
                     </table>
 		</div>
+		<input type="hidden" id="numofrows" name="numofrows" value=3 />
 		<!-- END COORDINATE TABLE INPUT -->
+		
+		<div class="complabel">Component
+			<div class="inputdiv">
+				<select class = "compcontent" id = "compcontent" name = "compc">
+					<option value= "Agroforestry"> Agroforestry </option>
+					<option value= "Reforestation"> Reforestation </option>
+					<option value= "Urban Greening"> Urban Greening </option>
+					<option value= "Agroforestry/Reforestation"> Agroforestry/Reforestation </option>
+					<option value= "Ornamental"> Ornamental </option>
+					<option value= "Fuel Wood"> Fuel Wood </option>
+					<option value= "Rattan"> Rattan </option>
+				</select>
+			</div>
+		</div>
 	<hr id="endjshr">
 	<!-- END OF MAIN FORM -->
 </div>
@@ -179,7 +222,7 @@
   </div>
 
 </div>
-
+</form>
 
 <!-- JAVASCRIPT CODES -->
 <script>
@@ -285,7 +328,9 @@
 		var table = document.getElementById("formactualtableid"); //Call Coordinate Table
 		var x = table.rows.length; //Take number of rows of Coordinate Table
 		if(x > 4){
+			var tnor = document.getElementById("numofrows");
 			table.deleteRow(x - 1);
+			tnor.value = parseFloat(tnor.value) - 1;
 		}else{
 			alert("A polygon must have at least 3 coordinate points");
 		}
@@ -294,16 +339,19 @@
 	//ADD ROW FUNCTION FOR COORDINATE TABLE IN MAIN FORM
 	function addRow(){
 		var table = document.getElementById("formactualtableid"); //Call Coordinate Table
+		var tnor = document.getElementById("numofrows");
+		tnor.value = parseFloat(tnor.value) + 1;
 		var x = table.rows.length; //Take number of rows of Coordinate Table
 		var row = table.insertRow(x); //Insert new row in the Coordinate Table
 		var cell1 = row.insertCell(0); //Create 1st cell for new row
 		var cell2 = row.insertCell(1); //Create 2nd cell for new row
 		var cell3 = row.insertCell(2); //Create 3rd cell for new row
 		cell1.innerHTML = x;
-		cell2.innerHTML = "<input type = \"text\" id = \"lng" + x + "\"></input>";
-		cell3.innerHTML = "<input type = \"text\" id = \"lat" + x + "\"></input>";
+		cell2.innerHTML = "<input type = \"text\" id = \"lng" + x + "\" name = 'lng" + x + "'></input>";
+		cell3.innerHTML = "<input type = \"text\" id = \"lat" + x + "\" name = 'lat" + x +"'></input>";
 	}
-
+	
+	
 	// DYNAMIC PROVINCE - MUNICIPALITY RELATIONSHIP
 	$(document).ready(function() {
 
@@ -1511,15 +1559,17 @@
 		];
 
 	});
-</script>
 
-<script>
 	$(function() {
 		$( "#cperson" ).autocomplete({
 			source: 'autocomplete.php'
 		});
 	});
+</script>
 
+
+<script>
+	/*
 	function exampsaif(){
 		var sitevalidate = 0;
 		
@@ -1623,6 +1673,7 @@
 			});
 		}
 	}
+	*/
 </script>
 <!-- END OF JAVASCRIPT CODES -->
 

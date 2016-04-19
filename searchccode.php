@@ -1,4 +1,4 @@
-<link href='css/removecperson.css' rel='stylesheet' type='text/css'>
+<link href='css/removeccode.css' rel='stylesheet' type='text/css'>
 
 <?php
 	include 'connect.php';
