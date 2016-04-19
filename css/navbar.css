@@ -30,7 +30,7 @@ body #navbar{
 	color: #e0ded8;
 }
 	
-#stattitle-cp, #stattitle-o, #stattitle-s, #stattitle-v, #stattitle-g, #stattitle-cc, #stattitle-dp, #stattitle-sps{
+#stattitle-cp, #stattitle-o, #stattitle-s, #stattitle-v, #stattitle-g, #stattitle-cc, #stattitle-dp, #stattitle-sps, #stattitle-cen{
 	cursor: pointer;
 	padding: 10%;
 	font-family: raleway;
@@ -64,14 +64,15 @@ body #navbar{
 	font-size: 120%;
 	display: none;
 	position: absolute;
-	top: 32%;
+	top: 31.3%;
 	left: 100%;
 	z-index: 3;
 	background-color: #f9f9f9;
 	text-align: center;
 	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 	width: 120%;
-	height: 50%;
+	min-height: 0%;
+	max-height: 40%;
 	overflow-y: scroll;
 }
 

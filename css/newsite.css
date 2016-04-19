@@ -22,17 +22,22 @@
 }
 
 .entert{
+	font-family: raleway;
 	float: right;
 	position: absolute;
-	top: 40%;
+	top: 45%;
 	right: 10%;
+	padding-top: 0.7%!important;
+	padding-bottom: 0.7%!important;
+	font-size: 80%;
 	padding: 1.5%;
-	font-size: 50%;
-	background-color: white;
+	color: white;
+	background-color: #25b15e;
 	border-color: #25b15e;
 	border-style: solid;
 	border-width: 3px;
 	border-radius: 15px 15px 15px 15px;
+	cursor: pointer;
 }
 
 #tablebuttons{
@@ -115,9 +120,9 @@
 	color: #208f4d;
 	font-size: 120%;
 	float: left;
-	width: 20%;
+	width: 15%;
 	margin-top: 2%;
-	padding-left: 7%;
+	margin-left: 7%;
 	padding-bottom: 2%;
 }
 
@@ -177,8 +182,8 @@
 
 .zonelabel{
 	position: absolute;
-	left: 27%;
-	top: 135%;
+	left: 0%;
+	top: 235%;
 	font-family: raleway;
 	color: #208f4d;
 	font-size: 120%;
@@ -229,9 +234,9 @@
 	color: #208f4d;
 	font-size: 120%;
 	float: left;
-	width: 32%;
+	width: 28%;
 	margin-top: 2%;
-	padding-left: 7%;
+	margin-left: 7%;
 	padding-bottom: 2%;
 }
 
@@ -252,15 +257,38 @@
 	color: #208f4d;
 	font-size: 120%;
 	float: left;
-	width: 25%;
+	width: 18%;
 	margin-top: 2%;
-	padding-left: 7%;
+	margin-left: 7%;
 	padding-bottom: 2%;
 }
 
 #brgyid{
 	margin-top: 1%;
 	width: 82%;
+	height: 35px;
+	border-color: #25b15e;
+	border-style: solid;
+	border-width: 1px;
+}
+
+.complabel{
+	position: absolute;
+	left: 20%;
+	top: 235%;
+	font-family: raleway;
+	color: #208f4d;
+	font-size: 120%;
+	float: left;
+	width: 26%;
+	margin-top: 2%;
+	margin-left: 7%;
+	padding-bottom: 2%;
+}
+
+#compcontent{
+	margin-top: 1%;
+	width: 72%;
 	height: 35px;
 	border-color: #25b15e;
 	border-style: solid;
@@ -331,6 +359,13 @@
 	margin-bottom: 2%;
 }
 
+#error{
+	padding-left: 5%;
+	font-family: raleway;
+	font-size: 90%;
+	color: red;
+}
+
 .dropdown-menu>li>a {
     display: block;
     padding: 3px 20px;
@@ -344,12 +379,13 @@
 
 .dropdown-menu{
 	overflow-y: scroll;
+	width: 570px;
 	height: 400px;
 }
 
 .btn-default{
 	margin-top: 1%;
-	width: 300px;
+	width: 570px;
 }
 
 .brgydd{

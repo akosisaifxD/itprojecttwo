@@ -81,6 +81,25 @@ body{
 	border-style: solid;
 	border-width: 3px;
 	border-radius: 10px 10px 10px 10px;
+	cursor: pointer;
+}
+
+#refresh{
+	float: right;
+	position: absolute;
+	top: 10%;
+	right: 6%;
+	padding-top: 0.6%!important;
+	padding-bottom: 0.6%!important;
+	padding: 1.5%;
+	color: white;
+	background-color: #25b15e;
+	border-color: #25b15e;
+	border-style: solid;
+	border-width: 3px;
+	border-radius: 15px 15px 15px 15px;
+	cursor: pointer;
+	z-index: 4;
 }
 
 #error{
