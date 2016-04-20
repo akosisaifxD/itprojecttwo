@@ -1,7 +1,8 @@
 <link href='css/validation.css' rel='stylesheet' type='text/css'>
 
 <div id = "validationdiv">
-	<div id = "vdheader"> New Seedling Validation </div>
+	<form id="validationForm"class="form-horizontal" method="POST" action="submitSeedling.php">
+	<div id = "vdheader"> New Seedling Validation <input type="submit" class="btn btn-success enter" id="submitValidation"><span id="submitMessage"></span></input></div>
 	<?php
 	if(isset($_GET['message'])){
 		if($_GET['message']=="submitDone"){
@@ -18,7 +19,7 @@
 	<span id="qfMessage"></span>
 	<hr id="jshr">
 	<div id = "inputdiv">
-		<form id="validationForm"class="form-horizontal" method="POST" action="submitSeedling.php">
+		
 			<div id = "startdatelabel"> Start Date: <input type="date" class="form-control" min="1979-12-31" max="2099-12-31" name="startDate" id="dateFrom" required> </div>
 			<div id = "enddatelabel"> End Date: <input type="date" class="form-control" min="1979-12-31" max="2099-12-31" name="endDate" id="dateTo"/> </div>
 			<div id = "surveyorlabel"> Surveyor ID: <input type="text" class="form-control" name="surveyor" id="surveyor" maxlength="40" required> </div>
@@ -40,12 +41,11 @@
 					</tbody>
 				</table>
 			</div>
-			<input type="submit" class="btn btn-success enter" id="submitValidation"><span id="submitMessage"></span></input>
 	</div>
 	
-	</form>
-	<hr id="jshr">
 	
+	<hr id="jshr">
+	</form>
 </div>                                                                                  
   
 </div>
