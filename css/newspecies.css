@@ -85,23 +85,17 @@
 }
 
 #snerror{
-	margin-top: 0.5%;
-	position: absolute;
-	margin-left: 15%;
 	padding-left: 5%;
 	font-family: raleway;
-	font-size: 70%;
+	font-size: 90%;
 	color: red;
-	margin-bottom: 0.2%;
+	margin-bottom: 2%;
 }
 
 #cnerror{
-	margin-top: 5%;
-	position: absolute;
-	margin-left: 15%;
 	padding-left: 5%;
 	font-family: raleway;
-	font-size: 70%;
+	font-size: 90%;
 	color: red;
-	margin-bottom: 0.2%;
+	margin-bottom: 2%;
 }

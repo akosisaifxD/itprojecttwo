@@ -57,16 +57,22 @@
 }
 
 .enter{
+	font-family: raleway;
 	float: right;
 	position: absolute;
-	top: 40%;
+	top: 45%;
 	right: 10%;
+	padding-top: 0.7%!important;
+	padding-bottom: 0.7%!important;
+	font-size: 80%;
 	padding: 1.5%;
-	background-color: white;
+	color: white;
+	background-color: #25b15e;
 	border-color: #25b15e;
 	border-style: solid;
 	border-width: 3px;
 	border-radius: 15px 15px 15px 15px;
+	cursor: pointer;
 }
 
 #success{
@@ -78,12 +84,9 @@
 }
 
 #error{
-	position: absolute;
-	margin-top: 0.2%;
-	margin-left: 17%;
 	padding-left: 5%;
 	font-family: raleway;
-	font-size: 70%;
+	font-size: 90%;
 	color: red;
-	margin-bottom: 0.2%;
+	margin-bottom: 2%;
 }

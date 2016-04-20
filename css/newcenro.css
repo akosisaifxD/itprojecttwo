@@ -84,6 +84,15 @@
 	margin-bottom: 2%;
 }
 
+#error{
+	padding-left: 5%;
+	font-family: raleway;
+	font-size: 90%;
+	color: red;
+	margin-bottom: 2%;
+}
+
+/*
 #snerror{
 	margin-top: 0.5%;
 	position: absolute;
@@ -94,3 +103,4 @@
 	color: red;
 	margin-bottom: 0.2%;
 }
+*/

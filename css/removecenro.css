@@ -63,6 +63,15 @@
 }
 
 #error{
+	padding-left: 5%;
+	font-family: raleway;
+	font-size: 90%;
+	color: red;
+	margin-bottom: 2%;
+}
+
+/*
+#error{
 	position: absolute;
 	top: 63%;
 	margin-left: 13%;
@@ -72,3 +81,4 @@
 	color: red;
 	margin-bottom: 0.2%;
 }
+*/
