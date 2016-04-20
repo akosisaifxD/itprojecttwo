@@ -25,7 +25,19 @@
 		}
 	}
 	
-	$sql = "SELECT contactPersonName FROM contactperson WHERE active = 1";
+	$sql = "SELECT concat(firstName, ' ', lastName, ' ', suffix) as 'contactPersonName' FROM contactperson WHERE active = 1 AND suffix != ''";
+	$result = mysqli_query($conn, $sql);
+	if (mysqli_num_rows($result) > 0) {
+		// output data of each row
+		while($row = mysqli_fetch_assoc($result)) {
+			$cpersons[$cpscount] = $row['contactPersonName'];
+			$cpscount++;
+		}
+	} else {
+		echo "0 results";
+	}
+	
+	$sql = "SELECT concat(firstName, ' ', lastName) as 'contactPersonName' FROM contactperson WHERE active = 1";
 	$result = mysqli_query($conn, $sql);
 	if (mysqli_num_rows($result) > 0) {
 		// output data of each row
@@ -49,7 +61,13 @@
 	if($errorcount > 0){
 		header ("location: hrcperson.php?" . $errorstring);
 	}else{
-		$sql = "UPDATE contactperson SET active = 0 WHERE contactPersonName ='" . $cperson . "'";
+		$sql = "UPDATE contactperson SET active = 0 WHERE concat(firstName, ' ', lastName, ' ', suffix) ='" . $cperson . "' AND suffix != ''";
+
+		if ($conn->query($sql) === TRUE) {
+		} else {
+		}
+		
+		$sql = "UPDATE contactperson SET active = 0 WHERE concat(firstName, ' ', lastName) ='" . $cperson . "' AND suffix = ''";
 
 		if ($conn->query($sql) === TRUE) {
 		} else {

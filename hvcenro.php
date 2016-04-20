@@ -1,10 +1,6 @@
 <!-- EXTERNAL SCRIPT CALLS -->
 
 <script src="js/jquery.min.js"></script>
-<link rel="stylesheet" href="css/jquery-ui.css">
-<script src="js/jquery-1.10.2.js"></script>
-<script src="js/jquery-ui.js"></script>
-<script src="js/formfilledcheck.js"></script>
 
 <!-- END OF EXTERNAL SCRIPT CALLS -->
 
@@ -17,7 +13,7 @@
 		header('Location: denrhome.php?login=fail');
 	}
 	
-	$_SESSION['cpage'] = 'cperson'; 
+	$_SESSION['cpage'] = 'cenro'; 
 ?>
 
 <style>
@@ -70,6 +66,6 @@
 
 <div id = "holdcontent">
 	<div id = "hcontent">
-		<?php include 'removecperson.php' ?>
+		<?php include 'viewcenro.php' ?>
 	</div>
 </div>

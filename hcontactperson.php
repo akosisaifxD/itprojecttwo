@@ -1,6 +1,6 @@
 <!-- EXTERNAL SCRIPT CALLS -->
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="js/jquery.min.js"></script>
 
 <!-- END OF EXTERNAL SCRIPT CALLS -->
 
@@ -45,9 +45,9 @@
 	#holdcontent{
 		z-index: 0;
 		width: 68%;
-		height: 100%;
+		min-height: 85%;
 		position: relative;
-		top: 8%;
+		top: 15%;
 		left: 22%;
 		background-color: white;
 	}

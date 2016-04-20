@@ -1,7 +1,7 @@
 <?php
 	session_start();
-	if(isset($_POST['coloryear'])) {
-		$_SESSION['coloryear'] = $_POST['coloryear'];
+	if(isset($_POST['yearcolor'])) {
+		$_SESSION['yearcolor'] = $_POST['yearcolor'];
 		$_SESSION['color'] = $_POST['color'];
 	}
 	
@@ -9,7 +9,7 @@
 	
 	$errorstring = "";
 	
-	$coloryear = $_SESSION['coloryear'];
+	$coloryear = $_SESSION['yearcolor'];
 	$color = $_SESSION['color'];
 	
 	include 'connect.php';
@@ -20,5 +20,5 @@
 	} else {
 	}
 			
-	header ("location: heccode.php?success=edited");
+	header ("location: hsccode.php?success=edited");
 ?>

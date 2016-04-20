@@ -66,7 +66,7 @@
 	}
 	
 	if($errorcount > 0){
-		header ("location: hcolorcode.php?" . $errorstring . "&coloryear=" . $coloryear);
+		header ("location: hnccode.php?" . $errorstring . "&coloryear=" . $coloryear);
 	}else{
 		if (in_array($coloryear, $inactiveyears)) {
 			$sql = "UPDATE colorcodes SET color = '$color', active = 1 WHERE year =" . $coloryear;

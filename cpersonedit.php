@@ -92,6 +92,6 @@
 		} else {
 		}
 		
-		header ("location: hecperson.php?success=true");
+		header ("location: hscperson.php?success=true");
 	}
 ?>

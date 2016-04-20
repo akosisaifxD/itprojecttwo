@@ -1,6 +1,7 @@
 <!-- EXTERNAL SCRIPT CALLS -->
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="js/jquery.min.js"></script>
+<script src="js/formfilledcheck.js"></script>
 
 <!-- END OF EXTERNAL SCRIPT CALLS -->
 
@@ -44,7 +45,7 @@
 	
 	#holdcontent{
 		width: 68%;
-		height: 100%;
+		min-height: 85%;
 		position: relative;
 		top: 15%;
 		left: 22%;

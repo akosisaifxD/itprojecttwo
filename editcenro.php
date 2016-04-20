@@ -23,19 +23,26 @@
 	}
 ?>
 
-<form action = "speciesedit.php" method = "POST">
-		<div id = "oheader"> Edit CENRO <input type="submit" class = "enter"></input> </div>
+<form action = "cenroedit.php" method = "POST">
+		<div id = "oheader"> Edit CENRO <input type="submit" class = "enter bypassChanges"></input> </div>
 		<?php
-			if(isset($_GET["success"])){
-				echo "<div id = \"success\"> Successfully edited CENRO </div>";
+			if(isset($_GET["sndup"])){
+				echo "<div id = 'error'> CENRO already exists </div>";
 			}
-			if(isset($_GET["cpersondup"])){
-				echo "<div id = 'cpersondup'> Species already exists </div>";
+			if(isset($_GET["error"])){
+				echo "<div id = \"error\"> CENRO name field must not be empty </div>";
+			}
+			if(isset($_GET["error"])){
+				echo "<div id = \"error\"> CENRO name must not contain digits </div>";
+			}
+			if(isset($_GET["error"])){
+				echo "<div id = \"error\"> CENRO already exists </div>";
 			}
 		?>
 		<hr id="jshr">
-		<div id = "inputdiv">
+		<div id = "inputdiv" class = "alertChanges">
 			<?php
+				/*
 				if(isset($_GET["snlength"])){
 					echo "<div id = \"snerror\"> CENRO name field must not be empty </div>";
 				}
@@ -45,6 +52,7 @@
 				if(isset($_GET["sndup"])){
 					echo "<div id = \"snerror\"> CENRO already exists </div>";
 				}
+				*/
 				
 				echo "<div id='speciesnamediv'> CENRO Name: <input type = 'text' id = 'speciesname' name = 'cenro' value = '" . $cenroname . "' maxlength='50'></input></div>";
 

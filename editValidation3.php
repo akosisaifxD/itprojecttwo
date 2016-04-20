@@ -43,17 +43,17 @@
     $sql = "Select * from tree join Species using(speciesID) where validationID = ".$validationID[$x];
     $result = $conn->query($sql);
     while($row2 = $result->fetch_assoc()){
-		array_push($speciesID, $row2["speciesID"]);
-    	array_push($commonName, $row2["commonName"]);
-    	array_push($quantity, $row2["quantity"]);
-    	array_push($height, $row2["height"]);
-    	array_push($diameter, $row2["diameter"]);
+        array_push($speciesID, $row2["speciesID"]);
+        array_push($commonName, $row2["commonName"]);
+        array_push($quantity, $row2["quantity"]);
+        array_push($height, $row2["height"]);
+        array_push($diameter, $row2["diameter"]);
     }
- 
+
 
     for ($i=0; $i < count($commonName); $i++) { 
 		echo "<tr>";
-        echo "<input type=hidden name=editCommonNames[] value='".$commonName[$i]."'/>";
+        echo "<input type=hidden name=editCommonNames[] value='".$speciesID[$i]."'/>";
         echo "<td><input type=text name=species[] id=spf value='".$commonName[$i]."' required></input> </td> ";
         echo "<td><input type=text name=quantity[] id=qf value=$quantity[$i]></input> </td>";
         echo "<td><input type=text name=height[] id=hf value=$height[$i]></input> </td> ";

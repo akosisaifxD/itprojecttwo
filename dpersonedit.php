@@ -92,6 +92,6 @@
 		} else {
 		}
 		
-		header ("location: hedpersonnel.php?success=true");
+		header ("location: hsdpersonnel.php?success=true");
 	}
 ?>

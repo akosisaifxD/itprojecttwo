@@ -44,9 +44,9 @@
 	
 	#holdcontent{
 		width: 68%;
-		height: 100%;
+		min-height: 85%;
 		position: relative;
-		top: 8%;
+		top: 15%;
 		left: 22%;
 		background-color: white;
 	}

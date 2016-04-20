@@ -1,6 +1,6 @@
 <!-- EXTERNAL SCRIPT CALLS -->
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="js/jquery.min.js"></script>
 
 <!-- END OF EXTERNAL SCRIPT CALLS -->
 <link href='css/editcperson.css' rel='stylesheet' type='text/css'>
@@ -14,7 +14,7 @@
 	$email = "";
 	$address = "";
 	
-	$sql = "SELECT contactPersonName, mobileNumber, telephoneNumber, emailAddress, address FROM contactperson WHERE contactPersonID ='" . $_SESSION['searchedcp'] . "'";
+	$sql = "SELECT concat(firstName, ' ', lastName, ' ', suffix) as 'contactPersonName', mobileNumber, telephoneNumber, emailAddress, address FROM contactperson WHERE contactPersonID ='" . $_SESSION['searchedcp'] . "'";
 	$result = mysqli_query($conn, $sql);
 	
 	if (mysqli_num_rows($result) > 0) {
@@ -33,57 +33,83 @@
 
 <form action = "cpersonedit.php" method = "POST">
 	<div id = "newcontactpersondiv">
-		<div id = "cpheader"> Edit Contact Person - <?php echo $cpersonname;?> <input type="submit" class = "enter"></input> </div>
+		<div id = "cpheader"> Edit Contact Person - <?php echo $cpersonname;?> <input type="submit" class = "enter bypassChanges"></input> </div>
 		<?php
-			if(isset($_GET["success"])){
-				echo "<div id = \"success\"> Successfully edited Contact Person </div>";
-			}
 			if(isset($_GET["cpersondup"])){
-				echo "<div id = 'cpersondup'> Contact Person already exists </div>";
+				echo "<div id = 'error'> Contact Person already exists </div>";
+			}
+			if(isset($_GET["moblength"])){
+				echo "<div id = \"error\"> Mobile number field must not be empty </div>";
+			}
+			if(isset($_GET["mobcontchar"])){
+				echo "<div id = \"error\"> Only numeric digits are allowed for mobile number </div>";
+			}
+			if(isset($_GET["tellength"])){
+				echo "<div id = \"error\"> Telephone number field must not be empty </div>";
+			}
+			if(isset($_GET["telcontchar"])){
+				echo "<div id = \"error\"> Only numeric digits are allowed for telephone number </div>";
+			}
+			if(isset($_GET["emaill"])){
+				echo "<div id = \"error\"> Please enter an email address. </div>";
+			}
+			if(isset($_GET["emailf"])){
+				echo "<div id = \"error\"> You have entered an invalid email address. Please try another one </div>";
+			}
+			if(isset($_GET["addl"])){
+				echo "<div id = \"error\"> Address field must not be empty </div>";
 			}
 		?>
 		<hr id="jshr">
-		<div id = "inputdiv">
-			<?php			
+		<div id = "inputdiv" class = "alertChanges">
+			<?php
+				/*
 				if(isset($_GET["moblength"])){
 					echo "<div id = \"moberror\"> Mobile number field must not be empty </div>";
 				}
 				if(isset($_GET["mobcontchar"])){
 					echo "<div id = \"moberror\"> Only numeric digits are allowed for mobile number </div>";
 				}
+				*/
 				if(isset($_GET["mobnum"])){
 					echo "<div id = 'mobnumdiv'> Mobile Number: <input type = 'text' id = 'mobnum' name = 'mobnum' value = '" . $_GET['mobnum'] . "' maxlength='11' pattern = '.{11,}' title = '11 digits'></input></div>";
 				}else{
 					echo "<div id = 'mobnumdiv'> Mobile Number: <input type = 'text' id = 'mobnum' name = 'mobnum' value = '" . $mobnum . "' maxlength='11' pattern = '.{11,}' title = '11 digits'></input></div>";
 				}
 				
+				/*
 				if(isset($_GET["tellength"])){
 					echo "<div id = \"telerror\"> Telephone number field must not be empty </div>";
 				}
 				if(isset($_GET["telcontchar"])){
 					echo "<div id = \"telerror\"> Only numeric digits are allowed for telephone number </div>";
 				}
+				*/
 				if(isset($_GET["telnum"])){
 					echo "<div id = 'telnumdiv'> Telephone Number: <input type = 'text' id = 'telnum' name = 'telnum' value = '" . $_GET['telnum'] . "' maxlength='7' pattern = '.{7,}' title = '7 digits'></input></div>";
 				}else{
 					echo "<div id = 'telnumdiv'> Telephone Number: <input type = 'text' id = 'telnum' name = 'telnum' value = '" . $telnum . "' maxlength='7' pattern = '.{7,}' title = '7 digits'></input></div>";
 				}
 				
+				/*
 				if(isset($_GET["emaill"])){
 					echo "<div id = \"emerror\"> Please enter an email address. </div>";
 				}
 				if(isset($_GET["emailf"])){
 					echo "<div id = \"emerror\"> You have entered an invalid email address. Please try another one </div>";
 				}
+				*/
 				if(isset($_GET["email"])){
 					echo "<div id = 'emaildiv'> Email Address: <input type = 'text' id = 'email' name = 'email' value = '" . $_GET['email'] . "'></input> </div>";
 				}else{
 					echo "<div id = 'emaildiv'> Email Address: <input type = 'text' id = 'email' name = 'email' value = '" . $email . "'></input> </div>";
 				}
 				
+				/*
 				if(isset($_GET["addl"])){
 					echo "<div id = \"adderror\"> Address field must not be empty </div>";
 				}
+				*/
 				if(isset($_GET["address"])){
 					echo "<div id = 'addressdiv'> Address: <input type = 'text' id = 'address' name = 'address' value = '" . $_GET['address'] . "' maxlength='200'></input> </div>";
 				}else{

@@ -4,6 +4,7 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 <script src="//code.jquery.com/jquery-1.10.2.js"></script>
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script src="js/formfilledcheck.js"></script>
 
 <!-- END OF EXTERNAL SCRIPT CALLS -->
 
@@ -47,7 +48,7 @@
 	
 	#holdcontent{
 		width: 68%;
-		height: 100%;
+		min-height: 85%;
 		position: relative;
 		top: 15%;
 		left: 22%;

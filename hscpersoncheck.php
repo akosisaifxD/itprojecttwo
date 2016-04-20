@@ -20,7 +20,19 @@
 	$cpersons = array();
 	$cpscount = 0;
 	
-	$sql = "SELECT contactPersonName FROM contactperson WHERE active = 1";
+	$sql = "SELECT concat(firstName, ' ', lastName, ' ', suffix) as 'contactPersonName' FROM contactperson WHERE active = 1 AND suffix != ''";
+	$result = mysqli_query($conn, $sql);
+	if (mysqli_num_rows($result) > 0) {
+		// output data of each row
+		while($row = mysqli_fetch_assoc($result)) {
+			$cpersons[$cpscount] = $row['contactPersonName'];
+			$cpscount++;
+		}
+	} else {
+		echo "0 results";
+	}
+	
+	$sql = "SELECT concat(firstName, ' ', lastName) as 'contactPersonName' FROM contactperson WHERE active = 1";
 	$result = mysqli_query($conn, $sql);
 	if (mysqli_num_rows($result) > 0) {
 		// output data of each row
@@ -44,7 +56,7 @@
 	if($errorcount > 0){
 		header ("location: hscperson.php?" . $errorstring);
 	}else{
-		$sql = "SELECT contactPersonID FROM contactPerson WHERE contactPersonName = '" . $cperson . "'";
+		$sql = "SELECT contactPersonID FROM contactPerson WHERE concat(firstName, ' ', lastName, ' ', suffix) = '" . $cperson . "' AND suffix != ''";
 		$result = mysqli_query($conn, $sql);
 		if (mysqli_num_rows($result) > 0) {
 			// output data of each row
@@ -54,6 +66,18 @@
 		} else {
 			echo "0 results";
 		}
+		
+		$sql = "SELECT contactPersonID FROM contactPerson WHERE concat(firstName, ' ', lastName) = '" . $cperson . "' AND suffix = ''";
+		$result = mysqli_query($conn, $sql);
+		if (mysqli_num_rows($result) > 0) {
+			// output data of each row
+			while($row = mysqli_fetch_assoc($result)) {
+				$_SESSION['searchedcp'] = $row['contactPersonID'];
+			}
+		} else {
+			echo "0 results";
+		}
+		
 		header ("location: hecperson.php");
 	}
 ?>
