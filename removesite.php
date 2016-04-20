@@ -2,7 +2,7 @@
 
 <form action = "siteremoval.php" method = "POST">
 	<div id = "neworgdiv">
-		<div id = "oheader"> Remove Site <input type = "submit" class = "enter"></input> </div>
+		<div id = "oheader"> Remove Site <input type = "submit" class = "enter bypassChanges"></input> </div>
 		<?php
 			if(isset($_GET["success"])){
 				echo "<div id = \"success\"> Successfully Removed Site </div>";
@@ -17,7 +17,7 @@
 				echo "<div id = \"error\"> Site code entered does not exist </div>";
 			}
 		?>
-		<div id = "inputdiv">
+		<div id = "inputdiv" class = "alertChanges">
 			Site Code: <input id="sitecode" type = "text" name = "sitecode"></input>
 		</div>
 		<hr id="jshr">

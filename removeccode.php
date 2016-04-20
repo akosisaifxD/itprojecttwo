@@ -1,20 +1,20 @@
 <!-- EXTERNAL SCRIPT CALLS -->
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="js/jquery.min.js"></script>
 
 <!-- END OF EXTERNAL SCRIPT CALLS -->
-<link href='css/removeccode.css' rel='stylesheet' type='text/css'>
+<link href='css/rccode.css' rel='stylesheet' type='text/css'>
 
 <form action = "ccoderemoval.php" method = "POST">
 	<div id = "neworgdiv">
-		<div id = "oheader"> Remove Color Code <input type = "submit" class = "enter"></input> </div>
+		<div id = "oheader"> Remove Color Code <input type = "submit" class = "enter bypassChanges"></input> </div>
 		<?php
 			if(isset($_GET["success"])){
 				echo "<div id = \"success\"> Successfully Removed Color Code </div>";
 			}
 		?>
 		<hr id="jshr">
-		<div id = "inputdiv">
+		<div id = "inputdiv" class = "alertChanges">
 			Year: <select id = "coloryear" name="coloryear">
 			<?php
 				$sql = "SELECT year FROM colorcodes WHERE active = 1";

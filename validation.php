@@ -7,12 +7,12 @@
 	<hr id="jshr">
 	<div id = "inputdiv">
 		<form class="form-horizontal" method="POST" action="submitValidation.php">
-			<div id = "startdatelabel"> Start Date: <input type="date" class="form-control" name="startDate" id="dateFrom"> </div>
+			<div id = "startdatelabel"> Start Date: <input type="date" class="form-control" name="startDate" id="dateFrom" value=<?php echo date('2015-12-01')?> required> </div>
 			<div id = "enddatelabel"> End Date: <input type="date" class="form-control" name="endDate" id="dateTo"/> </div>
-			<div id = "surveyorlabel"> Surveyor: <input type="text" class="form-control" name="surveyor" id="surveyor"> </div>
-			<div id = "inputbylabel"> Input By: <input type="text" class="form-control" name="inputBy" id="inputBy"> </div>
-			<div id = "areavalidatedlabel"> Area Validated: <input type="text" class="form-control" name="area" id="area"> </div>
-			<div id = "sitecodelabel"> Site Code: <input type="text" class="form-control" name="siteCode" id="siteCode"> </div>
+			<div id = "surveyorlabel"> Surveyor ID: <input type="text" class="form-control" name="surveyor" id="surveyor" required><span id="surveyorMessage"></span> </div>
+			<div id = "inputbylabel"> Input By: <input type="text" class="form-control" name="inputBy" id="inputBy" required><span id="inputByMessage"></span> </div>
+			<div id = "areavalidatedlabel"> Area Validated: <input type="text" class="form-control" name="area" id="area" required>ha <span id="areaMessage"></span></div>
+			<div id = "sitecodelabel"> Site Code: <input type="text" class="form-control" name="siteCode" id="siteCode" required><span id="siteMessage"></span> </div>
 			<div id = "ptableholder"> Current Plantation
 				<button type="button" id="addRowButton">+ Add Row</button>
 				<table class="table table-striped" id="plantationTable">
@@ -26,7 +26,7 @@
 					</thead>
 					<tbody>
 						<tr>
-							<td><input type="text" name="species[]" id = "spf"></input> </td>
+							<td><input type="text" name="species[]" id = "spf" required></input> </td>
 							<td><input type="text" name="quantity[]" id = "qf"></input> </td>
 							<td><input type="text" name="height[]" id = "hf"></input> </td>
 							<td><input type="text" name="diameter[]" id = "df"></input> </td>
@@ -55,13 +55,90 @@
 			}
 		});
 	});
+	$("#surveyor").blur(function(event){
+		
+		var surveyorId = $("#surveyor").val().trim();
+		var numReg = /^[0-9]*$/;
+		if(!numReg.test(surveyorId)){
+			$("#surveyorMessage").html('<font color="red">Please enter a valid id</font>');
+		}else if(surveyorId==""){
+			$("#surveyorMessage").html('<font color="red">REQUIRED*');
+			return;
+		}else{
+			$("#surveyorMessage").html('<font color="green">&#10004');
+		}
+		if (window.XMLHttpRequest) {
+				xmlhttp = new XMLHttpRequest();
+			}
+			
+			xmlhttp.onreadystatechange = function() {
+				if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+					$("#surveyorMessage").html(xmlhttp.responseText);
+				}
+			};
+
+			xmlhttp.open("GET","checkSurveyorID.php?id="+surveyorId,true);
+			xmlhttp.send();
+
+
+
+	});
+
+	$("#inputBy").blur(function(event){
+		
+		var inputBy = $("#inputBy").val().trim();
+		var numReg = /^[0-9]*$/;
+		if(!numReg.test(inputBy)){
+			$("#inputByMessage").html('<font color="red">Please enter a valid id</font>');
+		}else if(inputBy==""){
+			$("#inputByMessage").html('<font color="red">REQUIRED*</font>');
+			return;
+		}else{
+			if (window.XMLHttpRequest) {
+				xmlhttp = new XMLHttpRequest();
+			}
+			
+			xmlhttp.onreadystatechange = function() {
+				if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+					$("#inputByMessage").html(xmlhttp.responseText);
+				}
+			};
+
+			xmlhttp.open("GET","checkSurveyorID.php?id="+inputBy,true);
+			xmlhttp.send();
+		}
+		
+
+
+	});
+
+	$("#area").blur(function(event){
+		
+		var area = $("#area").val().trim();
+		var floatReg = /^[0-9\.]*$/;
+		if(!floatReg.test(area)){
+			$("#areaMessage").html('<font color="red">Please enter a valid id</font>');
+		}else if(area==""){
+			$("#areaMessage").html('<font color="red">REQUIRED*</font>');
+		}else{
+			$("#areaMessage").html('<font color="green">&#10004</font>');
+		}
+		
+
+	});
+
+
+
+
 	
 	$("#siteCode").blur(function (event){
 		var id = document.getElementById("siteCode").value;
 		
 		if(id ==""){
+			$("#siteMessage").html('<font color="red">REQUIRED*</font>')
 			return;
 		}else{
+			
 			if (window.XMLHttpRequest) {
 				xmlhttp = new XMLHttpRequest();
 			}
@@ -91,7 +168,7 @@
     var height  = newRow.insertCell(2);
     var diameter  = newRow.insertCell(3);
 
-    speciesName.innerHTML = "<input type=text name=species[] id = 'spf'></input>";
+    speciesName.innerHTML = "<input type=text name=species[] id = 'spf' required></input>";
     quantity.innerHTML = "<input type=text name=quantity[] id = 'qf'></input>";
     height.innerHTML = "<input type=text name=height[] id = 'hf'></input>";
     diameter.innerHTML = "<input type=text name=diameter[] id = 'df'></input>";

@@ -1,14 +1,11 @@
 <!-- EXTERNAL SCRIPT CALLS -->
 
 	<!-- JQUERY -->
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+	<script src="js/jquery.min.js"></script>
 
 <!-- END OF EXTERNAL SCRIPT CALLS -->
 
 <!-- EXTERNAL CSS -->
-
-	<!-- CUSTOM FONT - PT Sans -->
-	<link href='https://fonts.googleapis.com/css?family=PT+Sans' rel='stylesheet' type='text/css'>
 	<link href='css/journal.css' rel='stylesheet' type='text/css'>
 <!-- END OF EXTERNAL CSS -->
 
@@ -36,7 +33,19 @@
 	$contactperson;
 	
 	//SQL Query which captures name of contact person using local variable which has the value of the ID of contact person
-	$sql = "SELECT contactPersonName FROM contactperson WHERE contactPersonID = \"" . $contactpersonid . "\"";
+	$sql = "SELECT concat(firstName, ' ', lastName, ' ', suffix) as 'contactPersonName' FROM contactperson WHERE contactPersonID = \"" . $contactpersonid . "\" AND suffix != ''";
+	$result = mysqli_query($conn, $sql);
+	if (mysqli_num_rows($result) > 0) {
+		// output data of each row
+		while($row = mysqli_fetch_assoc($result)) {
+			//stores captured name from query onto local variable
+			$contactperson = $row["contactPersonName"];
+		}
+	} else {
+		//do nothing
+	}
+	
+	$sql = "SELECT concat(firstName, ' ', lastName) as 'contactPersonName' FROM contactperson WHERE contactPersonID = \"" . $contactpersonid . "\" AND suffix = ''";
 	$result = mysqli_query($conn, $sql);
 	if (mysqli_num_rows($result) > 0) {
 		// output data of each row
@@ -118,7 +127,7 @@
 						$sendername = "";
 						
 						if (strpos($row['sender'], 'P') !== false) {
-							$sqltwo = "SELECT contactPersonName FROM contactperson WHERE contactPersonID = \"" . $row['sender'] . "\"";
+							$sqltwo = "SELECT IF(suffix != '', concat(firstName, ' ', lastName, ' ', suffix), concat(firstName, ' ', lastName)) as 'contactPersonName' FROM contactperson WHERE contactPersonID = \"" . $row['sender'] . "\"";
 							$resulttwo = mysqli_query($conn, $sqltwo);
 							
 							if (mysqli_num_rows($resulttwo) > 0) {

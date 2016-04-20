@@ -2,7 +2,7 @@
 
 <form action = "cpersonremoval.php" method = "POST">
 	<div id = "neworgdiv">
-		<div id = "oheader"> Remove Contact Person <input type = "submit" class = "enter"></input> </div>
+		<div id = "oheader"> Remove Contact Person <input type = "submit" class = "enter bypassChanges"></input> </div>
 		<?php
 			if(isset($_GET["success"])){
 				echo "<div id = \"success\"> Successfully Removed Contact Person </div>";
@@ -17,7 +17,7 @@
 				echo "<div id = \"error\"> Contact Person entered does not exist </div>";
 			}
 		?>
-		<div id = "inputdiv">
+		<div id = "inputdiv" class = "alertChanges">
 			Contact Person Name: <input id="cperson" type = "text" name = "cperson"></input>
 		</div>
 		<hr id="jshr">

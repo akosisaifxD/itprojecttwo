@@ -2,9 +2,11 @@
 
 <form action = "hsorganizationcheck.php" method = "POST">
 	<div id = "neworgdiv">
-		<div id = "oheader"> Edit Organization <input type = "submit" class = "enter"></input> </div>
-		<hr id="jshr">
+		<div id = "oheader"> Search Organization <input type = "submit" class = "enter bypassChanges" value = 'Edit'></input> </div>
 		<?php
+			if(isset($_GET["success"])){
+				echo "<div id = \"success\"> Successfully edited Organization </div>";
+			}
 			if(isset($_GET["orglength"])){
 				echo "<div id = \"error\"> Organization Name field must not be empty </div>";
 			}
@@ -12,7 +14,8 @@
 				echo "<div id = \"error\"> Organization entered does not exist </div>";
 			}
 		?>
-		<div id = "inputdiv">
+		<hr id="jshr">
+		<div id = "inputdiv" class = "alertChanges">
 			Organization Name: <input id="orgname" type = "text" name = "orgname"></input>
 		</div>
 		<hr id="jshr">

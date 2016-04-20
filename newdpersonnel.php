@@ -1,6 +1,6 @@
 <!-- EXTERNAL SCRIPT CALLS -->
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="js/jquery.min.js"></script>
 
 <?php
 	include 'connect.php';
@@ -11,45 +11,66 @@
 
 <form action = "dpersonnelentry.php" method = "POST">
 	<div id = "newcontactpersondiv">
-		<div id = "cpheader"> New DENR Personnel <input type="submit" class = "enter"></input> </div>
+		<div id = "cpheader"> New DENR Personnel <input type="submit" class = "enter bypassChanges"></input> </div>
 		<?php
 			if(isset($_GET["success"])){
 				echo "<div id = \"success\"> Successfully added new DENR Personnel </div>";
 			}
 			if(isset($_GET["cpersondup"])){
-				echo "<div id = 'cpersondup'> DENR Personnel already exists </div>";
+				echo "<div id = 'error'> DENR Personnel already exists </div>";
+			}
+			if(isset($_GET["fnamelength"])){
+				echo "<div id = \"error\"> First name field must not be empty </div>";
+			}
+			if(isset($_GET["fnamedig"])){
+				echo "<div id = \"error\"> First name must only contain characters </div>";
+			}
+			if(isset($_GET["lnamelength"])){
+				echo "<div id = \"error\"> Last name field must not be empty </div>";
+			}
+			if(isset($_GET["emaill"])){
+				echo "<div id = \"error\"> Please enter an email address. </div>";
+			}
+			if(isset($_GET["emailf"])){
+				echo "<div id = \"error\"> You have entered an invalid email address. Please try another one </div>";
 			}
 		?>
 		<hr id="jshr">
-		<div id = "inputdiv">
+		<div id = "inputdiv" class = "alertChanges">
 			<?php
+				/*
 				if(isset($_GET["fnamelength"])){
 					echo "<div id = \"firstnameerror\"> First name field must not be empty </div>";
 				}
 				if(isset($_GET["fnamedig"])){
 					echo "<div id = \"firstnameerror\"> First name must only contain characters </div>";
 				}
+				*/
 				if(isset($_GET["fname"])){
 					echo "<div id = 'firstnamediv'> First Name: <input type = 'text' id = 'firstname' name = 'firstname' value = '" . $_GET['fname'] . "' maxlength='50'></input></div>";
 				}else{
 					echo "<div id = 'firstnamediv'> First Name: <input type = 'text' id = 'firstname' name = 'firstname' maxlength='50'></input></div>";
 				}
 				
+				/*
 				if(isset($_GET["lnamelength"])){
 					echo "<div id = \"lastnameerror\"> Last name field must not be empty </div>";
 				}
+				*/
 				if(isset($_GET["lname"])){
 					echo "<div id = 'lastnamediv'> Last Name: <input type = 'text' id = 'lastname' name = 'lastname' value = '" . $_GET['lname'] . "' maxlength='50'></input></div>";
 				}else{
 					echo "<div id = 'lastnamediv'> Last Name: <input type = 'text' id = 'lastname' name = 'lastname' maxlength='50'></input></div>";
 				}
 				
+				/*
 				if(isset($_GET["emaill"])){
 					echo "<div id = \"emerror\"> Please enter an email address. </div>";
 				}
 				if(isset($_GET["emailf"])){
 					echo "<div id = \"emerror\"> You have entered an invalid email address. Please try another one </div>";
 				}
+				*/
 				if(isset($_GET["email"])){
 					echo "<div id = 'emaildiv'> Email Address: <input type = 'text' id = 'email' name = 'email' value = '" . $_GET['email'] . "'></input> </div>";
 				}else{

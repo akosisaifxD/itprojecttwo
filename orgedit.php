@@ -49,7 +49,7 @@
 		} else {
 		}
 		
-		header ("location: heorganization.php?success=true");
+		header ("location: hsorg.php?success=true");
 	}
 
 ?>

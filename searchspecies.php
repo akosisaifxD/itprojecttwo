@@ -2,7 +2,7 @@
 
 <form action = "hsspeciescheck.php" method = "POST">
 	<div id = "neworgdiv">
-		<div id = "oheader"> Edit Species <input type = "submit" class = "enter"></input> </div>
+		<div id = "oheader"> Search Species <input type = "submit" class = "enter" value = 'Edit'></input> </div>
 		<hr id="jshr">
 		<?php
 			if(isset($_GET["cnamelength"])){

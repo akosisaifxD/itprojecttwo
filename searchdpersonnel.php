@@ -2,9 +2,11 @@
 
 <form action = "hsdpersonnelcheck.php" method = "POST">
 	<div id = "neworgdiv">
-		<div id = "oheader"> Edit DENR Personnel <input type = "submit" class = "enter"></input> </div>
-		<hr id="jshr">
+		<div id = "oheader"> Search DENR Personnel <input type = "submit" class = "enter bypassChanges" value = 'Edit'></input> </div>
 		<?php
+			if(isset($_GET["success"])){
+				echo "<div id = \"success\"> Successfully edited DENR Personnel </div>";
+			}
 			if(isset($_GET["dpersonlength"])){
 				echo "<div id = \"error\"> DENR Personnel Name field must not be empty </div>";
 			}
@@ -12,7 +14,8 @@
 				echo "<div id = \"error\"> DENR Personnel entered does not exist </div>";
 			}
 		?>
-		<div id = "inputdiv">
+		<hr id="jshr">
+		<div id = "inputdiv" class = "alertChanges">
 			DENR Personnel Name: <input id="dperson" type = "text" name = "dperson"></input>
 		</div>
 		<hr id="jshr">

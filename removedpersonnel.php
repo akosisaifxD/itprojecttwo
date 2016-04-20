@@ -2,7 +2,7 @@
 
 <form action = "dpersonnelremoval.php" method = "POST">
 	<div id = "neworgdiv">
-		<div id = "oheader"> Remove DENR Personnel <input type = "submit" class = "enter"></input> </div>
+		<div id = "oheader"> Remove DENR Personnel <input type = "submit" class = "enter bypassChanges"></input> </div>
 		<?php
 			if(isset($_GET["success"])){
 				echo "<div id = \"success\"> Successfully Removed DENR Personnel </div>";
@@ -17,7 +17,7 @@
 				echo "<div id = \"error\"> DENR Personnel entered does not exist </div>";
 			}
 		?>
-		<div id = "inputdiv">
+		<div id = "inputdiv" class = "alertChanges">
 			DENR Personnel Name: <input id="dperson" type = "text" name = "dperson"></input>
 		</div>
 		<hr id="jshr">

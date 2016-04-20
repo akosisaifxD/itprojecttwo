@@ -15,6 +15,10 @@
 		<div id = "logo"><i class="fa fa-times fa-2x" aria-hidden="true"></i></div>
 		<div id = "title">Remove</div>
 	</div>
+	<div id = "viewcolorcode" onclick = "viewdb()">
+		<div id = "logo"><i class="fa fa-eye fa-2x" aria-hidden="true"></i></div>
+		<div id = "title">View</div>
+	</div>
 </div>
 <hr id="jshr">
 
@@ -54,6 +58,19 @@
 			data: {}, // add a flag
 			success: function(data, textStatus, jqXHR){
 				window.location="hrorg.php";
+			},
+			error: function (jqXHR, textStatus, errorThrown){
+				alert('Error!')
+			}
+		});	
+	}
+	function viewdb(){
+		$.ajax({
+			url: "hvorg.php",
+			type: "POST",
+			data: {}, // add a flag
+			success: function(data, textStatus, jqXHR){
+				window.location="hvorg.php";
 			},
 			error: function (jqXHR, textStatus, errorThrown){
 				alert('Error!')

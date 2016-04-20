@@ -2,14 +2,11 @@
 
 <form action = "cenroremoval.php" method = "POST">
 	<div id = "neworgdiv">
-		<div id = "oheader"> Remove CENRO <input type = "submit" class = "enter"></input> </div>
+		<div id = "oheader"> Remove CENRO <input type = "submit" class = "enter bypassChanges"></input> </div>
 		<?php
 			if(isset($_GET["success"])){
 				echo "<div id = \"success\"> Successfully Removed CENRO </div>";
 			}
-		?>
-		<hr id="jshr">
-		<?php
 			if(isset($_GET["cnamelength"])){
 				echo "<div id = \"error\"> CENRO Name field must not be empty </div>";
 			}
@@ -17,7 +14,18 @@
 				echo "<div id = \"error\"> CENRO entered does not exist </div>";
 			}
 		?>
-		<div id = "inputdiv">
+		<hr id="jshr">
+		<?php
+			/*
+			if(isset($_GET["cnamelength"])){
+				echo "<div id = \"error\"> CENRO Name field must not be empty </div>";
+			}
+			if(isset($_GET["cnamedne"])){
+				echo "<div id = \"error\"> CENRO entered does not exist </div>";
+			}
+			*/
+		?>
+		<div id = "inputdiv" class = "alertChanges">
 			CENRO Name: <input id="cname" type = "text" name = "cname"></input>
 		</div>
 		<hr id="jshr">

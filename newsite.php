@@ -2,7 +2,7 @@
 
 <form action = "siteprocess.php" method = "POST">
 <div class = "mainformdiv">
-	<div id = "sheader"> New Site <input type = "submit" value = "Submit" class = "entert"> </div>
+	<div id = "sheader"> New Site <input type = "submit" value = "Submit" class = "entert bypassChanges"> </div>
 	<?php
 		if(isset($_GET["success"])){
 			echo "<div id = \"success\"> Successfully added new Organization </div>";
@@ -35,6 +35,7 @@
 			echo "<div id = \"error\"> All rows in table must be filled up </div>";
 		}
 	?>
+	<div id = "inputdiv" class = "alertChanges">
 	<hr id="jshr">
 	<!-- MAIN FORM -->
 		<!-- YEAR INPUT -->
@@ -209,6 +210,7 @@
 				</select>
 			</div>
 		</div>
+	</div>
 	<hr id="endjshr">
 	<!-- END OF MAIN FORM -->
 </div>

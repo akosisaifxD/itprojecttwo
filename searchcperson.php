@@ -2,9 +2,11 @@
 
 <form action = "hscpersoncheck.php" method = "POST">
 	<div id = "neworgdiv">
-		<div id = "oheader"> Edit Contact Person <input type = "submit" class = "enter"></input> </div>
-		<hr id="jshr">
+		<div id = "oheader"> Search Contact Person <input type = "submit" class = "enter bypassChanges" value = 'Edit'></input> </div>
 		<?php
+			if(isset($_GET["success"])){
+				echo "<div id = \"success\"> Successfully edited Contact Person </div>";
+			}
 			if(isset($_GET["cpersonlength"])){
 				echo "<div id = \"error\"> Contact Person Name field must not be empty </div>";
 			}
@@ -12,7 +14,8 @@
 				echo "<div id = \"error\"> Contact Person entered does not exist </div>";
 			}
 		?>
-		<div id = "inputdiv">
+		<hr id="jshr">
+		<div id = "inputdiv" class = "alertChanges">
 			Contact Person Name: <input id="cperson" type = "text" name = "cperson"></input>
 		</div>
 		<hr id="jshr">

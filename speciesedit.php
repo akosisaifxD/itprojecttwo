@@ -1,33 +1,35 @@
 <?php
 	session_start();
-	if(isset($_POST['cenro'])) {
-		$_SESSION['cenro'] = $_POST['cenro'];
+	if(isset($_POST['speciesname'])) {
+		$_SESSION['speciesname'] = $_POST['speciesname'];
+		$_SESSION['commonname'] = $_POST['commonname'];
 	}
 	
 	$errorcount = 0;
 	
 	$errorstring = "";
 	
-	$cenro = $_SESSION['cenro'];
+	$speciesname = $_SESSION['speciesname'];
+	$commonname = $_SESSION['commonname'];
 	
 	include 'connect.php';
 	
-	$cenros = array();
-	$cencount = 0;
+	$speciesnames = array();
+	$spsncount = 0;
 	
-	$sql = "SELECT cenroName FROM cenro WHERE active = 1";
+	$sql = "SELECT speciesName FROM species WHERE active = 1";
 	$result = mysqli_query($conn, $sql);
 	if (mysqli_num_rows($result) > 0) {
 		// output data of each row
 		while($row = mysqli_fetch_assoc($result)) {
-			$cenros[$cencount] = $row['cenroName'];
-			$cencount++;
+			$speciesnames[$spsncount] = $row['speciesName'];
+			$spsncount++;
 		}
 	} else {
 		echo "0 results";
 	}
 	
-	if(strlen($cenro) === 0){
+	if(strlen($speciesname) === 0){
 		$errorcount++;
 		if($errorcount === 1){
 			$errorstring = $errorstring . 'snlength=error';	
@@ -35,8 +37,7 @@
 			$errorstring = $errorstring . '&snlength=error';	
 		}
 	}
-	
-	if (ctype_digit($cenro) && strlen($cenro) > 0) {
+	if (ctype_digit($speciesname) && strlen($speciesname) > 0) {
 		$errorcount++;
 		if($errorcount === 1){
 			$errorstring = $errorstring . 'sncontchar=error';	
@@ -45,7 +46,7 @@
 		}
 	}
 	
-	if (in_array($cenro, $cenros) && !ctype_digit($cenro) && strlen(TRIM($cenro)) > 0) {
+	if (in_array($speciesname, $speciesnames) && !ctype_digit($speciesname) && strlen(TRIM($speciesname)) > 0) {
 		$errorcount++;
 		if($errorcount === 1){
 			$errorstring = $errorstring . 'sndup=error';	
@@ -54,30 +55,71 @@
 		}
 	}
 	
-	$inactivecenro = array();
-	$icencount = 0;
+	$commonnames = array();
+	$cmnncount = 0;
 	
-	$sql = "SELECT cenroName FROM cenro WHERE active = 0";
+	$sql = "SELECT commonName FROM species WHERE active = 1";
 	$result = mysqli_query($conn, $sql);
 	if (mysqli_num_rows($result) > 0) {
 		// output data of each row
 		while($row = mysqli_fetch_assoc($result)) {
-			$inactivecenro[$icencount] = $row['cenroName'];
-			$icencount++;
+			$commonnames[$cmnncount] = $row['commonName'];
+			$cmnncount++;
+		}
+	} else {
+		echo "0 results";
+	}
+	
+	if(strlen($commonname) === 0){
+		$errorcount++;
+		if($errorcount === 1){
+			$errorstring = $errorstring . 'cnlength=error';	
+		}else{
+			$errorstring = $errorstring . '&cnlength=error';	
+		}
+	}
+	if (ctype_digit($commonname) && strlen($commonname) > 0) {
+		$errorcount++;
+		if($errorcount === 1){
+			$errorstring = $errorstring . 'cncontchar=error';	
+		}else{
+			$errorstring = $errorstring . '&cncontchar=error';	
+		}
+	}
+	
+	if (in_array($speciesname, $speciesnames) && !ctype_digit($speciesname) && strlen(TRIM($commonname)) > 0) {
+		$errorcount++;
+		if($errorcount === 1){
+			$errorstring = $errorstring . 'cndup=error';	
+		}else{
+			$errorstring = $errorstring . '&cndup=error';	
+		}
+	}
+	
+	$inactivespecies = array();
+	$ispscount = 0;
+	
+	$sql = "SELECT commonName FROM species WHERE active = 0";
+	$result = mysqli_query($conn, $sql);
+	if (mysqli_num_rows($result) > 0) {
+		// output data of each row
+		while($row = mysqli_fetch_assoc($result)) {
+			$inactivespecies[$ispscount] = $row['commonName'];
+			$ispscount++;
 		}
 	} else {
 		echo "0 results";
 	}
 	
 	if($errorcount > 0){
-		header ("location: hecenro.php?" . $errorstring . "&cenroname=" . $cenro);
+		header ("location: hespecies.php?" . $errorstring . "&speciesname=" . $speciesname . "&commonname=" . $commonname);
 	}else{
-		$sql = "UPDATE cenro SET cenroName = '$cenro' WHERE cenroID ='" . $_SESSION['searchedcen'] . "'";
+		$sql = "UPDATE species SET speciesName = '$speciesname', commonName = '$commonname' WHERE speciesID ='" . $_SESSION['searcheds'] . "'";
 
 		if ($conn->query($sql) === TRUE) {
 		} else {
 		}
 		
-		header ("location: hecenro.php?success=true");
+		header ("location: hespecies.php?success=true");
 	}
 ?>

@@ -2,14 +2,11 @@
 
 <form action = "organizationremoval.php" method = "POST">
 	<div id = "neworgdiv">
-		<div id = "oheader"> Remove Organization <input type = "submit" class = "enter"></input> </div>
+		<div id = "oheader"> Remove Organization <input type = "submit" class = "enter bypassChanges"></input> </div>
 		<?php
 			if(isset($_GET["success"])){
 				echo "<div id = \"success\"> Successfully Removed Organization </div>";
 			}
-		?>
-		<hr id="jshr">
-		<?php
 			if(isset($_GET["orglength"])){
 				echo "<div id = \"error\"> Organization Name field must not be empty </div>";
 			}
@@ -17,7 +14,18 @@
 				echo "<div id = \"error\"> Organization entered does not exist </div>";
 			}
 		?>
-		<div id = "inputdiv">
+		<hr id="jshr">
+		<?php
+			/*
+			if(isset($_GET["orglength"])){
+				echo "<div id = \"error\"> Organization Name field must not be empty </div>";
+			}
+			if(isset($_GET["orgdne"])){
+				echo "<div id = \"error\"> Organization entered does not exist </div>";
+			}
+			*/
+		?>
+		<div id = "inputdiv" class = "alertChanges">
 			Organization Name: <input id="orgname" type = "text" name = "orgname"></input>
 		</div>
 		<hr id="jshr">

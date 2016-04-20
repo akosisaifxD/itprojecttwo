@@ -13,7 +13,7 @@
 	$servername = "localhost";
 	$username = "root";
 	$password = "";
-	$dbname = "newschema";
+	$dbname = "ipuno";
 
 	$conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -81,7 +81,7 @@
 
 	}
 
-	$directory = 'uploads/validation/' . $siteCode . '/' . $validationID;
+/*	$directory = 'uploads/validation/' . $siteCode . '/' . $validationID;
 
 	if (file_exists($directory)) {
 	
@@ -111,5 +111,5 @@
 	            $count++; // Number of successfully uploaded file
 	        }
 	    }
-	}
+	}*/
 ?>

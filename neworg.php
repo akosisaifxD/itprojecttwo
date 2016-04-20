@@ -1,27 +1,27 @@
 <!-- EXTERNAL SCRIPT CALLS -->
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="js/jquery.min.js"></script>
 
 <!-- END OF EXTERNAL SCRIPT CALLS -->
 <link href='css/neworg.css' rel='stylesheet' type='text/css'>
 
 <form action = "orgentry.php" method = "POST">
 	<div id = "neworgdiv">
-		<div id = "oheader"> New Organization <input type = "submit" class = "enter"></input> </div>
+		<div id = "oheader"> New Organization <input type = "submit" class = "enter bypassChanges"></input> </div>
 		<?php
 			if(isset($_GET["success"])){
 				echo "<div id = \"success\"> Successfully added new Organization </div>";
 			}
+			if(isset($_GET["fail"])){
+				echo "<div id = \"error\"> Organization with the same name already exists. </div>";
+			}
+			if(isset($_GET["orglength"])){
+				echo "<div id = \"error\"> Organization Name field must not be empty </div>";
+			}
 		?>
 		<hr id="jshr">
-		<div id = "inputdiv">
+		<div id = "inputdiv" class = "alertChanges">
 			<?php
-				if(isset($_GET["fail"])){
-					echo "<div id = \"error\"> Organization with the same name already exists. </div>";
-				}
-				if(isset($_GET["orglength"])){
-					echo "<div id = \"error\"> Organization Name field must not be empty </div>";
-				}
 				if(isset($_GET["orgname"])){
 					echo "<div id='orgnamediv'> Organization Name: <input type = 'text' id = 'orgname' name = 'orgname' value = '" . $_GET['orgname'] . "'></input></div>";
 				}else{
