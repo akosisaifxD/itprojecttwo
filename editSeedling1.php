@@ -49,6 +49,7 @@
 	$startDate2 = date($startDate1);
 	$_SESSION['recentStartDate'] = $startDate2;
 
+
 	$boom = explode(" ", $endDate);
 	$endDate1 = $boom[0];
 	$endDate2 = date($endDate1);
@@ -60,55 +61,57 @@
 
 ?>
 
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
 <link href='css/validation.css' rel='stylesheet' type='text/css'>
-<form id="formValidation"class="form-horizontal" method="POST" action="editValidation2.php">
+<span id="surveyorMessage"></span> 
+<span id="inputByMessage"></span>
+<span id="areaMessage"></span>
+<span id="siteMessage"></span>
+
+<form class="form-horizontal" method="POST" action="editSeedling2.php"> 
 <div id = "validationdiv">
-	<div id = "vdheader"> Edit Site Validation <input type="submit" class="enter"></input></div>
-	<span id="surveyorMessage"></span> 
-	<span id="inputByMessage"></span>
-	<span id="areaMessage"></span>
-	<span id="siteMessage"></span> 
-	<span id="spfMessage"></span>
-	<span id="qfMessage"></span>
-	<span id="hfMessage"></span>
-	<span id="dfMessage"></span>
+	<div id = "vdheader"> New Seedling Validation <input type="submit" class="btn btn-success enter"></input></div>
 	<hr id="jshr">
 	<div id = "inputdiv">
-		
-			<?php print ("<div id = 'startdatelabel'> Start Date: <input type='date' class='form-control' name='startDate' id='dateFrom' value= '$startDate2' required> </div>") ?>
-			<?php print ("<div id = 'enddatelabel'> End Date: <input type='date' class='form-control' name='endDate' id='dateTo' value= '$endDate2' /> </div>") ?>
-			<?php print ("<div id = 'surveyorlabel'> Surveyor ID: <input type='text' class='form-control' name='surveyor' id='surveyor' value= '$surveyor' required></div>") ?>
-			<?php print ("<div id = 'inputbylabel'> Input By: <input type='text' class='form-control' name='inputBy' id='inputBy' value='$inputBy' required> </div>") ?>
-			<?php print ("<div id = 'areavalidatedlabel'> Area Validated: <input type='text' class='form-control' name='area' id='area' value= '$areaValidated' required>ha </div>") ?>
-			<?php print ("<div id = 'sitecodelabel'> Site Code: <input type='text' class='form-control' name='siteCode' id='siteCode' value='$siteCode'  readonly> </div>") ?>
-			<div id = "ptableholder"> Current Plantation
+			<?php print("<div id = 'startdatelabel'> Start Date: <input type='date' class='form-control' name='startDate' id='dateFrom' value='$startDate2'> </div>")?>
+			<?php print("<div id = 'enddatelabel'> End Date: <input type='date' class='form-control' name='endDate' id='dateTo' value='$endDate2'/> </div>")?>
+			<?php print("<div id = 'surveyorlabel'> Surveyor: <input type='text' class='form-control' name='surveyor' maxlength='40' id='surveyor' value='$surveyor'> </div>")?>
+			<?php print("<div id = 'inputbylabel'> Input By: <input type='text' class='form-control' name='inputBy'  maxlength='40' id='inputBy' value='$inputBy'> </div>")?>
+			<?php print("<div id = 'areavalidatedlabel'> Area Validated: <input type='text' class='form-control' name='area' maxlength='40' id='area' value='$areaValidated'> </div>")?>
+			<?php print("<div id = 'sitecodelabel'> Site Code: <input type='text' class='form-control' name='siteCode' maxlength='40' id='siteCode' value='$siteCode' readonly> </div>")?>
+			<?php print("<div id = 'ptableholder'> Current Plantation");?>
 				<button type="button" id="addRowButton">+ Add Row</button>
+				<button type="button" id="removeRowButton">- Remove Row </button>
 				<table class="table table-striped" id="plantationTable">
 					<thead>
 						<tr>
 							<th id = "spid">Species</th>
 							<th id = "qid">Quantity</th>
-							<th id = "hid">Height </th>
-							<th id = "did">Diameter</th>
+						
 						</tr>
 					</thead>
 					<tbody>
 						<tr>
-							<td><input type="text" name="species[]" id = "spf" required></input> </td>
-							<td><input type="text" name="quantity[]" id = "qf"></input> </td>
-							<td><input type="text" name="height[]" id = "hf"></input> </td>
-							<td><input type="text" name="diameter[]" id = "df"></input> </td>
+							<td><input type="text" name="species[]" id = 'spf'></input> </td>
+							<td><input type="text" name="quantity[]" id = 'qf'></input> </td>
+				
+						<tr>
+						<tr>
+							<td><input type="text" name="species[]" id = 'spf'></input> </td>
+							<td><input type="text" name="quantity[]" id = 'qf'></input> </td>
+				
 						<tr>
 					</tbody>
 				</table>
 			</div>
 	</div>
 	
-	
+	</form>
 	<hr id="jshr">
 	
 </div>                                                                                  
- </form>
+  
 </div>
 </div>
 
@@ -119,8 +122,6 @@
 	var error4=0;
 	var error5=0;
 	var error6=0;
-	var error7=0;
-	var error8=0;
 	$(document).ready(function() {
 		$(window).keydown(function(event){
 			if(event.keyCode == 13) {
@@ -268,7 +269,7 @@
 				}
 			};
 
-			xmlhttp.open("GET","getSiteSpecies.php?id="+id,true);
+			xmlhttp.open("GET","getSeedling.php?id="+id,true);
 			xmlhttp.send();
 		}
 		else{
@@ -309,39 +310,10 @@
 		
 
 	});
-	$("#hf").blur(function(event){
-		
-		var hf = $("#hf").val().trim();
-		var hfReg = /^[0-9\.]*$/;
-		if(!hfReg.test(hf)){
-			$("#hfMessage").html('<font color="red"><br>Height: Only numbers are allowed.</font>');
-			error7=1;
-			
-		}else{
-			$("#hfMessage").html('');
-			error7=0;
-		}
-		
 
-	});
-	$("#df").blur(function(event){
-		
-		var df = $("#df").val().trim();
-		var dfReg = /^[0-9\.]*$/;
-		if(!dfReg.test(df)){
-			$("#dfMessage").html('<font color="red"><br>Diameter: Only numbers are allowed.</font>');
-			error8=1;
-			
-		}else{
-			$("#dfMessage").html('');
-			error8=0;
-		}
-		
-
-	});
 
 	$("#submitButton").click(function(event){
-			if(error1 || error2 || error3 || error4 || error5 || error6 || error7 || error8 >0){
+			if(error1 || error2 || error3 || error4 || error5 || error6 >0){
 			$("#submitMessage").html('<font color="red">Please fill up the form properly before submitting</font>');
 			event.preventDefault();
 			
@@ -350,13 +322,10 @@
 				$("#validationForm").submit();
 			}
 		});
-		
 	$("#validationForm").on("click","#removeRow", function(){
 			$('#removeRow').closest('tr').remove();
 	});
-
 	
-
 </script>
 
 <script type="text/javascript">
@@ -367,14 +336,10 @@
     var newRow   = tableRef.insertRow(tableRef.rows.length);
     var speciesName = newRow.insertCell(0);
     var quantity = newRow.insertCell(1);
-    var height  = newRow.insertCell(2);
-    var diameter  = newRow.insertCell(3);
-    var button = newRow.insertCell(4);
+    var button = newRow.insertCell(2);
 
-    speciesName.innerHTML = "<input type=text name=species[] id = 'spf' maxlength=40 required></input>";
-    quantity.innerHTML = "<input type=text name=quantity[] maxlength=40 id='qf'></input>";
-    height.innerHTML = "<input type=text name=height[] maxlength=40 id=hf'></input>";
-    diameter.innerHTML = "<input type=text name=diameter[] maxlength=40 id=df'></input>";
+    speciesName.innerHTML = "<input type=text name=species[] id = 'spf'></input>";
+    quantity.innerHTML = "<input type=text name=quantity[] id = 'qf'></input>";
     button.innerHTML = "<button type=button id=removeRow>Remove</button>";
 	
 	}

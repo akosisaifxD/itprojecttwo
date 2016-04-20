@@ -1,6 +1,6 @@
 <link href='css/editvalidation.css' rel='stylesheet' type='text/css'>
 
-<form action="hevalidation.php" method="POST">
+<form action="heseedling.php" method="POST">
 	<div id = 'vheader'> Search Site Code <input type="submit" value="Submit" class = 'enter'> </div>
 	
 	<hr id="jshr">

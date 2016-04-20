@@ -1,7 +1,17 @@
 <!-- EXTERNAL SCRIPT CALLS -->
-
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-
+<head>
+	<link rel="stylesheet" href="css/newsite.css" />
+	
+	<script src="js/jquery.min.js"></script>
+	<link rel="stylesheet" href="css/jquery-ui.css">
+	<script src="js/jquery-1.10.2.js"></script>
+	<script src="js/jquery-ui.js"></script>
+	<script src="js/formfilledcheck.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	
+	<script src="js/bootstrap-multiselect.js"></script>
+	<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
+</head>
 <!-- END OF EXTERNAL SCRIPT CALLS -->
 
 <?php
@@ -13,7 +23,7 @@
 		header('Location: denrhome.php?login=fail');
 	}
 	
-	$_SESSION['cpage'] = 'cenro'; 
+	$_SESSION['cpage'] = 'site'; 
 ?>
 
 <style>
@@ -44,7 +54,7 @@
 	
 	#holdcontent{
 		width: 68%;
-		min-height: 85%;
+		min-height: 120%;
 		position: relative;
 		top: 15%;
 		left: 22%;
@@ -53,7 +63,6 @@
 	
 	#hcontent{
 		position: relative;
-		top: 8%;
 	}
 </style>
 
@@ -67,6 +76,6 @@
 
 <div id = "holdcontent">
 	<div id = "hcontent">
-		<?php include 'cenro.php' ?>
+		<?php include 'editsite.php' ?>
 	</div>
 </div>

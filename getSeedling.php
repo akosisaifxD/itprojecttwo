@@ -3,7 +3,7 @@
  	$servername = "localhost";
 	$username = "root";
 	$password = "";
-	$dbname = "newschema";
+	$dbname = "ipuno";
 
 	$conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -12,20 +12,10 @@
 	} 
     echo "<thead>";
 	echo " <tr>";
-    echo "<th>Species</th>";
-    echo "<th>Quantity</th>";
+    echo "<th id = 'spid'>Species</th>";
+    echo "<th id = 'qid'>Quantity</th>";
 	echo "</tr>";
     echo "</thead>";
-	echo "<tbody>";
-	echo "<tr>";
-	echo "<td><input type=text name=species[]></input></td>";
-	echo "<td><input type=text name=quantity[]></input></td>";
-	echo "</tr>";	
-	echo "<tr>";
-	echo "<td><input type=text name=species[]></input></td>";
-	echo "<td><input type=text name=quantity[]></input></td>";
-	echo "</tr>";
-	echo "</tbody>";
     
     
 	$speciesID = array();
@@ -48,13 +38,13 @@
     while($row2 = $result->fetch_assoc()){
     	array_push($commonName, $row2["commonName"]);
     	array_push($quantity, $row2["quantity"]);
-    }
- 
+    } 
 
     for ($i=0; $i < count($commonName); $i++) { 
 		echo "<tr>";
-        echo "<td><input type=text name=species[] value='".$commonName[$i]."'></input> </td> ";
-        echo "<td><input type=text name=quantity[] value=$quantity[$i]></input> </td>";
+        echo "<td><input type=text name=species[] id=spf value='".$commonName[$i]."' required></input> </td> ";
+        echo "<td><input type=text name=quantity[] id=qf value=$quantity[$i]></input> </td>";
+        echo "<td><button type=button id=removeRow>Remove</button></td>";
         echo "</tr>";
         
 	}

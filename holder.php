@@ -42,12 +42,17 @@
 		z-index: 2;
 	}
 	
-	#holdcontent{
-		width: 68%;
-		height: 100%;
+	#holdcontent {
+	    width: 68%;
+	    height: 85%;
+	    position: relative;
+	    top: 15%;
+	    left: 22%;
+	    background-color: white;
+	}
+	
+	#hcontent{
 		position: relative;
-		top: 15%;
-		left: 22%;
 	}
 </style>
 
@@ -60,5 +65,7 @@
 </div>
 
 <div id = "holdcontent">
-	<?php include 'content.php' ?>
+	<div id = "hcontent">
+		<?php include 'dashboard.php'; ?>
+	</div>
 </div>

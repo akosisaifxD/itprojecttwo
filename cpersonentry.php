@@ -107,14 +107,6 @@
 			$errorstring = $errorstring . '&moblength=error';	
 		}
 	}
-	if (!ctype_digit($mobnum) && strlen($mobnum) > 0) {
-		$errorcount++;
-		if($errorcount === 1){
-			$errorstring = $errorstring . 'mobcontchar=error';	
-		}else{
-			$errorstring = $errorstring . '&mobcontchar=error';	
-		}
-	}
 	
 	if(strlen($telnum) === 0){
 		$errorcount++;
@@ -122,15 +114,6 @@
 			$errorstring = $errorstring . 'tellength=error';	
 		}else{
 			$errorstring = $errorstring . '&tellength=error';	
-		}
-	}
-	
-	if (!ctype_digit($telnum) && strlen($telnum) > 0 ) {
-		$errorcount++;
-		if($errorcount === 1){
-			$errorstring = $errorstring . 'telcontchar=error';	
-		}else{
-			$errorstring = $errorstring . '&telcontchar=error';	
 		}
 	}
 	

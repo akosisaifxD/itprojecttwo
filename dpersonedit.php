@@ -15,13 +15,13 @@
 	
 	$errorstring = "";
 	
-	$firstname = trim($_SESSION['firstname']);
-	$lastname = trim($_SESSION['lastname']);
-	$firstnameuntr = $_SESSION['firstname'];
-	$lastnameuntr = $_SESSION['lastname'];
+	$firstname = TRIM(strip_tags($_SESSION['firstname']));
+	$lastname = TRIM(strip_tags($_SESSION['lastname']));
+	$firstnameuntr = TRIM(strip_tags($_SESSION['firstname']));
+	$lastnameuntr = TRIM(strip_tags($_SESSION['lastname']));
 	
-	$name = $_SESSION['firstname'] . " " . $lastnameuntr;
-	$email = $_SESSION['email'];
+	$name = $firstnameuntr . " " . $lastnameuntr;
+	$email = strip_tags($_SESSION['email']);
 	$acctype = $_SESSION['acctype'];
 	$cenro = $_SESSION['cenro'];
 	
@@ -36,7 +36,7 @@
 		}
 	}
 	
-	if (ctype_digit($firstname) && strlen($firstname) > 0) {
+	if (!ctype_alpha(str_replace(' ', '', $firstname)) && strlen($firstname) > 0) {
 		$errorcount++;
 		if($errorcount === 1){
 			$errorstring = $errorstring . 'fnamedig=error';	
@@ -54,7 +54,7 @@
 		}
 	}
 	
-	if (ctype_digit($lastname) && strlen($lastname) > 0) {
+	if (!ctype_alpha(str_replace(' ', '', $lastname)) && strlen($lastname) > 0) {
 		$errorcount++;
 		if($errorcount === 1){
 			$errorstring = $errorstring . 'lnamedig=error';	

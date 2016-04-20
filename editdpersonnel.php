@@ -32,7 +32,7 @@
 ?>
 
 <form action = "dpersonedit.php" method = "POST">
-		<div id = "cpheader"> Edit DENR Personnel <input type="submit" class = "enter bypassChanges"></input> </div>
+		<div id = "cpheader"> Edit DENR Personnel - <?php echo $fname . " ". $lname; ?> <input type="submit" class = "enter bypassChanges"></input> </div>
 		<?php
 			if(isset($_GET["cpersondup"])){
 				echo "<div id = 'error'> DENR Personnel already exists </div>";

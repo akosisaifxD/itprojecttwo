@@ -11,7 +11,10 @@
 	
 	$errorstring = "";
 	
-	$dperson = $_SESSION['dperson'];
+	$illegal = array(';',':','!','$','%','^','*','(',')','{','}','[',']','"','\\','-','_','=',',','/','?');
+	$illegalem = array(';',':','!','$','%','^','*','(',')','{','}','[',']','"','\\','=',',','/','?');
+	
+	$dperson = TRIM(strip_tags(str_replace($illegal, "", $_SESSION['dperson'])));
 	
 	$dpersons = array();
 	$dpscount = 0;

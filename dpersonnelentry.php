@@ -30,13 +30,16 @@
 		echo "0 results";
 	}
 	
-	$firstname = trim($_SESSION['firstname']);
-	$lastname = trim($_SESSION['lastname']);
-	$firstnameuntr = $_SESSION['firstname'];
-	$lastnameuntr = $_SESSION['lastname'];
+	$illegal = array(';',':','!','$','%','^','*','(',')','{','}','[',']','"','\\','-','_','=',',','/','?');
+	$illegalem = array(';',':','!','$','%','^','*','(',')','{','}','[',']','"','\\','=',',','/','?');
 	
-	$name = $_SESSION['firstname'] . " " . $lastnameuntr;
-	$email = $_SESSION['email'];
+	$firstname = TRIM(strip_tags(str_replace($illegal, '', $_SESSION['firstname'])));
+	$lastname = TRIM(strip_tags(str_replace($illegal, '', $_SESSION['lastname'])));
+	$firstnameuntr = TRIM(strip_tags(str_replace($illegal, '', $_SESSION['firstname'])));
+	$lastnameuntr = TRIM(strip_tags(str_replace($illegal, '', $_SESSION['lastname'])));
+	
+	$name = $firstnameuntr . " " . $lastnameuntr;
+	$email = TRIM(strip_tags(str_replace($illegal, '', $_SESSION['email'])));
 	$acctype = $_SESSION['acctype'];
 	$cenro = $_SESSION['cenro'];
 	
@@ -60,7 +63,7 @@
 		}
 	}
 	
-	if (ctype_digit($firstname) && strlen($firstname) > 0) {
+	if (!ctype_alpha(str_replace(' ', '', $firstname)) && strlen($firstname) > 0) {
 		$errorcount++;
 		if($errorcount === 1){
 			$errorstring = $errorstring . 'fnamedig=error';	
@@ -78,7 +81,7 @@
 		}
 	}
 	
-	if (ctype_digit($lastname) && strlen($lastname) > 0) {
+	if (!ctype_alpha(str_replace(' ', '', $lastname)) && strlen($lastname) > 0) {
 		$errorcount++;
 		if($errorcount === 1){
 			$errorstring = $errorstring . 'lnamedig=error';	
