@@ -111,16 +111,22 @@
 }
 
 .enter{
+	font-family: raleway;
 	float: right;
 	position: absolute;
-	top: 3.9%;
+	top: 45%;
 	right: 10%;
+	padding-top: 0.7%!important;
+	padding-bottom: 0.7%!important;
+	font-size: 80%;
 	padding: 1.5%;
-	background-color: white;
+	color: white;
+	background-color: #25b15e;
 	border-color: #25b15e;
 	border-style: solid;
 	border-width: 3px;
 	border-radius: 15px 15px 15px 15px;
+	cursor: pointer;
 }
 
 #uploadframe{
@@ -138,6 +144,10 @@
 	border-width: 1px;
 }
 
-#imageupload{
-	margin-top: 2%;
+#success{
+	padding-left: 5%;
+	font-family: raleway;
+	font-size: 90%;
+	color: green;
+	margin-bottom: 2%;
 }

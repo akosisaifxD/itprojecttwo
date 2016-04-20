@@ -1,0 +1,395 @@
+#sheader{
+	font-family: raleway;
+	color: #208f4d;
+	font-size: 170%;
+	position: relative;
+	padding-top: 5%;
+	padding-left: 5%;
+	padding-bottom: 1%;
+}
+
+#jshr{
+	width: 90%;
+	border-color: #25b15e;
+}
+
+#endjshr{
+	position: absolute;
+	left: 5%;
+	top: 500%;
+	width: 90%;
+	border-color: #25b15e;
+}
+
+.entert{
+	font-family: raleway;
+	float: right;
+	position: absolute;
+	top: 45%;
+	right: 10%;
+	padding-top: 0.7%!important;
+	padding-bottom: 0.7%!important;
+	font-size: 80%;
+	padding: 1.5%;
+	color: white;
+	background-color: #25b15e;
+	border-color: #25b15e;
+	border-style: solid;
+	border-width: 3px;
+	border-radius: 15px 15px 15px 15px;
+	cursor: pointer;
+}
+
+#tablebuttons{
+	position: relative;
+	width: 100%;
+}
+
+.addbutton{
+	position: absolute;
+	float: left;
+	font-family: raleway;
+	padding: 1.5%;
+	width: 20.5%;
+	padding-left: 0%;
+	text-align: left;
+	font-size: 80%;
+	color: #25b15e;
+	background-color: white;
+	border-style: none;
+}
+
+.removebutton{
+	position: absolute;
+	font-family: raleway;
+	left: 22%;
+	width: 28.5%;
+	padding: 1.5%;
+	text-align: left;
+	margin-bottom: 20%;
+	font-size: 80%;
+	color: red;
+	background-color: white;
+	border-style: none;
+}
+
+.previewbutton{
+	position: absolute;
+	font-family: raleway;
+	left: 63%;
+	width: 20.5%;
+	padding: 1.5%;
+	text-align: left;
+	margin-bottom: 20%;
+	font-size: 80%;
+	color: blue;
+	background-color: white;
+	border-style: none;
+}
+
+#formactualtableid{
+	margin-top: 15%;
+}
+
+.yearlabel{
+	position: absolute;
+	left: 0%;
+	font-family: raleway;
+	color: #208f4d;
+	font-size: 120%;
+	float: left;
+	width: 5%;
+	margin-top: 2%;
+	padding-left: 7%;
+	padding-bottom: 2%;
+}
+
+.yearcontent{
+	margin-top: 1%;
+	width: 90px;
+	height: 35px;
+	border-color: #25b15e;
+	border-style: solid;
+	border-width: 1px;
+}
+
+.decareadiv{
+	position: absolute;
+	left: 10%;
+	font-family: raleway;
+	color: #208f4d;
+	font-size: 120%;
+	float: left;
+	width: 15%;
+	margin-top: 2%;
+	margin-left: 7%;
+	padding-bottom: 2%;
+}
+
+#decarea{
+	margin-top: 1%;
+	width: 80%;
+	height: 35px;
+	border-color: #25b15e;
+	border-style: solid;
+	border-width: 1px;
+}
+
+.cplabel{
+	position: absolute;
+	left: 25%;
+	font-family: raleway;
+	color: #208f4d;
+	font-size: 120%;
+	float: left;
+	width: 20%;
+	margin-top: 2%;
+	padding-left: 7%;
+	padding-bottom: 2%;
+}
+
+#cperson{
+	margin-top: 1%;
+	width: 150%;
+	height: 35px;
+	border-color: #25b15e;
+	border-style: solid;
+	border-width: 1px;
+}
+
+.orglabel{
+	position: absolute;
+	left: 0%;
+	top: 135%;
+	font-family: raleway;
+	color: #208f4d;
+	font-size: 120%;
+	float: left;
+	width: 25%;
+	margin-top: 2%;
+	padding-left: 7%;
+	padding-bottom: 2%;
+}
+
+#orgid{
+	margin-top: 1%;
+	width: 100%;
+	height: 50%;
+	border-color: #25b15e;
+	border-style: solid;
+	border-width: 1px;
+}
+
+.zonelabel{
+	position: absolute;
+	left: 0%;
+	top: 190%;
+	font-family: raleway;
+	color: #208f4d;
+	font-size: 120%;
+	float: left;
+	width: 25%;
+	margin-top: 2%;
+	padding-left: 7%;
+	padding-bottom: 2%;
+}
+
+.zonecontent{
+	margin-top: 1%;
+	width: 97%;
+	height: 35px;
+	border-color: #25b15e;
+	border-style: solid;
+	border-width: 1px;
+}
+
+.provlabel{
+	position: absolute;
+	left: 0%;
+	top: 190%;
+	font-family: raleway;
+	color: #208f4d;
+	font-size: 120%;
+	float: left;
+	width: 31%;
+	margin-top: 2%;
+	padding-left: 7%;
+	padding-bottom: 2%;
+}
+
+#provid{
+	margin-top: 1%;
+	width: 60%;
+	height: 35px;
+	border-color: #25b15e;
+	border-style: solid;
+	border-width: 1px;
+}
+
+.munilabel{
+	position: absolute;
+	left: 17%;
+	top: 190%;
+	font-family: raleway;
+	color: #208f4d;
+	font-size: 120%;
+	float: left;
+	width: 28%;
+	margin-top: 2%;
+	margin-left: 7%;
+	padding-bottom: 2%;
+}
+
+#municiid{
+	margin-top: 1%;
+	width: 40%;
+	height: 35px;
+	border-color: #25b15e;
+	border-style: solid;
+	border-width: 1px;
+}
+
+.brgylabel{
+	position: absolute;
+	left: 30%;
+	top: 190%;
+	font-family: raleway;
+	color: #208f4d;
+	font-size: 120%;
+	float: left;
+	width: 18%;
+	margin-top: 2%;
+	margin-left: 7%;
+	padding-bottom: 2%;
+}
+
+#brgyid{
+	margin-top: 1%;
+	width: 82%;
+	height: 35px;
+	border-color: #25b15e;
+	border-style: solid;
+	border-width: 1px;
+}
+
+.complabel{
+	position: absolute;
+	left: 20%;
+	top: 190%;
+	font-family: raleway;
+	color: #208f4d;
+	font-size: 120%;
+	float: left;
+	width: 26%;
+	margin-top: 2%;
+	margin-left: 7%;
+	padding-bottom: 2%;
+}
+
+#compcontent{
+	margin-top: 1%;
+	width: 72%;
+	height: 35px;
+	border-color: #25b15e;
+	border-style: solid;
+	border-width: 1px;
+}
+
+.tablelabel{
+	position: absolute;
+	left: 50%;
+	font-family: raleway;
+	color: #208f4d;
+	font-size: 120%;
+	float: left;
+	width: 45%;
+	height: 380%;
+	overflow-x: hidden;
+	overflow-y: scroll; 
+	padding-left: 7%;
+	padding-bottom: 2%;
+}
+
+.prevmodal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 1px;
+    top: 1px;
+    width:100%; /* Full width */
+    height: 100%; /* Full height */
+	overflow: hidden;
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 40%; /* Could be more or less, depending on screen size */
+	
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#map{
+	width: 100%;
+	height: 60%;
+}
+
+#success{
+	padding-left: 5%;
+	font-family: raleway;
+	font-size: 90%;
+	color: green;
+	margin-bottom: 2%;
+}
+
+#error{
+	padding-left: 5%;
+	font-family: raleway;
+	font-size: 90%;
+	color: red;
+}
+
+.dropdown-menu>li>a {
+    display: block;
+    padding: 3px 20px;
+    clear: both;
+    font-weight: 400;
+    line-height: 1.42857143;
+    color: #333;
+    white-space: nowrap;
+    width: 450px;
+}
+
+.dropdown-menu{
+	overflow-y: scroll;
+	width: 570px;
+	height: 400px;
+}
+
+.btn-default{
+	margin-top: 1%;
+	width: 570px;
+}
+
+.brgydd{
+    color: #333;
+    background-color: #e6e6e6;
+    border-color: #adadad;
+}
