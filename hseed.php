@@ -1,6 +1,6 @@
 <!-- EXTERNAL SCRIPT CALLS -->
 <head>
-	<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+	<script src="js/jquery-1.10.2.js"></script>
 </head>
 <!-- END OF EXTERNAL SCRIPT CALLS -->
 
@@ -39,11 +39,12 @@
 		position: fixed;
 		top: 15%;
 		left:10%;
+		z-index: 2;
 	}
 	
 	#holdcontent{
 		width: 68%;
-		height: 100%;
+		min-height: 85%;
 		position: relative;
 		top: 15%;
 		left: 22%;
@@ -65,6 +66,6 @@
 
 <div id = "holdcontent">
 	<div id = "hcontent">
-		<?php include 'seedlingValidation.php' ?>
+		<?php include 'seedling.php' ?>
 	</div>
 </div>

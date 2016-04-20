@@ -6,7 +6,10 @@
 	
 	$errorstring = "";
 	
-	$dperson = $_POST['dperson'];
+	$illegal = array(';',':','!','$','%','^','*','(',')','{','}','[',']','"','\\','-','_','=',',','/','?');
+	$illegalem = array(';',':','!','$','%','^','*','(',')','{','}','[',']','"','\\','=',',','/','?');
+	
+	$dperson = TRIM(strip_tags(str_replace($illegal, '', $_POST['dperson'])));
 	
 	if(strlen(TRIM($dperson)) === 0){
 		$errorcount++;

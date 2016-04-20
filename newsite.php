@@ -13,10 +13,10 @@
 		if(isset($_GET["deccont"])){
 			echo "<div id = \"error\"> Declared area field must only contain digits </div>";
 		}
-		if(isset($_GET["cpersondne"])){
+		if(isset($_GET["cplength"])){
 			echo "<div id = \"error\"> Contact person field must not be left empty </div>";
 		}
-		if(isset($_GET["cplength"])){
+		if(isset($_GET["cpersondne"])){
 			echo "<div id = \"error\"> Contact person entered does not exist </div>";
 		}
 		if(isset($_GET["orgerr"])){
@@ -48,7 +48,15 @@
 						
 						// For-loop to input options into select from 2011 - current year
 						for($i = 2011; $i <= $currentyear; $i++){
-							echo "<option value =\"" . $i . "\">" . $i . "</option>";
+							if(isset($_GET['year'])){
+								if($i == $_GET['year']){
+									echo "<option value =\"" . $i . "\" selected>" . $i . "</option>";
+								}else{
+									echo "<option value =\"" . $i . "\">" . $i . "</option>";
+								}
+							}else{
+								echo "<option value =\"" . $i . "\">" . $i . "</option>";
+							}
 						}
 					?>
 				</select>
@@ -59,7 +67,14 @@
 		<!-- DECLARED AREA INPUT -->
 		<div class="decareadiv">Declared Area
 			<div class="inputdiv">
-				<input type="text" id = "decarea" name = "decarea"></input> ha
+				<?php
+					if(isset($_GET['decarea'])){
+						echo "<input type='text' id = 'decarea' name = 'decarea' value = '" . $_GET['decarea'] . "'></input> ha";
+					}else{
+						echo "<input type='text' id = 'decarea' name = 'decarea'></input> ha";
+					}
+				?>
+				
 			</div>
 		</div>
 		<!-- END DECLARED AREA INPUT -->
@@ -67,24 +82,49 @@
 		<!-- CONTACT PERSON INPUT -->
 		<div class="cplabel">Contact Person
 			<div class="inputdiv">
-				<input id="cperson" type = "text" name = "cperson"></input>
+				<?php
+					if(isset($_GET['cperson'])){
+						echo "<input type='text' id = 'cperson' name = 'cperson' value = '" . $_GET['cperson'] . "'></input>";
+					}else{
+						echo "<input type='text' id = 'cperson' name = 'cperson'></input>";
+					}
+				?>
 			</div>
 		</div>
 		<!-- END CONTACT PERSON INPUT -->
 		
 		<!-- ORGANIZATION INPUT -->
-		<div class="orglabel">Organization
+		<div class="orglabel">Organization 
 			<div class="inputdiv">
 				<select class = "organizationcontent" multiple="multiple" id="orgid" name = "org[]">
 				<!-- PHP CODE -->
 					<?php
+						$orgsret = array();
+						$orgretlength;
+					
+						if(isset($_GET['orglength'])){
+							$orgretlength = $_GET['orglength'];
+							for($i = 0; $i < $orgretlength; $i++){
+								$orgsret[$i] = $_GET['org' . $i];
+							}
+						}
+					
 						$sql = "SELECT organizationID, organizationName FROM organization ORDER BY organizationName ASC";
 						$result = mysqli_query($conn, $sql);
 
 						if (mysqli_num_rows($result) > 0) {
 							// output data of each row
 							while($row = mysqli_fetch_assoc($result)) {
-								echo "<option value =\"" . $row["organizationID"] . "\">" . $row["organizationName"] . "</option>";
+								if(isset($_GET['orglength'])){
+									if(in_array($row['organizationID'], $orgsret)){
+										echo "<option value =\"" . $row["organizationID"] . "\" selected>" . $row["organizationName"] . "</option>";
+									}else{
+										echo "<option value =\"" . $row["organizationID"] . "\">" . $row["organizationName"] . "</option>";
+									}
+								}else{
+									echo "<option value =\"" . $row["organizationID"] . "\">" . $row["organizationName"] . "</option>";
+								}
+								
 							}
 						} else {
 							//do nothing
@@ -104,9 +144,32 @@
 		<div class="zonelabel">Zone
 			<div class="inputdiv">
 				<select class = "zonecontent" id = "zonecontent" name = "zonec">
-					<option value= "Protection"> Protection </option>
-					<option value= "Production"> Production </option>
-					<option value= "Protection/Production"> Protection/Production </option>
+					<?php
+						if(isset($_GET['zone'])){
+							if($_GET['zone'] === 'Protection'){
+								echo "<option value= 'Protection' selected> Protection </option>";
+							}else{
+								echo "<option value= 'Protection'> Protection </option>";
+							}
+							
+							if($_GET['zone'] === 'Production'){
+								echo "<option value= 'Production' selected> Production </option>";
+							}else{
+								echo "<option value= 'Production'> Production </option>";
+							}
+							
+							if($_GET['zone'] === 'PnP'){
+								echo "<option value= 'Protection/Production' selected> Protection/Production </option>";
+							}else{
+								echo "<option value= 'Protection/Production'> Protection/Production </option>";
+							}
+							
+						}else{
+							echo "<option value= 'Protection'> Protection </option>";
+							echo "<option value= 'Production'> Production </option>";
+							echo "<option value= 'Protection/Production'> Protection/Production </option>";
+						}
+					?>
 				</select>
 			</div>
 		</div>
@@ -200,13 +263,60 @@
 		<div class="complabel">Component
 			<div class="inputdiv">
 				<select class = "compcontent" id = "compcontent" name = "compc">
-					<option value= "Agroforestry"> Agroforestry </option>
-					<option value= "Reforestation"> Reforestation </option>
-					<option value= "Urban Greening"> Urban Greening </option>
-					<option value= "Agroforestry/Reforestation"> Agroforestry/Reforestation </option>
-					<option value= "Ornamental"> Ornamental </option>
-					<option value= "Fuel Wood"> Fuel Wood </option>
-					<option value= "Rattan"> Rattan </option>
+					<?php
+						if(isset($_GET['comp'])){
+							if($_GET['comp'] === 'Agroforestry'){
+								echo "<option value= 'Agroforestry' selected> Agroforestry </option>";
+							}else{
+								echo "<option value= 'Agroforestry'> Agroforestry </option>";
+							}
+							
+							if($_GET['comp'] === 'Reforestation'){
+								echo "<option value= 'Reforestation' selected> Reforestation </option>";
+							}else{
+								echo "<option value= 'Reforestation'> Reforestation </option>";
+							}
+							
+							if($_GET['comp'] === 'UrbanGreening'){
+								echo "<option value= 'Urban Greening' selected> Urban Greening </option>";
+							}else{
+								echo "<option value= 'Urban Greening'> Urban Greening </option>";
+							}
+							
+							if($_GET['comp'] === 'AgroforestryReforestation'){
+								echo "<option value= 'Agroforestry/Reforestation' selected> Agroforestry/Reforestation </option>";
+							}else{
+								echo "<option value= 'Agroforestry/Reforestation'> Agroforestry/Reforestation </option>";
+							}
+							
+							if($_GET['comp'] === 'Ornamental'){
+								echo "<option value= 'Ornamental' selected> Ornamental </option>";
+							}else{
+								echo "<option value= 'Ornamental'> Ornamental </option>";
+							}
+							
+							if($_GET['comp'] === 'FuelWood'){
+								echo "<option value= 'Fuel Wood' selected> Fuel Wood </option>";
+							}else{
+								echo "<option value= 'Fuel Wood'> Fuel Wood </option>";
+							}
+							
+							if($_GET['comp'] === 'Rattan'){
+								echo "<option value= 'Rattan' selected> Rattan </option>";
+							}else{
+								echo "<option value= 'Rattan'> Rattan </option>";
+							}
+							
+						}else{
+							echo "<option value= 'Agroforestry'> Agroforestry </option>";
+							echo "<option value= 'Reforestation'> Reforestation </option>";
+							echo "<option value= 'Urban Greening'> Urban Greening </option>";
+							echo "<option value= 'Agroforestry/Reforestation'> Agroforestry/Reforestation </option>";
+							echo "<option value= 'Ornamental'> Ornamental </option>";
+							echo "<option value= 'Fuel Wood'> Fuel Wood </option>";
+							echo "<option value= 'Rattan'> Rattan </option>";
+						}
+					?>
 				</select>
 			</div>
 		</div>

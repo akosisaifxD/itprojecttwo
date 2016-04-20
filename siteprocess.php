@@ -146,67 +146,90 @@
 		}
 	}
 	
+	$orgstring = "";
 	
-		
-	$yearpart = substr($year, -2);
-	
-	$psgcpart = "";
-	$areapart = "";
-	
-	$sql = "SELECT PSGCCode, areaCode FROM municipality WHERE municipalityID = '" . $municic . "'";
-	$result = mysqli_query($conn, $sql);
-	if (mysqli_num_rows($result) > 0) {
-		// output data of each row
-		while($row = mysqli_fetch_assoc($result)) {
-			$psgcpart = $row['PSGCCode'];
-			$areapart = $row['areaCode'];
+	if(isset($org)){
+		$orgstring = "";
+		for($i = 0; $i < sizeof($org); $i++){
+			$orgstring = $orgstring . "&org" . $i . "=" . $org[$i];
 		}
-	} else {
-		echo "0 results";
 	}
-	
-	$sitecount = 0;
-	
-	$sql = "SELECT siteCode FROM site WHERE year = '" . $year . "' AND municipalityID = '" . $municic . "'";
-	$result = mysqli_query($conn, $sql);
-	if (mysqli_num_rows($result) > 0) {
-		// output data of each row
-		while($row = mysqli_fetch_assoc($result)) {
-			$sitecount++;
-		}
-	} else {
-		echo "0 results";
-	}
-	
-	echo $sitecount;
-	
-	$sitecount++;
-	
-	$randpart = "";
-	
-	if($sitecount < 10){
-		$randpart = "000" . $sitecount;
-	}
-	
-	if($sitecount > 9 && $sitecount < 100){
-		$randpart = "00" . $sitecount;
-	}
-	
-	if($sitecount > 99 && $sitecount < 1000){
-		$randpart = "0" . $sitecount;
-	}
-	
-	if($sitecount > 999){
-		$randpart = $sitecount;
-	}
-	
-	$sitecodeprep = $yearpart . "-" . $psgcpart . "-" . $randpart . "-" . $areapart;
-	
-	echo $sitecodeprep;
 	
 	if($errorcount > 0){
-		header ("location: hsite.php?" . $errorstring . "&year=" . $year . "&decarea=" . $decarea . "&cperson=" . $cperson);
+		if($zonec === 'Protection/Production'){
+			$zonec = 'PnP';
+		}
+		
+		if($compc === 'Urban Greening'){
+			$compc = 'UrbanGreening';
+		}
+		
+		if($compc === 'Agroforestry/Reforestation'){
+			$compc = 'AgroforestryReforestation';
+		}
+		
+		if($compc === 'Fuel Wood'){
+			$compc = 'FuelWood';
+		}
+		
+		header ("location: hsite.php?" . $errorstring . "&year=" . $year . "&decarea=" . $decarea . "&cperson=" . $cperson . "&orglength=" . sizeof($org) . $orgstring . "&zone=" . $zonec . "&comp=" . $compc);
 	}else{
+		
+		$yearpart = substr($year, -2);
+		
+		$psgcpart = "";
+		$areapart = "";
+		
+		$sql = "SELECT PSGCCode, areaCode FROM municipality WHERE municipalityID = '" . $municic . "'";
+		$result = mysqli_query($conn, $sql);
+		if (mysqli_num_rows($result) > 0) {
+			// output data of each row
+			while($row = mysqli_fetch_assoc($result)) {
+				$psgcpart = $row['PSGCCode'];
+				$areapart = $row['areaCode'];
+			}
+		} else {
+			echo "0 results";
+		}
+		
+		$sitecount = 0;
+		
+		$sql = "SELECT siteCode FROM site WHERE year = '" . $year . "' AND municipalityID = '" . $municic . "'";
+		$result = mysqli_query($conn, $sql);
+		if (mysqli_num_rows($result) > 0) {
+			// output data of each row
+			while($row = mysqli_fetch_assoc($result)) {
+				$sitecount++;
+			}
+		} else {
+			echo "0 results";
+		}
+		
+		echo $sitecount;
+		
+		$sitecount++;
+		
+		$randpart = "";
+		
+		if($sitecount < 10){
+			$randpart = "000" . $sitecount;
+		}
+		
+		if($sitecount > 9 && $sitecount < 100){
+			$randpart = "00" . $sitecount;
+		}
+		
+		if($sitecount > 99 && $sitecount < 1000){
+			$randpart = "0" . $sitecount;
+		}
+		
+		if($sitecount > 999){
+			$randpart = $sitecount;
+		}
+		
+		$sitecodeprep = $yearpart . "-" . $psgcpart . "-" . $randpart . "-" . $areapart;
+		
+		echo $sitecodeprep;
 		
 		$siteID;
 		

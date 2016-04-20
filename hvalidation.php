@@ -1,6 +1,6 @@
 <!-- EXTERNAL SCRIPT CALLS -->
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="js/jquery.min.js"></script>
 
 <!-- END OF EXTERNAL SCRIPT CALLS -->
 
@@ -39,11 +39,12 @@
 		position: fixed;
 		top: 15%;
 		left:10%;
+		z-index: 2;
 	}
 	
 	#holdcontent{
 		width: 68%;
-		height: 100%;
+		min-height: 85%;
 		position: relative;
 		top: 15%;
 		left: 22%;
@@ -65,6 +66,6 @@
 
 <div id = "holdcontent">
 	<div id = "hcontent">
-		<?php include 'validation.php' ?>
+		<?php include 'vdation.php' ?>
 	</div>
 </div>

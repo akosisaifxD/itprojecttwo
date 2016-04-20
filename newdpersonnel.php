@@ -28,6 +28,9 @@
 			if(isset($_GET["lnamelength"])){
 				echo "<div id = \"error\"> Last name field must not be empty </div>";
 			}
+			if(isset($_GET["lnamedig"])){
+				echo "<div id = \"error\"> Last name must only contain characters </div>";
+			}
 			if(isset($_GET["emaill"])){
 				echo "<div id = \"error\"> Please enter an email address. </div>";
 			}
@@ -72,9 +75,9 @@
 				}
 				*/
 				if(isset($_GET["email"])){
-					echo "<div id = 'emaildiv'> Email Address: <input type = 'text' id = 'email' name = 'email' value = '" . $_GET['email'] . "'></input> </div>";
+					echo "<div id = 'emaildiv'> Email Address: <input type = 'text' id = 'email' name = 'email' value = '" . $_GET['email'] . "' maxlength='50'></input> </div>";
 				}else{
-					echo "<div id = 'emaildiv'> Email Address: <input type = 'text' id = 'email' name = 'email'></input> </div>";
+					echo "<div id = 'emaildiv'> Email Address: <input type = 'text' id = 'email' name = 'email' maxlength='50'></input> </div>";
 				}
 			?>
 			

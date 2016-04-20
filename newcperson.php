@@ -62,21 +62,21 @@
 				}
 		
 				if(isset($_GET["mobnum"])){
-					echo "<div id = 'mobnumdiv'> Mobile Number: <input type = 'text' id = 'mobnum' name = 'mobnum' value = '" . $_GET['mobnum'] . "' ></input></div>";
+					echo "<div id = 'mobnumdiv'> Mobile Number: <input type = 'text' id = 'mobnum' name = 'mobnum' value = '" . $_GET['mobnum'] . "' maxlength='40'></input></div>";
 				}else{
-					echo "<div id = 'mobnumdiv'> Mobile Number: <input type = 'text' id = 'mobnum' name = 'mobnum'></input></div>";
+					echo "<div id = 'mobnumdiv'> Mobile Number: <input type = 'text' id = 'mobnum' name = 'mobnum' maxlength='40'></input></div>";
 				}
 			
 				if(isset($_GET["telnum"])){
-					echo "<div id = 'telnumdiv'> Telephone Number: <input type = 'text' id = 'telnum' name = 'telnum' value = '" . $_GET['telnum'] . "'></input></div>";
+					echo "<div id = 'telnumdiv'> Telephone Number: <input type = 'text' id = 'telnum' name = 'telnum' value = '" . $_GET['telnum'] . "' maxlength='40'></input></div>";
 				}else{
-					echo "<div id = 'telnumdiv'> Telephone Number: <input type = 'text' id = 'telnum' name = 'telnum'></input></div>";
+					echo "<div id = 'telnumdiv'> Telephone Number: <input type = 'text' id = 'telnum' name = 'telnum' maxlength='40'></input></div>";
 				}
 			
 				if(isset($_GET["email"])){
-					echo "<div id = 'emaildiv'> Email Address: <input type = 'text' id = 'email' name = 'email' value = '" . $_GET['email'] . "'></input> </div>";
+					echo "<div id = 'emaildiv'> Email Address: <input type = 'text' id = 'email' name = 'email' value = '" . $_GET['email'] . "' maxlength='40'></input> </div>";
 				}else{
-					echo "<div id = 'emaildiv'> Email Address: <input type = 'text' id = 'email' name = 'email'></input> </div>";
+					echo "<div id = 'emaildiv'> Email Address: <input type = 'text' id = 'email' name = 'email' maxlength='40'></input> </div>";
 				}
 				
 				if(isset($_GET["address"])){

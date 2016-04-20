@@ -1,6 +1,10 @@
 <!-- EXTERNAL SCRIPT CALLS -->
 
 <script src="js/jquery.min.js"></script>
+<link rel="stylesheet" href="css/jquery-ui.css">
+<script src="js/jquery-1.10.2.js"></script>
+<script src="js/jquery-ui.js"></script>
+<script src="js/formfilledcheck.js"></script>
 
 <!-- END OF EXTERNAL SCRIPT CALLS -->
 
@@ -13,7 +17,7 @@
 		header('Location: denrhome.php?login=fail');
 	}
 	
-	$_SESSION['cpage'] = 'species'; 
+	$_SESSION['cpage'] = 'validation'; 
 ?>
 
 <style>
@@ -22,6 +26,7 @@
     	margin: 0;
 		background-color: #d5d4d0;
 		width: 100%;
+		overflow-y: hidden;
 	}
 	
 	#holdheader{
@@ -44,7 +49,7 @@
 	
 	#holdcontent{
 		width: 68%;
-		min-height: 85%;
+		height: 85%;
 		position: relative;
 		top: 15%;
 		left: 22%;
@@ -53,7 +58,6 @@
 	
 	#hcontent{
 		position: relative;
-		top: 8%;
 	}
 </style>
 
@@ -67,6 +71,6 @@
 
 <div id = "holdcontent">
 	<div id = "hcontent">
-		<?php include 'species.php' ?>
+		<?php include 'editSeedling.php' ?>
 	</div>
 </div>

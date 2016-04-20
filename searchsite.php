@@ -1,24 +1,22 @@
-<link href='css/removedpersonnel.css' rel='stylesheet' type='text/css'>
+<link href='css/editsite.css' rel='stylesheet' type='text/css'>
 
-<form action = "dpersonnelremoval.php" method = "POST">
+<form action = "hssitecheck.php" method = "POST">
 	<div id = "neworgdiv">
-		<div id = "oheader"> Remove DENR Personnel <input type = "submit" class = "enter bypassChanges"></input> </div>
+		<div id = "oheader"> Search Site <input type = "submit" class = "enter bypassChanges" value = 'Edit'></input> </div>
 		<?php
 			if(isset($_GET["success"])){
-				echo "<div id = \"success\"> Successfully Removed DENR Personnel </div>";
+				echo "<div id = \"success\"> Successfully edited Site </div>";
 			}
-		?>
-		<?php
-			if(isset($_GET["dpersonlength"])){
-				echo "<div id = \"error\"> DENR Personnel Name field must not be empty </div>";
+			if(isset($_GET["cpersonlength"])){
+				echo "<div id = \"error\"> Site Code field must not be empty </div>";
 			}
-			if(isset($_GET["dpersondne"])){
-				echo "<div id = \"error\"> DENR Personnel entered does not exist </div>";
+			if(isset($_GET["cpersondne"])){
+				echo "<div id = \"error\"> Site entered does not exist </div>";
 			}
 		?>
 		<hr id="jshr">
 		<div id = "inputdiv" class = "alertChanges">
-			DENR Personnel Name: <input id="dperson" type = "text" name = "dperson"></input>
+			Site Code: <input id="sitecode" type = "text" name = "sitecode"></input>
 		</div>
 		<hr id="jshr">
 	</div>
@@ -26,8 +24,8 @@
 
 <script>
 	$(function() {
-		$( "#dperson" ).autocomplete({
-			source: 'autocompletedenr.php'
+		$( "#sitecode" ).autocomplete({
+			source: 'autocompletesite.php'
 		});
 	});
 
