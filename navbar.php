@@ -69,12 +69,6 @@
 							echo "<div id = 'stattitle-cp' onclick = 'cperson()'> <i class = 'fa fa-user-plus fa-2x' id = 'decicon'></i> Contact Person </div>";
 						}
 						
-						if($_SESSION['cpage'] === 'cenro'){
-							echo "<div id = 'stattitle-cen' class = 'current' onclick = 'cenro()'> <i class = 'fa fa-building-o fa-2x' id = 'decicon'></i> CENRO </div>";
-						}else{
-							echo "<div id = 'stattitle-cen' onclick = 'cenro()'> <i class = 'fa fa-building-o fa-2x' id = 'decicon'></i> CENRO </div>";
-						}
-						
 						if($_SESSION['cpage'] === 'organization'){
 							echo "<div id = 'stattitle-o' class = 'current' onclick = 'org()'> <i class = 'fa fa-users fa-2x' id = 'decicon'></i> Organization </div>";
 						}else{
