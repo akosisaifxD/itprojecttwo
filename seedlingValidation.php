@@ -229,9 +229,6 @@
 			$("#spfMessage").html('<font color="red"><br>Species: Only letters of the alphabet are allowed.</font>');
 			error5=1;
 			
-		}else if(spf==""){
-			$("#spfMessage").html('<font color="red"><br>Species: Required!</font>');
-			error5=1;
 		}else{
 			$("#spfMessage").html('');
 			error5=0;
@@ -267,9 +264,12 @@
 			}
 		});
 	$("#validationForm").on("click","#removeRow", function(){
-			$('#removeRow').closest('tr').remove();
+			$(this).closest('tr').remove();
 	});
 	
+	$("#validationForm").on("focus","#spf", function(){
+		autocompletetest();
+	});
 </script>
 
 <script type="text/javascript">
@@ -282,10 +282,17 @@
     var quantity = newRow.insertCell(1);
     var button = newRow.insertCell(2);
 
-    speciesName.innerHTML = "<input type=text name=species[] id = 'spf'></input>";
+    speciesName.innerHTML = "<input type=text name=species[] id = 'spf' class = 'spf'></input>";
     quantity.innerHTML = "<input type=text name=quantity[] id = 'qf'></input>";
     button.innerHTML = "<button type=button id=removeRow>Remove</button>";
 	
 	}
 	
+	function autocompletetest(){
+		$(function() {
+			$( ".spf" ).autocomplete({
+				source: 'autocompletespecies.php'
+			});
+		});
+	}
 </script>

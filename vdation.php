@@ -1,6 +1,6 @@
 <link href='css/ccode.css' rel='stylesheet' type='text/css'>
 
-<div id = "ccheader"> Site Validation </div>
+<div id = "ccheader"> Tree Validation </div>
 <hr id="jshr">
 <div id = "options">
 	<div id = "addcolorcode" onclick = "add()">

@@ -75,6 +75,12 @@
 		});
 	});
 	
+	$(function() {
+		$( "#spf" ).autocomplete({
+			source: 'autocompletespecies.php'
+		});
+	});
+	
 	$(document).ready(function() {
 		$(window).keydown(function(event){
 			if(event.keyCode == 13) {
@@ -242,9 +248,8 @@
 			$("#spfMessage").html('');
 			error5=0;
 		}
-		
-
 	});	
+	
 	$("#qf").blur(function(event){
 		
 		var qf = $("#qf").val().trim();
@@ -308,7 +313,9 @@
 	});
 
 	
-
+	$("#validationForm").on("focus","#spf", function(){
+		autocompletetest();
+	});
 </script>
 
 <script type="text/javascript">
@@ -323,7 +330,7 @@
     var diameter  = newRow.insertCell(3);
     var button = newRow.insertCell(4);
 
-    speciesName.innerHTML = "<input type=text name=species[] id = 'spf' maxlength=40 required></input>";
+    speciesName.innerHTML = "<input type=text name=species[] id = 'spf' maxlength=40 required class = 'spf'></input>";
     quantity.innerHTML = "<input type=text name=quantity[] maxlength=40 id='qf'></input>";
     height.innerHTML = "<input type=text name=height[] maxlength=40 id='hf'></input>";
     diameter.innerHTML = "<input type=text name=diameter[] maxlength=40 id='df'></input>";
@@ -331,4 +338,11 @@
 	
 	}
 	
+	function autocompletetest(){
+		$(function() {
+			$( ".spf" ).autocomplete({
+				source: 'autocompletespecies.php'
+			});
+		});
+	}
 </script>

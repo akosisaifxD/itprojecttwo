@@ -17,7 +17,7 @@
 		header('Location: denrhome.php?login=fail');
 	}
 	
-	$_SESSION['cpage'] = 'validation'; 
+	$_SESSION['cpage'] = 'seedling'; 
 ?>
 
 <style>
