@@ -22,6 +22,7 @@
     	margin: 0;
 		background-color: #d5d4d0;
 		width: 100%;
+		font-family: raleway;
 	}
 	
 	#holdheader{
@@ -44,15 +45,15 @@
 	
 	#holdcontent {
 	    width: 68%;
-	    height: 85%;
+	    min-height: 115%;
 	    position: relative;
 	    top: 15%;
 	    left: 22%;
 	    background-color: white;
 	}
-	
-	#hcontent{
-		position: relative;
+	#hcontent {
+	    position: relative;
+	    top: 1%;
 	}
 </style>
 
@@ -65,7 +66,5 @@
 </div>
 
 <div id = "holdcontent">
-	<div id = "hcontent">
-		<?php include 'dashboard.php'; ?>
-	</div>
+	<?php include 'dashboard.php' ?>
 </div>

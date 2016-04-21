@@ -19,7 +19,19 @@
 	$cpersons = array();
 	$cpscount = 0;
 		
-	$sql = "SELECT contactPersonName FROM contactperson WHERE active = 1";
+	$sql = "SELECT concat(firstName, ' ', lastName) as 'contactPersonName' FROM contactperson WHERE active = 1 AND suffix = ''";
+	$result = mysqli_query($conn, $sql);
+	if (mysqli_num_rows($result) > 0) {
+		// output data of each row
+		while($row = mysqli_fetch_assoc($result)) {
+			$cpersons[$cpscount] = $row['contactPersonName'];
+			$cpscount++;
+		}
+	} else {
+		echo "0 results";
+	}
+	
+	$sql = "SELECT concat(firstName, ' ', lastName, ' ', suffix) as 'contactPersonName' FROM contactperson WHERE active = 1 AND suffix IS NOT NULL";
 	$result = mysqli_query($conn, $sql);
 	if (mysqli_num_rows($result) > 0) {
 		// output data of each row
@@ -152,12 +164,24 @@
 		$inactcpersons = array();
 		$icpscount = 0;
 		
-		$sql = "SELECT contactPersonName FROM contactperson WHERE active = 0";
+		$sql = "SELECT concat(firstName, ' ', lastName) as 'contactPersonName' FROM contactperson WHERE active = 0 AND suffix = ''";
 		$result = mysqli_query($conn, $sql);
 		if (mysqli_num_rows($result) > 0) {
 			// output data of each row
 			while($row = mysqli_fetch_assoc($result)) {
-				$inactcpersons[$icpscount] = $row['contactPersonName'];
+				$inactpersons[$icpscount] = $row['contactPersonName'];
+				$icpscount++;
+			}
+		} else {
+			echo "0 results";
+		}
+		
+		$sql = "SELECT concat(firstName, ' ', lastName, ' ', suffix) as 'contactPersonName' FROM contactperson WHERE active = 0 AND suffix IS NOT NULL";
+		$result = mysqli_query($conn, $sql);
+		if (mysqli_num_rows($result) > 0) {
+			// output data of each row
+			while($row = mysqli_fetch_assoc($result)) {
+				$inactpersons[$icpscount] = $row['contactPersonName'];
 				$icpscount++;
 			}
 		} else {
@@ -177,7 +201,7 @@
 		$password = generateRandomString();
 		
 		if (in_array($name, $inactcpersons)) {
-			$sql = "UPDATE contactperson SET mobileNumber = '$mobnum', telephoneNumber = '$telnum', emailaddress = '$email', address = '$address', password = '$password', active = 1 WHERE contactPersonName ='" . $name . "'";
+			$sql = "UPDATE contactperson SET mobileNumber = '$mobnum', telephoneNumber = '$telnum', emailaddress = '$email', address = '$address', password = '$password', active = 1 WHERE concat(firstName, ' ', lastName) ='" . $name . "'";
 
 			if ($conn->query($sql) === TRUE) {
 			} else {
@@ -189,17 +213,18 @@
 			if (mysqli_num_rows($result) > 0) {
 				// output data of each row
 				while($row = mysqli_fetch_assoc($result)) {
-					$lastid = ($row['num'] + 1);
+					$lastid = ($row['num'] + 2);
 				}
 			} else {
 				echo "0 results";
 			}
 			
 			// prepare and bind
-			$stmt = $conn->prepare("INSERT INTO contactperson (contactPersonID, contactPersonName, mobileNumber, telephonenumber, emailaddress, address, password) VALUES (?, ?, ?, ?, ?, ?, ?)");
-			$stmt->bind_param("sssssss", $idparam, $nameparam, $mobnumparam, $telnumparam, $emailparam, $addressparam, $pwparam);
+			$stmt = $conn->prepare("INSERT INTO contactperson (contactPersonID, firstName, lastName, mobileNumber, telephoneNumber, emailAddress, address, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+			$stmt->bind_param("ssssssss", $idparam, $fnameparam, $lnameparam, $mobnumparam, $telnumparam, $emailparam, $addressparam, $pwparam);
 			$idparam = "P" . $lastid;
-			$nameparam = $name;
+			$fnameparam = $firstname;
+			$lnameparam = $lastname;
 			$mobnumparam = $mobnum;
 			$telnumparam = $telnum;
 			$emailparam = $email;
@@ -208,6 +233,7 @@
 			$stmt->execute();
 			
 		}
+		
 		
 		require 'PHPMailerAutoload.php';
 

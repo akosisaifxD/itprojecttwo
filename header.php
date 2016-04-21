@@ -42,11 +42,6 @@
 		font-family: raleway;
 		src: url(fonts/raleway/Raleway-SemiBold.ttf);
 	}
-	
-	@font-face {
-		font-family: berlin;
-		src: url(fonts/Berlin Sans FB/Berlin Sans FB.ttf);
-	}
 
 	body #header{
 		background-color: #156234;
@@ -61,6 +56,7 @@
 	}
 	
 	#headertitle{
+		font-family: raleway;
 		position: absolute;
 		top: 18%;
 		left: 15%;

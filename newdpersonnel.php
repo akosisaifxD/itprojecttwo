@@ -16,6 +16,18 @@
 			if(isset($_GET["success"])){
 				echo "<div id = \"success\"> Successfully added new DENR Personnel </div>";
 			}
+			if(isset($_GET["denrempt"])){
+				echo "<div id = 'error'> DENR ID field must not be left empty </div>";
+			}
+			if(isset($_GET["denras"])){
+				echo "<div id = 'error'> DENR ID must only contain digits</div>";
+			}
+			if(isset($_GET["denrdiup"])){
+				echo "<div id = 'error'> DENR ID entered is already occupied </div>";
+			}
+			if(isset($_GET["denrlen"])){
+				echo "<div id = 'error'> DENR ID must have a length of 7 digits</div>";
+			}
 			if(isset($_GET["cpersondup"])){
 				echo "<div id = 'error'> DENR Personnel already exists </div>";
 			}
@@ -49,6 +61,14 @@
 					echo "<div id = \"firstnameerror\"> First name must only contain characters </div>";
 				}
 				*/
+
+				if(isset($_GET["denrid"])){
+					echo "<div id = 'denriddiv'> DENR ID: <input type = 'text' id = 'denrid' name = 'denrid' value = '" . $_GET['denrid'] . "' maxlength='7'></input></div>";
+				}else{
+					echo "<div id = 'denriddiv'> DENR ID: <input type = 'text' id = 'denrid' name = 'denrid' maxlength='7'></input></div>";
+				}
+				
+				
 				if(isset($_GET["fname"])){
 					echo "<div id = 'firstnamediv'> First Name: <input type = 'text' id = 'firstname' name = 'firstname' value = '" . $_GET['fname'] . "' maxlength='50'></input></div>";
 				}else{

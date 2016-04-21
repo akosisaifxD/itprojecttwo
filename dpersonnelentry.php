@@ -9,6 +9,7 @@
 		$_SESSION['email'] = $_POST['email'];
 		$_SESSION['acctype'] = $_POST['acctype'];
 		$_SESSION['cenro'] = $_POST['cenro'];
+		$_SESSION['denrid'] = $_POST['denrid'];
 	}
 	
 	$errorcount = 0;
@@ -40,10 +41,38 @@
 	
 	$name = $firstnameuntr . " " . $lastnameuntr;
 	$email = TRIM(strip_tags(str_replace($illegal, '', $_SESSION['email'])));
+	$denrid = TRIM(strip_tags(str_replace($illegal, '', $_SESSION['denrid'])));
 	$acctype = $_SESSION['acctype'];
 	$cenro = $_SESSION['cenro'];
 	
 	$lastid = 0;
+	
+	if (strlen($denrid) === 0) {
+		$errorcount++;
+		if($errorcount === 1){
+			$errorstring = $errorstring . 'denrempt=error';	
+		}else{
+			$errorstring = $errorstring . '&denrempt=error';	
+		}
+	}
+	
+	if (!ctype_digit(str_replace(' ', '', $denrid)) && strlen($denrid) > 0) {
+		$errorcount++;
+		if($errorcount === 1){
+			$errorstring = $errorstring . 'denras=error';	
+		}else{
+			$errorstring = $errorstring . '&denras=error';	
+		}
+	}
+	
+	if (strlen($denrid) < 7 && strlen($denrid) > 0) {
+		$errorcount++;
+		if($errorcount === 1){
+			$errorstring = $errorstring . 'denrlen=error';	
+		}else{
+			$errorstring = $errorstring . '&denrlen=error';	
+		}
+	}
 	
 	if (in_array($name, $denrpersons)) {
 		$errorcount++;
@@ -121,8 +150,32 @@
 		}	
 	}
 	
+	$denrids = array();
+	$didscount = 0;
+	
+	$sql = "SELECT denrID FROM denr";
+	$result = mysqli_query($conn, $sql);
+	if (mysqli_num_rows($result) > 0) {
+		// output data of each row
+		while($row = mysqli_fetch_assoc($result)) {
+			$denrids[$didscount] = $row['denrID'];
+			$didscount++;
+		}
+	} else {
+		echo "0 results";
+	}
+	
+	if(in_array($denrid, $denrids)){
+		$errorcount++;
+		if($errorcount === 1){
+			$errorstring = $errorstring . 'denrdiup=error';	
+		}else{
+			$errorstring = $errorstring . '&denrdiup=error';	
+		}
+	}
+	
 	if($errorcount > 0){
-		header ("location: hdpersonnel.php?" . $errorstring . "&fname=" . $firstname . "&lname=" . $lastname . "&email=" . $email . "&acctype=" . $acctype);
+		header ("location: hdpersonnel.php?" . $errorstring . "&fname=" . $firstname . "&lname=" . $lastname . "&email=" . $email . "&acctype=" . $acctype . "&denrid=" . $denrid);
 	}else{
 		$inactdpersons = array();
 		$idpscount = 0;
@@ -154,28 +207,18 @@
 		$password = generateRandomString();
 		
 		if (in_array($name, $inactdpersons)) {
-			$sql = "UPDATE denr SET email = '$email', accountType = '$acctype', password = '$password', active = 1 WHERE concat(firstName, ' ', lastName) ='" . $name . "'";
+			$sql = "UPDATE denr SET denrID = '$denrid', email = '$email', accountType = '$acctype', password = '$password', active = 1 WHERE concat(firstName, ' ', lastName) ='" . $name . "'";
 
 			if ($conn->query($sql) === TRUE) {
 			} else {
 			}
 			
 		}else{
-			$sql = "SELECT COUNT(*) AS num FROM denr";
-			$result = mysqli_query($conn, $sql);
-			if (mysqli_num_rows($result) > 0) {
-				// output data of each row
-				while($row = mysqli_fetch_assoc($result)) {
-					$lastid = ($row['num'] + 1);
-				}
-			} else {
-				echo "0 results";
-			}
 			
 			// prepare and bind
 			$stmt = $conn->prepare("INSERT INTO denr (denrID, firstName, lastName, email, password, accountType, cenroID) VALUES (?, ?, ?, ?, ?, ?, ?)");
 			$stmt->bind_param("sssssss", $idparam, $fnameparam, $lnameparam, $emailparam, $pwparam, $acctypeparam, $cidparam);
-			$idparam = $lastid;
+			$idparam = $denrid;
 			$fnameparam = $firstnameuntr;
 			$lnameparam = $lastnameuntr;
 			$emailparam = $email;
@@ -206,7 +249,7 @@
 		$mail->isHTML(true);                                  // Set email format to HTML
 
 		$mail->Subject = 'iPuno Account';
-		$mail->Body    = 'Dear ' . $name . ',<br>Good Day!<br><br>Your username is ' . $lastid .' and your password is ' . $password . ". You may use iPuno's journals to report any activity by accessing this link.<br><br>Thank You!";
+		$mail->Body    = 'Dear ' . $name . ',<br>Good Day!<br><br>Your username is ' . $denrid .' and your password is ' . $password . ". You may use iPuno's journals to report any activity by accessing this link.<br><br>Thank You!";
 
 		if(!$mail->send()) {
 			echo 'Message could not be sent.';

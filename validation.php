@@ -238,9 +238,6 @@
 			$("#spfMessage").html('<font color="red"><br>Species: Only letters of the alphabet are allowed.</font>');
 			error5=1;
 			
-		}else if(spf==""){
-			$("#spfMessage").html('<font color="red"><br>Species: Required!</font>');
-			error5=1;
 		}else{
 			$("#spfMessage").html('');
 			error5=0;
@@ -295,14 +292,7 @@
 	});
 
 	$("#submitButton").click(function(event){
-			alert(error1);
-			alert(error2);
-			alert(error3);
-			alert(error4);
-			alert(error5);
-			alert(error6);
-			alert(error7);
-			alert(error8);
+		
 			if(error1 || error2 || error3 || error4 || error5 || error6 || error7 || error8 >0){
 			$("#submitMessage").html('<font color="red">Please fill up the form properly before submitting</font>');
 			event.preventDefault();
@@ -314,7 +304,7 @@
 		});
 		
 	$("#validationForm").on("click","#removeRow", function(){
-			$('#removeRow').closest('tr').remove();
+			$(this).closest('tr').remove();
 	});
 
 	
