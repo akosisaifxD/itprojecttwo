@@ -129,6 +129,13 @@
 			}
 		});
 	});
+	
+	$(function() {
+		$( "#spf" ).autocomplete({
+			source: 'autocompletespecies.php'
+		});
+	});
+	
 	$("#surveyor").blur(function(event){
 		
 		var surveyorId = $("#surveyor").val().trim();
@@ -284,9 +291,6 @@
 			$("#spfMessage").html('<font color="red"><br>Species: Only letters of the alphabet are allowed.</font>');
 			error5=1;
 			
-		}else if(spf==""){
-			$("#spfMessage").html('<font color="red"><br>Species: Required!</font>');
-			error5=1;
 		}else{
 			$("#spfMessage").html('');
 			error5=0;
@@ -352,18 +356,19 @@
 		});
 		
 	$("#validationForm").on("click","#removeRow", function(){
-			$('#removeRow').closest('tr').remove();
+			$(this).closest('tr').remove();
 	});
 
-	
-
+	$("#validationForm").on("focus","#spf", function(){
+		autocompletetest();
+	});
 </script>
 
 <script type="text/javascript">
   document.getElementById("addRowButton").addEventListener("click", addrow);
   var counter = 1;
   function addrow(){
-    var tableRef = document.getElementById('plantationTable').getElementsByTagName('tbody')[0];
+	var tableRef = document.getElementById('plantationTable').getElementsByTagName('tbody')[0];
     var newRow   = tableRef.insertRow(tableRef.rows.length);
     var speciesName = newRow.insertCell(0);
     var quantity = newRow.insertCell(1);
@@ -371,12 +376,19 @@
     var diameter  = newRow.insertCell(3);
     var button = newRow.insertCell(4);
 
-    speciesName.innerHTML = "<input type=text name=species[] id = 'spf' maxlength=40 required></input>";
+    speciesName.innerHTML = "<input type=text name=species[] id = 'spf' maxlength=40 required class = 'spf'></input>";
     quantity.innerHTML = "<input type=text name=quantity[] maxlength=40 id='qf'></input>";
-    height.innerHTML = "<input type=text name=height[] maxlength=40 id=hf'></input>";
-    diameter.innerHTML = "<input type=text name=diameter[] maxlength=40 id=df'></input>";
+    height.innerHTML = "<input type=text name=height[] maxlength=40 id='hf'></input>";
+    diameter.innerHTML = "<input type=text name=diameter[] maxlength=40 id='df'></input>";
     button.innerHTML = "<button type=button id=removeRow>Remove</button>";
 	
 	}
 	
+	function autocompletetest(){
+		$(function() {
+			$( ".spf" ).autocomplete({
+				source: 'autocompletespecies.php'
+			});
+		});
+	}
 </script>

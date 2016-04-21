@@ -61,8 +61,6 @@
 
 ?>
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-
 <link href='css/validation.css' rel='stylesheet' type='text/css'>
 <span id="surveyorMessage"></span> 
 <span id="inputByMessage"></span>
@@ -71,7 +69,7 @@
 
 <form class="form-horizontal" method="POST" action="editSeedling2.php"> 
 <div id = "validationdiv">
-	<div id = "vdheader"> New Seedling Validation <input type="submit" class="btn btn-success enter"></input></div>
+	<div id = "vdheader"> Edit Seedling Validation <input type="submit" class="btn btn-success enter"></input></div>
 	<hr id="jshr">
 	<div id = "inputdiv">
 			<?php print("<div id = 'startdatelabel'> Start Date: <input type='date' class='form-control' name='startDate' id='dateFrom' value='$startDate2'> </div>")?>
@@ -93,12 +91,12 @@
 					</thead>
 					<tbody>
 						<tr>
-							<td><input type="text" name="species[]" id = 'spf'></input> </td>
+							<td><input type="text" name="species[]" id = 'spf' class = 'spf'></input> </td>
 							<td><input type="text" name="quantity[]" id = 'qf'></input> </td>
 				
 						<tr>
 						<tr>
-							<td><input type="text" name="species[]" id = 'spf'></input> </td>
+							<td><input type="text" name="species[]" id = 'spf' class = 'spf'></input> </td>
 							<td><input type="text" name="quantity[]" id = 'qf'></input> </td>
 				
 						<tr>
@@ -285,9 +283,6 @@
 			$("#spfMessage").html('<font color="red"><br>Species: Only letters of the alphabet are allowed.</font>');
 			error5=1;
 			
-		}else if(spf==""){
-			$("#spfMessage").html('<font color="red"><br>Species: Required!</font>');
-			error5=1;
 		}else{
 			$("#spfMessage").html('');
 			error5=0;
@@ -323,9 +318,12 @@
 			}
 		});
 	$("#validationForm").on("click","#removeRow", function(){
-			$('#removeRow').closest('tr').remove();
+			$(this).closest('tr').remove();
 	});
 	
+	$("#validationForm").on("focus","#spf", function(){
+		autocompletetest();
+	});
 </script>
 
 <script type="text/javascript">
@@ -338,10 +336,23 @@
     var quantity = newRow.insertCell(1);
     var button = newRow.insertCell(2);
 
-    speciesName.innerHTML = "<input type=text name=species[] id = 'spf'></input>";
+    speciesName.innerHTML = "<input type=text name=species[] id = 'spf' maxlength=40 required class = 'spf'></input>";
     quantity.innerHTML = "<input type=text name=quantity[] id = 'qf'></input>";
     button.innerHTML = "<button type=button id=removeRow>Remove</button>";
 	
 	}
 	
+	function autocompletetest(){
+		$(function() {
+			$( ".spf" ).autocomplete({
+				source: 'autocompletespecies.php'
+			});
+		});
+	}
+	
+		$(function() {
+			$( ".spf" ).autocomplete({
+				source: 'autocompletespecies.php'
+			});
+		});
 </script>

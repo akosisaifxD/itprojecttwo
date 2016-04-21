@@ -53,10 +53,10 @@
 
     for ($i=0; $i < count($commonName); $i++) { 
 		echo "<tr>";
-        echo "<td><input type=text name=species[] id=spf value='".$commonName[$i]."' required></input> </td> ";
-        echo "<td><input type=text name=quantity[] id=qf value=$quantity[$i] maxlength=40></input> </td>";
-        echo "<td><input type=text name=height[] id=hf value=$height[$i] maxlength=40></input> </td> ";
-        echo "<td><input type=text name=diameter[] id=df value=$diameter[$i] maxlength=40></input> </td>";
+        echo "<td><input type=text name=species[] id='spf' class = 'spf' value='".$commonName[$i]."' required></input> </td> ";
+        echo "<td><input type=text name=quantity[] id='qf' value=$quantity[$i] maxlength=40></input> </td>";
+        echo "<td><input type=text name=height[] id='hf' value=$height[$i] maxlength=40></input> </td> ";
+        echo "<td><input type=text name=diameter[] id='df' value=$diameter[$i] maxlength=40></input> </td>";
         echo "<td><button type=button id=removeRow>Remove</button></td>";
         echo "</tr>";
         
@@ -67,3 +67,7 @@
   }
 $conn->close();
 ?>
+
+<script>
+
+</script>

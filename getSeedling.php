@@ -42,8 +42,8 @@
 
     for ($i=0; $i < count($commonName); $i++) { 
 		echo "<tr>";
-        echo "<td><input type=text name=species[] id=spf value='".$commonName[$i]."' required></input> </td> ";
-        echo "<td><input type=text name=quantity[] id=qf value=$quantity[$i]></input> </td>";
+        echo "<td><input type=text name=species[] id=spf class ='spf' value='".$commonName[$i]."' required></input> </td> ";
+        echo "<td><input type=text name=quantity[] id=qf class ='spf' value=$quantity[$i]></input> </td>";
         echo "<td><button type=button id=removeRow>Remove</button></td>";
         echo "</tr>";
         
